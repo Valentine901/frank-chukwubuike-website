@@ -1,0 +1,17 @@
+@import url('https://googleapis.com');
+@import "tailwindcss";
+
+@variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-heading: "Poppins", sans-serif;
+  --font-body: "Inter", sans-serif;
+  --font-alt: "Open Sans", sans-serif;
+
+  --animate-slide-up-fade: slideUpFade 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+
+  @keyframes slideUpFade {
+    0% { transform: translateY(34px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1.5; }
+  }
+}
