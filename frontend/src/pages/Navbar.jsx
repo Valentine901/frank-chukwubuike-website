@@ -66,7 +66,7 @@ const Navbar = () => {
             </div>
 
           {/* mobile navbar */}
-            <div className={`md:hidden fixed inset-y-0 right-0 w-64 bg-gray-100 dark:bg-gray-800 border-l border-gray-200 dark:border-gray-700 p-6 flex flex-col justify-start space-y-6 pt-24 shadow-2xl transition-transform duration-300 ease-in-out transform ${toggleBar ? 'translate-x-0' : 'translate-x-full'}`}>
+            <div className={`md:hidden fixed h-120 rounded-bl-2xl inset-y-0 right-0 w-64 bg-gray-100 dark:bg-gray-800 border-l border-gray-200 dark:border-gray-700 p-6 flex flex-col justify-start space-y-6 pt-24 shadow-2xl transition-transform duration-300 ease-in-out transform ${toggleBar ? 'translate-x-0' : 'translate-x-full'}`}>
                 <ul className="flex flex-col space-y-4 list-none">
                     <li>
                         <a href="#home" onClick={handleMenuToggle} className="block text-lg font-semibold text-gray-800 dark:text-gray-200 hover:text-blue-600">Home</a>

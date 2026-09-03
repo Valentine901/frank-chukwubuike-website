@@ -3,9 +3,10 @@ import { api } from "../constants/Api";
 
 const AuthContext = createContext();
 
-const ProtectedRoute = ({ children }) => {
+const AuthProvider = ({ children }) => {
     const [userData, setUserData] = useState(null);
     const [errorMessage, setErrorMessage] = useState("");
+    const [loading, setLoading] = useState(true);
 
     function SaveUserData(data){
         localStorage.setItem("user", data);
@@ -31,8 +32,10 @@ const ProtectedRoute = ({ children }) => {
                 setErrorMessage(error.request)
             }
              else{
-                setErrorMessage("Error occurred")
+                setErrorMessage("Error occurred");
             }
+        } finally{
+            setLoading(false);
         }
     }
 
@@ -43,12 +46,12 @@ const ProtectedRoute = ({ children }) => {
     }, [] )
 
     return (
-        <AuthContext.Provider value={{errorMessage, userData}}>
+        <AuthContext.Provider value={{errorMessage, loading, userData}}>
             {children}
         </AuthContext.Provider>
     )
     
 }
 
-export default ProtectedRoute;
+export default AuthProvider;
 export const useAuth = () => useContext(AuthContext);

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { api } from "../constants/Api";
 import { useTheme } from "../Context/ThemeContext";
-import { Moon, Sun, Mail, ArrowRightIcon, ArrowLeftIcon } from "lucide-react";
+import { Moon, Sun, Mail, Loader2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const ForgotPassword = () => {
@@ -29,7 +29,7 @@ const ForgotPassword = () => {
                 const message = typeof detail === "string" ? detail : "Invalid input parameters.";
                 setErrorMessage(message);
             } else {
-                setErrorMessage("Network error: Password reset failed.");
+                setErrorMessage("Network error: OTP request failed.");
             }
         } finally {
             setLoading(false);
@@ -70,6 +70,10 @@ const ForgotPassword = () => {
                 <div className="w-full md:w-1/2 justify-center flex flex-col">
                     <form className="flex flex-col border-gray-500 border rounded-2xl px-4 py-8 bg-gray-100 dark:bg-gray-700 w-full max-w-md" onSubmit={handleSubmitResetPasswordForm}>
 
+                        <div className="flex justify-center items-center mx-auto p-1 h-14 w-14 text-center text-blue-600 ">
+                        <Mail size={48} />
+                        </div>
+
                         {errorMessage && <p className="text-center font-heading text-lg pb-2 transition-all duration-300" style={{ color: "red" }}>{errorMessage}</p>}
 
                         <div className="flex flex-col space-y-2 w-full">
@@ -97,8 +101,7 @@ const ForgotPassword = () => {
 
 
                         <button className="w-full flex items-center justify-center gap-4 rounded-md p-2 bg-blue-600 hover:bg-blue-700 font-heading text-lg text-gray-100 transition-all duration-300 cursor-pointer mt-5" type="submit" disabled={loading}>
-                            Send Reset OTP code
-                            <ArrowRightIcon />
+                            {loading ? <Loader2 className="animate-spin" /> : "Send Reset OTP code"}
                         </button>
 
                         <div className="flex items-center justify-between mt-4 w-full">

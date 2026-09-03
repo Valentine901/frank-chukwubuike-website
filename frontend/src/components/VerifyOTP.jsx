@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { api } from "../constants/Api";
 import { useTheme } from "../Context/ThemeContext";
-import { Moon, Sun, ArrowRightIcon } from "lucide-react";
+import { Moon, Sun, Loader2, BadgeCheck, ShieldCheck } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const VerifyOTP = () => {
@@ -51,7 +51,7 @@ const VerifyOTP = () => {
     const handlePaste = (e) => {
         e.preventDefault();
         const pastedData = e.clipboardData.getData("text").replace(/[^0-9]/g, "").slice(0, 6);
-        
+
         if (pastedData.length === 6) {
             const pastedArray = pastedData.split("");
             setCode(pastedArray);
@@ -78,7 +78,7 @@ const VerifyOTP = () => {
         try {
             const response = await api.post("/auth/verify-otp", { code: otpString });
             setCode(["", "", "", "", "", ""]);
-            // navigate("/auth/reset-password"); // Example redirection target
+            navigate("/auth/password-reset"); 
         } catch (error) {
             if (error.response) {
                 const detail = error.response.data.detail;
@@ -129,11 +129,15 @@ const VerifyOTP = () => {
                         {errorMessage && <p className="text-center font-heading text-lg pb-2 transition-all duration-300" style={{ color: "red" }}>{errorMessage}</p>}
 
                         <div className="flex flex-col space-y-3 w-full">
+                            <div className="flex justify-center items-center mx-auto p-1 h-14 w-14 text-center ">
+                                <ShieldCheck className="text-blue-600 mx-auto" size={48} />
+                            </div>
                             <label
                                 className="text-sm font-medium text-gray-700 dark:text-gray-300 font-heading text-center md:text-left"
                             >
                                 Secure Verification Code
                             </label>
+                            <span className="text-sm  font-semibold text-gray-700 dark:text-gray-300 font-heading ">Enter 6-digit code</span>
 
                             {/* 6-Digit Code Input Row */}
                             <div className="flex justify-between gap-2 md:gap-3 w-full" onPaste={handlePaste}>
@@ -154,8 +158,7 @@ const VerifyOTP = () => {
                         </div>
 
                         <button className="w-full flex items-center justify-center gap-4 rounded-md p-2 bg-blue-600 hover:bg-blue-700 font-heading text-lg text-gray-100 transition-all duration-300 cursor-pointer mt-6" type="submit" disabled={loading}>
-                            {loading ? "Verifying..." : "Verify OTP Code"}
-                            <ArrowRightIcon size={20} />
+                            {loading ? <Loader2 className="animate-spin" /> : "Verify OTP Code"}
                         </button>
 
                         <div className="flex items-center justify-between mt-4 w-full">
@@ -165,11 +168,8 @@ const VerifyOTP = () => {
                         </div>
 
                         <div className="flex space-x-4 items-center justify-center py-4">
-                            <span className="text-gray-600 dark:text-gray-300 font-heading text-md">Remember your password?</span>
+                            <span className="text-gray-600 dark:text-gray-300 font-heading text-md">Remembered your password?</span>
                             <a href="/auth/login" className="text-blue-600 font-heading text-md cursor-pointer hover:underline">Sign In</a>
-                        </div>
-                        <div>
-                            <a onClick={() => navigate(-1)}  className="text-blue-600 font-heading text-md cursor-pointer hover:underline">Back</a>
                         </div>
                     </form>
                 </div>
