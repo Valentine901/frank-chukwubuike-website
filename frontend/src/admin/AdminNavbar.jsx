@@ -9,7 +9,7 @@ const AdminNavbar = ({ handleToggleAdminNavbar, isAdminNavbar }) => {
   return (
     <div className="flex w-full justify-between border-b-2 border-gray-300 dark:border-gray-500 items-center bg-gray-100 dark:bg-gray-800 h-15 px-3 transition-all duration-300">
 
-      <div className='flex md:hidden p-1 bg-gray-300 dark:bg-gray-700 rounded-xl '>
+      <div className='flex lg:hidden p-1 bg-gray-300 dark:bg-gray-700 rounded-xl '>
        {isAdminNavbar ? <X size={30} onClick={handleToggleAdminNavbar} /> :
         <Menu size={30} onClick={handleToggleAdminNavbar} /> }
       </div>
@@ -24,4 +24,4 @@ const AdminNavbar = ({ handleToggleAdminNavbar, isAdminNavbar }) => {
   )
 }
 
-export default AdminNavbar
+export default AdminNavbar;

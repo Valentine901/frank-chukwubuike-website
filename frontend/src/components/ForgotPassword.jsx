@@ -1,14 +1,12 @@
 import { useState, useEffect } from "react";
 import { api } from "../constants/Api";
-import { useTheme } from "../Context/ThemeContext";
-import { Moon, Sun, Mail, Loader2 } from "lucide-react";
+import { Mail, Loader2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const ForgotPassword = () => {
     const [email, setEmail] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
     const [loading, setLoading] = useState(false);
-    const { theme, toggleTheme } = useTheme();
     const navigate = useNavigate();
 
     const handleSubmitResetPasswordForm = async (e) => {
@@ -44,47 +42,48 @@ const ForgotPassword = () => {
     }, [errorMessage])
 
     return (
-        <div className="w-full min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-800 transition-all duration-300 p-6 md:p-12">
-            <div className="absolute top-10 right-10 p-2 bg-gray-200 dark:bg-gray-600 rounded-full transition-all duration-300 z-50">
-                {theme === "dark" ? <Sun onClick={toggleTheme} className="text-orange-200 cursor-pointer" size={24} /> :
-                    <Moon onClick={toggleTheme} className="cursor-pointer" size={24} />
-                }
-            </div>
+        <div className="w-full min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-800 transition-all duration-300 p-4 sm:p-6 md:p-12">
 
+            {/* container wrapper  */}
+            <div className="flex flex-col lg:flex-row items-center justify-between w-full max-w-6xl gap-8 lg:gap-16 xl:gap-24 my-auto">
 
-            <div className="flex flex-col md:flex-row items-center justify-between w-full max-w-md md:max-w-4xl gap-8 md:gap-16 mt-12 md:mt-0">
-
-                {/* Left Screen Header and Welcome Text */}
-                <div className="flex flex-col items-center md:items-start text-center md:text-left md:w-1/2">
-                    <div className="flex text-2xl md:text-3xl lg:text-4xl gap-3">
+                {/* Left Screen  and Welcome Text */}
+                <div className="flex flex-col items-center lg:items-start text-center lg:text-left w-full lg:w-1/2 max-w-xl">
+                    <div className="flex flex-wrap justify-center lg:justify-start text-3xl sm:text-4xl md:text-5xl lg:text-6xl gap-2 sm:gap-3">
                         <span className="text-gray-600 dark:text-gray-100 font-heading font-bold">Forgot</span>
                         <span className="text-blue-600 font-heading font-bold">Password</span>
                     </div>
 
-                    <div className="text-md md:text-xl text-gray-600 dark:text-gray-500 font-heading mt-2 font-semibold">
-                        <p>No worries? Enter your email addres and we'll send you an OTP to reset your password.</p>
+                    <div className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 dark:text-gray-500 font-heading mt-3 sm:mt-4 font-semibold max-w-md lg:max-w-none">
+                        <p>No worries? Enter your email address and we'll send you an OTP to reset your password.</p>
                     </div>
                 </div>
 
-                {/* Right Screen Form Container */}
-                <div className="w-full md:w-1/2 justify-center flex flex-col">
-                    <form className="flex flex-col border-gray-500 border rounded-2xl px-4 py-8 bg-gray-100 dark:bg-gray-700 w-full max-w-md" onSubmit={handleSubmitResetPasswordForm}>
-
-                        <div className="flex justify-center items-center mx-auto p-1 h-14 w-14 text-center text-blue-600 ">
-                        <Mail size={48} />
+                {/* Right screen Form Container */}
+                <div className="w-full lg:w-1/2 flex justify-center lg:justify-end">
+                    <form 
+                        className="flex flex-col border-gray-500 border rounded-2xl px-4 py-6 sm:py-8 bg-gray-100 dark:bg-gray-700 w-full max-w-md shadow-md" 
+                        onSubmit={handleSubmitResetPasswordForm}
+                    >
+                        <div className="flex justify-center items-center mx-auto p-1 h-12 w-12 sm:h-14 sm:w-14 text-center text-blue-600">
+                            <Mail size={40} className="sm:w-12 sm:h-12" />
                         </div>
 
-                        {errorMessage && <p className="text-center font-heading text-lg pb-2 transition-all duration-300" style={{ color: "red" }}>{errorMessage}</p>}
+                        {errorMessage && (
+                            <p className="text-center font-heading text-sm sm:text-base pb-2 transition-all duration-300 text-red-600 font-semibold">
+                                {errorMessage}
+                            </p>
+                        )}
 
                         <div className="flex flex-col space-y-2 w-full">
                             <label
                                 htmlFor="email"
-                                className="text-sm font-medium text-gray-700 dark:text-gray-300 font-heading"
+                                className="text-base sm:text-lg md:text-xl font-bold text-gray-700 dark:text-gray-300 font-heading"
                             >
                                 Email Address
                             </label>
 
-                            <div className="flex items-center space-x-3 border border-gray-300 dark:border-gray-600 px-3 py-2.5 rounded-xl w-full focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500 transition-all">
+                            <div className="flex items-center space-x-3 border border-gray-300 dark:border-gray-600 px-3 py-1.5 sm:py-2.5 rounded-xl w-full focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500 transition-all">
                                 <Mail size={20} className="text-gray-400 dark:text-gray-500 shrink-0" />
                                 <input
                                     id="email"
@@ -92,29 +91,35 @@ const ForgotPassword = () => {
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                     placeholder="Enter your email"
-                                    className="w-full bg-transparent text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none text-base"
+                                    className="w-full bg-transparent text-gray-900 dark:text-gray-100 placeholder-gray-400 py-1 sm:py-2 md:py-3 dark:placeholder-gray-500 focus:outline-none text-base sm:text-lg"
                                     required
                                 />
                             </div>
                         </div>
 
-
-
-                        <button className="w-full flex items-center justify-center gap-4 rounded-md p-2 bg-blue-600 hover:bg-blue-700 font-heading text-lg text-gray-100 transition-all duration-300 cursor-pointer mt-5" type="submit" disabled={loading}>
-                            {loading ? <Loader2 className="animate-spin" /> : "Send Reset OTP code"}
+                        <button 
+                            className="w-full flex items-center justify-center gap-3 rounded-full px-4 py-3 bg-blue-600 hover:bg-blue-700 font-heading text-base sm:text-lg font-bold text-gray-100 transition-all duration-300 cursor-pointer mt-5" 
+                            type="submit" 
+                            disabled={loading}
+                        >
+                            {loading ? <Loader2 className="animate-spin" size={20} /> : "Send Reset OTP code"}
                         </button>
 
-                        <div className="flex items-center justify-between mt-4 w-full">
+                        <div className="flex items-center justify-between mt-6 w-full">
                             <hr className="w-full border-gray-300 dark:border-gray-600" />
-                            <span className="px-3 text-gray-500 dark:text-gray-400 font-heading text-sm">or</span>
+                            <span className="px-3 text-gray-400 dark:text-gray-500 font-heading text-sm">or</span>
                             <hr className="w-full border-gray-300 dark:border-gray-600" />
                         </div>
 
-                        <div className="flex space-x-4 items-center justify-center py-4">
-                            <span className="text-gray-600 dark:text-gray-300 font-heading text-md">Remember your password?</span>
-                            <a href="/auth/login" className="text-blue-600 font-heading text-md cursor-pointer">Sign In</a>
+                      
+                        <div className="flex flex-wrap items-center justify-center gap-2 pt-4 text-center">
+                            <span className="text-gray-600 dark:text-gray-300 font-heading text-lg sm:text-md font-medium">
+                                Remember your password?
+                            </span>
+                            <a href="/auth/login" className="text-blue-600 font-heading text-lg sm:text-md font-bold hover:underline cursor-pointer">
+                                Sign In
+                            </a>
                         </div>
-
 
                     </form>
                 </div>
