@@ -3,6 +3,9 @@ import { api } from "../constants/Api";
 import { useTheme } from "../Context/ThemeContext";
 import { Moon, Sun, Mail, Lock, Eye, EyeClosed, ArrowRightIcon, Loader2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../Context/AuthContext";
+
+
 
 const Login = () => {
     const [email, setEmail] = useState("");
@@ -11,23 +14,28 @@ const Login = () => {
     const [errorMessage, setErrorMessage] = useState("");
     const [loading, setLoading] = useState(false);
     const { theme, toggleTheme } = useTheme();
+    const { getCurrentUser } = useAuth();
     const navigate = useNavigate();
 
     const handleSubmitLoginForm = async (e) => {
         e.preventDefault();
+
+        if (!email || !password) {
+            setErrorMessage("Fill the login fields")
+        }
         setLoading(true);
         setErrorMessage("");
 
         try {
             const response = await api.post("/auth/login", { email: email, password: password });
-            setPassword("");
-            setEmail("");
+            // setPassword("");
+            // setEmail("");
+            await getCurrentUser();
             navigate("/auth/admin-dashboard")
+            
         } catch (error) {
             if (error.response) {
-                const detail = error.response.data.detail;
-                const message = typeof detail === "string" ? detail : "Invalid input parameters.";
-                setErrorMessage(message);
+                setErrorMessage(error.response.data.detail);
             } else {
                 setErrorMessage("Network error: Login failed.");
             }
@@ -35,6 +43,16 @@ const Login = () => {
             setLoading(false);
         }
     }
+
+    const handleEmailChange = (e) => {
+        setEmail(e.target.value);
+        if (errorMessage) setErrorMessage("");
+    };
+
+    const handlePasswordChange = (e) => {
+        setPassword(e.target.value);
+        if (errorMessage) setErrorMessage("");
+    };
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -86,7 +104,7 @@ const Login = () => {
                                     id="email"
                                     type="email"
                                     value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
+                                    onChange={handleEmailChange}
                                     placeholder="Enter your email"
                                     className="w-full bg-transparent text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none text-base"
                                     required
@@ -108,7 +126,7 @@ const Login = () => {
                                     id="password"
                                     type={showPassword ? "text" : "password"}
                                     value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
+                                    onChange={handlePasswordChange}
                                     placeholder="Enter your password"
                                     className="w-full bg-transparent text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none text-base"
                                     required
@@ -128,9 +146,8 @@ const Login = () => {
                         </div>
 
                         <button 
-                        className="w-full flex items-center justify-center gap-4 rounded-md p-2 bg-blue-600 hover:bg-blue-700 font-heading text-lg text-gray-100 transition-all duration-300 cursor-pointer" type="submit" disabled={loading}>
+                        className="w-full flex items-center justify-center rounded-md p-2 bg-blue-600 hover:bg-blue-700 font-heading text-lg text-gray-100 transition-all duration-300 cursor-pointer" type="submit" disabled={loading}>
                             {loading ? <Loader2 className="animate-spin" size={20} /> : "Sign In"}
-                            <ArrowRightIcon />
                         </button>
 
                         <div className="flex items-center justify-between mt-4 w-full">

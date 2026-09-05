@@ -1,13 +1,20 @@
-import { useNavigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { useAuth } from '../Context/AuthContext'
 
 const ProtectedRoute = ({ children }) => {
-    const navigate = useNavigate();
     const { loading, userData } = useAuth();
     
-    if (loading) return <p>Authenticating...</p>
+    if (loading) {
+        return (
+            <div className="flex items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-900">
+                <p className="text-gray-600 dark:text-gray-300 text-xl font-heading animate-pulse">
+                    Authenticating session...
+                </p>
+            </div>
+        );
+    }
 
-    if(!userData) return navigate("/auth/login");
+    if(!userData) return <Navigate to="/auth/login" />;
 
     return children;
 }

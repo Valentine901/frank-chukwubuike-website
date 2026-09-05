@@ -17,9 +17,9 @@ const App = () => {
     <Route path="/auth/verify-otp" element={<VerifyOTP />} />
     <Route path="/auth/password-reset" element={<PasswordReset />} />
     <Route path="/auth/admin-dashboard" element={
-      <ProtectedRoute>
+     <ProtectedRoute>
         <AdminDashboard />
-      </ProtectedRoute>
+    </ProtectedRoute>
     } />
    </Routes>
   )
