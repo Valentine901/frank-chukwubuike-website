@@ -22,7 +22,7 @@ const Navbar = () => {
             <div className="flex items-center space-x-4">
                 
                 {/* Desktop Navigation Menu */}
-                <ul className="hidden md:flex items-center space-x-6 lg:space-x-8 list-none">
+                <ul className="hidden lg:flex items-center space-x-6 lg:space-x-8 list-none">
                     <li>
                         <a href="#home" className="text-sm md:text-md lg:text-lg text-gray-600 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400 font-semibold transition-colors">Home</a>
                     </li>
@@ -58,7 +58,7 @@ const Navbar = () => {
                 {/* Hamburger / Close Icon for Mobile Only */}
                 <button 
                     onClick={handleMenuToggle} 
-                    className="md:hidden p-2 text-xl focus:outline-none text-gray-700 dark:text-white cursor-pointer z-50"
+                    className="lg:hidden p-2 text-2xl focus:outline-none text-gray-700 dark:text-white cursor-pointer z-50"
                     aria-label="Toggle Menu"
                 >
                     {toggleBar ? <FaTimes /> : <FaBars />}
@@ -66,7 +66,7 @@ const Navbar = () => {
             </div>
 
           {/* mobile navbar */}
-            <div className={`md:hidden fixed h-120 rounded-bl-2xl inset-y-0 right-0 w-64 bg-gray-100 dark:bg-gray-800 border-l border-gray-200 dark:border-gray-700 p-6 flex flex-col justify-start space-y-6 pt-24 shadow-2xl transition-transform duration-300 ease-in-out transform ${toggleBar ? 'translate-x-0' : 'translate-x-full'}`}>
+            <div className={`lg:hidden fixed h-120 rounded-bl-2xl inset-y-0 right-0 w-64 bg-gray-100 dark:bg-gray-800 border-l border-gray-200 dark:border-gray-700 p-6 flex flex-col justify-start space-y-6 pt-24 shadow-2xl transition-transform duration-300 ease-in-out transform ${toggleBar ? 'translate-x-0' : 'translate-x-full'}`}>
                 <ul className="flex flex-col space-y-4 list-none">
                     <li>
                         <a href="#home" onClick={handleMenuToggle} className="block text-lg font-semibold text-gray-800 dark:text-gray-200 hover:text-blue-600">Home</a>

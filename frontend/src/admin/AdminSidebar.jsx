@@ -140,7 +140,7 @@ const AdminSidebar = ({
                                 key={index}
                                 onClick={() => {
                                     setActiveView(item.view);   // Change global string state
-                                    handleToggleAdminNavbar();
+                                    setIsAdminNavbar(false);
                                      // Close mobile navbar drawer on item select
                                 }} 
                                 className={`w-full flex items-center gap-4 p-4 rounded-lg font-heading font-semibold text-sm transition-all duration-200 cursor-pointer text-left ${
@@ -160,7 +160,7 @@ const AdminSidebar = ({
                 <div className="border-t border-gray-200 dark:border-gray-700 w-full px-3 py-4 mt-auto shrink-0 bg-gray-100 dark:bg-gray-800">
                     <button 
                         onClick={() => {
-                            handleToggleAdminNavbar(); // Dismiss mobile menu drawer
+                            setIsAdminNavbar(false); // Dismiss mobile menu drawer
                             handleLogoutModalChange();  // Popup confirmation modal
                         }}
                         className="w-full flex items-center gap-4 p-4 rounded-lg font-heading font-semibold text-sm text-red-600 hover:bg-red-500/10 dark:text-red-400 transition-all duration-200 cursor-pointer text-left"
