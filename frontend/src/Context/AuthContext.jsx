@@ -21,6 +21,33 @@ const AuthProvider = ({ children }) => {
     const [errorMessage, setErrorMessage] = useState("");
     const [loading, setLoading] = useState(true);
 
+    const localLogout = useCallback(() => {
+        localStorage.removeItem("user");
+        setUserData(null);
+        setProfile(null);
+    }, []);
+
+    const RefreshToken = useCallback(async () => {
+        try {
+
+            const response = await api.post("/auth/refresh-token");
+
+            if (userData) {
+                const updatedUser = {
+                    ...userData,
+                    access_token_expires_at: response.data.access_token_expires_at
+                };
+                SaveUserData(updatedUser);
+                setUserData(updatedUser);
+            }
+            return response.data;
+        } catch (error) {
+            // If refresh token fails, log user out
+            localLogout();
+            throw error;
+        }
+    }, [userData, localLogout])
+
     const SaveUserData = (data) => {
         localStorage.setItem("user", JSON.stringify(data));
     }
@@ -47,10 +74,9 @@ const AuthProvider = ({ children }) => {
 
         } catch (error) {
             handleAxiosError(error, "Failed to authenticate session");
-            localStorage.removeItem("user");
-            setUserData(null);
+            localLogout();
         }
-    }, []);
+    }, [localLogout]);
 
     const getUserProfileData = useCallback(async () => {
         setErrorMessage("");
@@ -63,15 +89,53 @@ const AuthProvider = ({ children }) => {
         }
     }, [])
 
-    const logout = async() => {
+    const logout = async () => {
         try {
             await api.post("/auth/logout");
-            setUserData(null);
-            setProfile(null);
         } catch (error) {
             handleAxiosError(error, "Failed to log you out");
+        } finally {
+            localLogout();
         }
     }
+
+    
+
+    useEffect(() => {
+        const responseInterceptor = api.interceptors.response.use(
+            // if success, continue smoothly with app
+            (response) => response,
+
+            // if error, check and know if token expires
+            async (error) => {
+                const originalRequest = error.config;
+                // copy the original request and check if error is 401 or  user already tried the original request
+                if (error.response?.status === 401 && !originalRequest._retry) {
+                    // check if user was tryimg to access loginor refresh-token endpint unauthorized
+                    if (originalRequest.url.includes("/auth/login") || originalRequest.url.includes("/auth/refesh-token")) {
+                        // send them normal 401 error not authorized
+                        return Promise.reject(error);
+                    }
+                    // if user haven't tried original request, let them try
+                    originalRequest._retry = true;
+
+                    try {
+                        // create new access toke
+                        await RefreshToken();
+                        // retry their original request
+                        return api(originalRequest);
+                    } catch (refreshError) {
+                        return Promise.reject(refreshError);
+                    }
+                }
+                return Promise.reject(error);
+            }
+        );
+
+        return () => {
+            api.interceptors.response.eject(responseInterceptor)
+        }
+    }, [RefreshToken])
 
     useEffect(() => {
         const initializeAuth = async () => {

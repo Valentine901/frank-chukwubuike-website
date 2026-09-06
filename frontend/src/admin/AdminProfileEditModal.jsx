@@ -2,6 +2,7 @@ import { useState } from "react";
 import { User, UploadCloud, Phone, MapPin, TextCursor, X, Loader2 } from "lucide-react";
 import { useAuth } from "../Context/AuthContext";
 import { api } from "../constants/Api"
+import { preview } from "vite";
 
 const AdminProfileEditModal = ({
   isAdminProfileEditModal,
@@ -35,7 +36,6 @@ const AdminProfileEditModal = ({
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
     setLoading(true);
     setErrorMessage("");
 
@@ -43,7 +43,9 @@ const AdminProfileEditModal = ({
       const response = await Promise.all([
         api.put("/auth/admin-update-user", { first_name: firstName, last_name: lastName, email: email }),
 
-        api.put("/admin/profile/update", { bio: bio, address: address, phone: phone, facebook_link: facebook, linkedin_link: linkedin, instagram_link: instagram })
+        api.put("/admin/profile/update", { bio: bio, address: address, phone: phone, facebook_link: facebook, linkedin_link: linkedin, instagram_link: instagram }),
+        
+        api.post("/admin/profile/update-image", {image: imagePreview})
       ]);
       setIsAdminProfileEditModal(false);
 
@@ -173,7 +175,7 @@ const AdminProfileEditModal = ({
 
             {/* Address Field */}
             <div className="flex flex-col space-y-1.5">
-              <label htmlFor="address" className="text-sm font-semibold text-gray-700 dark:text-gray-300 font-heading text-lg">
+              <label htmlFor="address" className="font-semibold text-gray-700 dark:text-gray-300 font-heading text-lg">
                 Address Of Residence
               </label>
               <div className="flex items-center space-x-3 border border-gray-300 dark:border-gray-700 px-3 py-2 rounded-xl focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500 transition-all bg-transparent">
@@ -248,7 +250,7 @@ const AdminProfileEditModal = ({
                                 Instagram Profile Link
                             </label>
                             <div className="flex items-center space-x-3 border border-gray-300 dark:border-gray-700 px-3 py-2 rounded-xl focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500 transition-all bg-transparent">
-                                <span className="text-gray-400 dark:text-gray-500 shrink-0 font-bold text-lg font-mono">ig</span>
+                                <span className="text-gray-400 dark:text-gray-500 shrink-0 font-bold text-lg font-mono">Instagram</span>
                                 <input
                                     id="instagram"
                                     type="url"
@@ -280,7 +282,6 @@ const AdminProfileEditModal = ({
                             {loading ? (
                                 <>
                                     <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                                    <Loader2 size={24} />
                                 </>
                             ) : (
                                 "Save Changes"

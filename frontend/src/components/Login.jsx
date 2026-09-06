@@ -27,6 +27,7 @@ const Login = () => {
             const response = await api.post("/auth/login", { email: email, password: password });
             await getCurrentUser();
             navigate("/auth/admin-dashboard");
+            return response;
             
         } catch (error) {
             if (error.response) {
