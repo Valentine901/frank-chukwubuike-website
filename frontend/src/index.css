@@ -4,9 +4,11 @@
 @variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --font-heading: "Poppins", sans-serif;
+  --font-heading: "Geist", "sans-serif";
   --font-body: "Inter", sans-serif;
   --font-alt: "Open Sans", sans-serif;
+  --font-sans: "Geist", "sans-serif";
+  --font-heading: "Geist", "sans-serif";
 
   --animate-slide-up-fade: slideUpFade 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 

@@ -2,19 +2,25 @@ import AdminNavbar from "./AdminNavbar";
 import AdminSidebar from "./AdminSidebar";
 import AdminContent from "./AdminContent";
 import AdminProfile from "./AdminProfile";
+import AdminProjects from "./AdminProjects";
+import AdminProjectCreateModal from "./AdminProjectCreateModal";
 // Import your missing component placeholders here
 // import AdminProjects from "./AdminProjects"; 
 // import AdminUpload from "./AdminUpload";
 // import AdminSettings from "./AdminSettings";
 import LogoutModal from "../components/LogoutModal";
+import DropDownUpload from "./DropDownUpload";
 
 
 import { useState } from "react";
 
+
 const AdminDashboard = () => {
     const [isLogoutModal, setIslogoutModal] = useState(false);
     const [isAdminProfileEditModal, setIsAdminProfileEditModal] = useState(false);
+    const [isAdminProjectCreateModal, setIsAdminProjectCreateModal] = useState(false);
     const [isAdminNavbar, setIsAdminNavbar] = useState(false);
+    const [isDropDown, setIsDropDown] = useState(false);
 
     // Track active view
     const [activeView, setActiveView] = useState("dashboard");
@@ -32,28 +38,28 @@ const AdminDashboard = () => {
     const handleToggleAdminNavbar = () => {
         setIsAdminNavbar(!isAdminNavbar);
     };
-    
+
+
 
     // track each view and find the match and inject it inside the dash component
     const renderMainContent = () => {
         switch (activeView) {
             case "dashboard":
-                return <AdminContent 
-                isLogoutModal={isLogoutModal} 
-                setIsLogoutModal={setIslogoutModal}
-                 />;
+                return <AdminContent
+                    isLogoutModal={isLogoutModal}
+                    setIsLogoutModal={setIslogoutModal}
+                />;
 
             case "profile":
-                return <AdminProfile 
-                isAdminProfileEditModal={isAdminProfileEditModal}
-                setIsAdminProfileEditModal={setIsAdminProfileEditModal}
-                handleProfileEditModalChange={handleProfileEditModalChange} 
+                return <AdminProfile
+                    isAdminProfileEditModal={isAdminProfileEditModal}
+                    setIsAdminProfileEditModal={setIsAdminProfileEditModal}
+                    handleProfileEditModalChange={handleProfileEditModalChange}
                 />;
-                
+
             case "projects":
-                return <div>{/* <AdminProjects /> */} Projects View Placeholder</div>;
-            case "upload":
-                return <div>{/* <AdminUpload /> */} Upload Project View Placeholder</div>;
+                return <AdminProjects />
+
             case "settings":
                 return <div>{/* <AdminSettings /> */} Settings View Placeholder</div>;
             default:
@@ -75,9 +81,26 @@ const AdminDashboard = () => {
 
             {/* Main content */}
             <div className="flex flex-col p-0 w-full">
-                <AdminNavbar handleToggleAdminNavbar={handleToggleAdminNavbar} isAdminNavbar={isAdminNavbar} />
+                <AdminNavbar 
+                handleToggleAdminNavbar={handleToggleAdminNavbar} 
+                isAdminNavbar={isAdminNavbar}
+                setIsAdminProjectCreateModal={setIsAdminProjectCreateModal}
+                isDropDown={isDropDown}
+                setIsDropDown={setIsDropDown}
+                />
 
-                {isLogoutModal && <LogoutModal handleLogoutModalChange={handleLogoutModalChange} setIsLogoutModal={setIslogoutModal} />}
+                {/* logout modal */}
+                {isLogoutModal &&
+                    <LogoutModal
+                        handleLogoutModalChange={handleLogoutModalChange}
+                        setIsLogoutModal={setIslogoutModal} />}
+
+                {/* create project modal */}
+                {isAdminProjectCreateModal &&
+                    <AdminProjectCreateModal
+                        setIsAdminProjectCreateModal={setIsAdminProjectCreateModal}
+                    />}
+
                 <div className="w-full flex-1">
                     {renderMainContent()}
                 </div>
@@ -87,3 +110,5 @@ const AdminDashboard = () => {
 };
 
 export default AdminDashboard;
+
+

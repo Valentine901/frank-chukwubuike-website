@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { User, UploadCloud, Phone, MapPin, TextCursor, X, Loader2 } from "lucide-react";
+import { User, UploadCloud, Phone, MapPin, TextCursor, X } from "lucide-react";
 import { useAuth } from "../Context/AuthContext";
 import { api } from "../constants/Api"
 

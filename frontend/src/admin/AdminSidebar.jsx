@@ -5,6 +5,7 @@ import { BASE_IMAGE_URL } from "../constants/Api";
 
 const AdminSidebar = ({ 
     handleLogoutModalChange, 
+    handleProjectModalChange,
     isAdminNavbar, 
     setIsAdminNavbar,
     handleToggleAdminNavbar, 
@@ -20,15 +21,14 @@ const AdminSidebar = ({
     const menuItems = [
         { label: "Dashboard", icon: LayoutDashboard, view: "dashboard" },
         { label: "Projects", icon: FaFolderOpen, view: "projects" },
-        { label: "Upload Project", icon: Upload, view: "upload" },
         { label: "Profile", icon: User, view: "profile" },
         { label: "Settings", icon: Settings, view: "settings" },
     ];
 
     return (
         <>
-            {/* LARGE DESKTOP SCREEN SIDEBAR (Locked on the left side) */}
-            <div className="hidden lg:flex flex-col min-h-screen border-r border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 w-70 transition-all duration-300">
+            {/* LARGE DESKTOP SCREEN SIDEBAR  */}
+            <div className="hidden lg:flex flex-col h-screen border-r border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 w-70 transition-all duration-300">
 
                 {/* Header */}
                 <div className="border-b-2 border-gray-200 dark:border-gray-700 p-4 flex items-center h-16">
@@ -88,7 +88,7 @@ const AdminSidebar = ({
 
 
 
-            {/* 🌟 SMALL & MEDIUM SCREEN BACKGROUND OVERLAY (Dims workspace screen when active) */}
+            {/*  SMALL & MEDIUM SCREEN BACKGROUND OVERLAY (Dims workspace screen when active) */}
            <div 
                 onClick={handleToggleAdminNavbar}
                 className={`fixed inset-0 bg-black/40 backdrop-blur-xs z-40 transition-opacity duration-300 lg:hidden ${
@@ -96,7 +96,7 @@ const AdminSidebar = ({
                 }`}
             />
 
-            {/* 🌟 SMALL & MEDIUM SCREEN SLIDE-OUT PANEL (Stays mounted, slides using transitions) */}
+            {/* SMALL & MEDIUM SCREEN SLIDE-OUT PANEL (Stays mounted, slides using transitions) */}
             <div className={`fixed top-0 left-0 h-screen border-r border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 w-70 z-50 flex flex-col transition-transform duration-300 ease-in-out lg:hidden shadow-2xl ${
                 isAdminNavbar ? "translate-x-0" : "-translate-x-full"
             }`}>
