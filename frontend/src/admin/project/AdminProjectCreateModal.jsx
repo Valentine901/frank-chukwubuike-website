@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { api } from '../constants/Api';
-import { UploadCloud, X , Loader2, TextCursor} from "lucide-react";
-import { useQueryContext } from '../Context/GeneralQueryContext';
+import { api } from '../../constants/Api';
+import { UploadCloud, X , TextCursor} from "lucide-react";
+import { useQueryContext } from '../../Context/GeneralQueryContext';
 
 const AdminProjectCreateModal = ({ setIsAdminProjectCreateModal}) => {
     const [name, setName] = useState("");

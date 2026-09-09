@@ -149,7 +149,7 @@ const AuthProvider = ({ children }) => {
     }, [getCurrentUser, getUserProfileData])
 
     return (
-        <AuthContext.Provider value={{ errorMessage, loading, userData, profile, logout, getCurrentUser }}>
+        <AuthContext.Provider value={{ errorMessage, loading, userData, profile, logout, getCurrentUser, getUserProfileData }}>
             {children}
         </AuthContext.Provider>
     )

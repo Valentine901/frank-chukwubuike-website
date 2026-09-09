@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Calendar, Mail, Pencil } from 'lucide-react';
-import { useAuth } from '../Context/AuthContext';
-import { BASE_IMAGE_URL } from '../constants/Api';
+import { useAuth } from '../../Context/AuthContext';
+import { BASE_IMAGE_URL } from '../../constants/Api';
 import AdminProfileEditModal from './AdminProfileEditModal';
 
 const AdminProfile = ({ isAdminProfileEditModal, setIsAdminProfileEditModal, handleProfileEditModalChange }) => {

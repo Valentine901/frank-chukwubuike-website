@@ -1,33 +1,33 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { User, UploadCloud, Phone, MapPin, TextCursor, X } from "lucide-react";
-import { useAuth } from "../Context/AuthContext";
-import { api } from "../constants/Api"
+import { useAuth } from "../../Context/AuthContext";
+import { api, BASE_IMAGE_URL } from "../../constants/Api"
 
 const AdminProfileEditModal = ({
   isAdminProfileEditModal,
   setIsAdminProfileEditModal
 }) => {
-  const { profile, userData } = useAuth();
-  // user update data
-  const [firstName, setFirstName] = useState(userData.first_name || "");
-  const [lastName, setLastName] = useState(userData.last_name || "");
-  const [email, setEmail] = useState(userData.email || "");
-  // profile update data
-  const [bio, setBio] = useState(profile.bio || "");
-  const [phone, setPhone] = useState(profile.phone || "");
-  const [address, setAddress] = useState(profile.address || "");
-  const [linkedin, setLinkedin] = useState(profile.linkedin_link || "");
-  const [facebook, setFacebook] = useState(profile.facebook_link || "");
-  const [instagram, setInstagram] = useState(profile.instagram_link || "");
-  const [image, setImage] = useState(null);
-  const [erorMessage, setErrorMessage] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [imagePreview, setImagePreview] = useState(null);
+  const { profile, userData, getUserProfileData } = useAuth();
+
+      const [firstName, setFirstName] = useState(userData.first_name || "");
+      const [lastName, setLastName] = useState(userData.last_name || "");
+      const [email, setEmail] = useState(userData.email || "");
+      const [bio, setBio] = useState(profile.bio || "");
+      const [phone, setPhone] = useState(profile.phone || "");
+      const [address, setAddress] = useState(profile.address || "");
+      const [linkedin, setLinkedin] = useState(profile.linkedin_link || "");
+      const [facebook, setFacebook] = useState(profile.facebook_link || "");
+      const [instagram, setInstagram] = useState(profile.instagram_link || "");
+      const [errorMessage, setErrorMessage] = useState("");
+      const [image, setImage] = useState(null);
+      const [imagePreview, setImagePreview] = useState(profile?.image ? `${BASE_IMAGE_URL}/${profile.image}` : null);
+      const [loading , setLoading] = useState(false);
+  
 
 
   if (!isAdminProfileEditModal) return null;
 
-  // Handle temporary local image upload preview selection
+
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -36,50 +36,78 @@ const AdminProfileEditModal = ({
     }
   };
 
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setErrorMessage("");
+    setErrorMessage(""); 
 
-    const formData = new FormData();
-    formData.append("file", image);
+  
+    const userPayload = {};
+    if (firstName && firstName !== userData.first_name) userPayload.first_name = firstName;
+    if (lastName && lastName !== userData.last_name) userPayload.last_name = lastName;
+    if (email && email !== userData.email) userPayload.email = email;
+
+   
+    const profilePayload = {};
+
+    if (bio !== profile.bio) profilePayload.bio = bio || null; 
+    if (address !== profile.address) profilePayload.address = address || null;
+    if (phone !== profile.phone) profilePayload.phone = phone || null;
+    if (facebook !== profile.facebook_link) profilePayload.facebook_link = facebook || null;
+    if (linkedin !== profile.linkedin_link) profilePayload.linkedin_link = linkedin || null;
+    if (instagram !== profile.instagram_link) profilePayload.instagram_link = instagram || null;
+
     try {
+      const apiCalls = [];
 
-      const response = await Promise.all([
-        api.put("/auth/admin-update-user", { first_name: firstName, last_name: lastName, email: email }),
+      if (Object.keys(userPayload).length > 0) {
+        apiCalls.push(api.put("/auth/admin-update-user", userPayload));
+      }
 
-        api.put("/admin/profile/update", { bio: bio, address: address, phone: phone, facebook_link: facebook, linkedin_link: linkedin, instagram_link: instagram }),
+      if (Object.keys(profilePayload).length > 0) {
+        apiCalls.push(api.put("/admin/profile/update", profilePayload));
+      }
 
-        api.put("/admin/profile/update-image", formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          }
-        })
-      ]);
+      if (image) {
+        const formData = new FormData();
+        formData.append("file", image);
+        apiCalls.push(
+          api.put("/admin/profile/update-image", formData, {
+            headers: { 'Content-Type': 'multipart/form-data' }
+          })
+        );
+      }
+
+      if (apiCalls.length > 0) {
+        await Promise.all(apiCalls);
+      }
+      
+      getUserProfileData();
       setIsAdminProfileEditModal(false);
+
 
     } catch (error) {
       if (error.response) {
         setErrorMessage(error.response.data.detail);
       } else if (error.request) {
-        setErrorMessage(error.request);
+        setErrorMessage("Network response error occurred.");
       } else {
         setErrorMessage("Could not update profile");
       }
     } finally {
       setLoading(false);
     }
-
-
   };
 
 
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-fade-in">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-fade-in ">
 
       {/* Modal Card Frame */}
-      <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl max-w-xl w-full p-6 shadow-2xl relative transform transition-all duration-300 scale-100 flex flex-col max-h-[90vh]">
+      <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl max-w-xl w-full p-6 shadow-2xl relative transform transition-all duration-300 scale-100 flex flex-col max-h-[90vh] ">
 
         {/* Close Button */}
         <button
@@ -101,10 +129,10 @@ const AdminProfileEditModal = ({
         </div>
 
         {/* Form Wrapper */}
-        <form onSubmit={handleSubmit} className="flex flex-col flex-1 overflow-hidden">
+        <form onSubmit={handleSubmit} className="flex flex-col flex-1  ">
 
           {/* Scrollable Inputs Container: Keeps layout responsive on small/short screens */}
-          <div className="flex-1 overflow-y-auto pr-1 space-y-4 max-h-[50vh] custom-scrollbar">
+          <div className="flex-1 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]  pr-1 space-y-4 max-h-[50vh] custom-scrollbar">
 
             {/* Avatar Upload Slot */}
             <div className="flex flex-col items-center justify-center gap-3 p-6 pb-2">

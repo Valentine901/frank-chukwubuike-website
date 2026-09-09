@@ -55,11 +55,13 @@ const QueryContextProvider = ({ children }) => {
     }
 
 
+
     const handleFetchProject = async (id) => {
         setLoading(true);
         setErrorMessage("");
 
         try {
+            console.log("ID: ", id)
             const response = await api.get(`/project/${id}`);
             setProject(response.data);
 
@@ -76,7 +78,7 @@ const QueryContextProvider = ({ children }) => {
     }, [])
 
     return (
-        <QueryContext.Provider value={{ projects, skills, errorMessage, loading, handleFetchProject, handleFetchOrderedProjects, orderedProjects, handleFetchProjects }}>
+        <QueryContext.Provider value={{ projects, project, setProject, skills, errorMessage, loading, handleFetchProject, handleFetchOrderedProjects, orderedProjects, handleFetchProjects }}>
             {children}
         </QueryContext.Provider>
     )

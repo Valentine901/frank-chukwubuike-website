@@ -1,15 +1,13 @@
 import AdminNavbar from "./AdminNavbar";
 import AdminSidebar from "./AdminSidebar";
 import AdminContent from "./AdminContent";
-import AdminProfile from "./AdminProfile";
-import AdminProjects from "./AdminProjects";
-import AdminProjectCreateModal from "./AdminProjectCreateModal";
-// Import your missing component placeholders here
-// import AdminProjects from "./AdminProjects"; 
-// import AdminUpload from "./AdminUpload";
+import AdminProfile from "./profile/AdminProfile";
+import AdminProjects from "./project/AdminProjects";
+import AdminProjectCreateModal from "./project/AdminProjectCreateModal";
+import ProjectDetailModal from "./project/ProjectDetailModal";
 // import AdminSettings from "./AdminSettings";
-import LogoutModal from "../components/LogoutModal";
-import DropDownUpload from "./DropDownUpload";
+import LogoutModal from "../components/LogoutModal";                                     
+import { useQueryContext } from "../Context/GeneralQueryContext";
 
 
 import { useState } from "react";
@@ -21,6 +19,8 @@ const AdminDashboard = () => {
     const [isAdminProjectCreateModal, setIsAdminProjectCreateModal] = useState(false);
     const [isAdminNavbar, setIsAdminNavbar] = useState(false);
     const [isDropDown, setIsDropDown] = useState(false);
+
+    const { project } = useQueryContext();
 
     // Track active view
     const [activeView, setActiveView] = useState("dashboard");
@@ -81,13 +81,18 @@ const AdminDashboard = () => {
 
             {/* Main content */}
             <div className="flex flex-col p-0 w-full">
-                <AdminNavbar 
-                handleToggleAdminNavbar={handleToggleAdminNavbar} 
-                isAdminNavbar={isAdminNavbar}
-                setIsAdminProjectCreateModal={setIsAdminProjectCreateModal}
-                isDropDown={isDropDown}
-                setIsDropDown={setIsDropDown}
+                <AdminNavbar
+                    handleToggleAdminNavbar={handleToggleAdminNavbar}
+                    isAdminNavbar={isAdminNavbar}
+                    setIsAdminProjectCreateModal={setIsAdminProjectCreateModal}
+                    isDropDown={isDropDown}
+                    setIsDropDown={setIsDropDown}
                 />
+
+                {/* Projet detail modal */}
+                {project &&
+                    <ProjectDetailModal />
+                }
 
                 {/* logout modal */}
                 {isLogoutModal &&

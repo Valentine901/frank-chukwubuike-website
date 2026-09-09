@@ -8,8 +8,8 @@ const ProtectedRoute = ({ children }) => {
     if (loading) {
         return (
             <div className="flex items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-900">
-                <p className="text-gray-600 dark:text-gray-300 text-4xl font-heading animate-spin font-bold">
-                    <Loader2 size={110} />
+                <p className="text-gray-600 dark:text-gray-300 font-heading animate-spin font-bold">
+                    <Loader2 size={48} />
                 </p>
             </div>
         );

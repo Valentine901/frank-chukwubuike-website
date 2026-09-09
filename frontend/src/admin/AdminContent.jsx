@@ -1,20 +1,18 @@
-import React from 'react';
-import LogoutModal from '../components/LogoutModal';
 import { useAuth } from '../Context/AuthContext';
 import { useQueryContext } from '../Context/GeneralQueryContext';
 import { FaFolderOpen, FaCloudUploadAlt, FaEye, FaTrashAlt} from 'react-icons/fa';
-import ProjectList from '../components/ProjectList';
-import { Hand, Smile, SmilePlus } from 'lucide-react';
+import ProjectList from './project/AdminProjectList';
+import { Smile } from 'lucide-react';
 
 const AdminContent = () => {
     const { userData } = useAuth();
     const { projects } = useQueryContext();
 
     return (
-        /* FIX: Changed min-h-screen to a strict layout boundary matching window bounds on desktop */
+       
         <div className="bg-gray-50 dark:bg-gray-900 w-full h-auto lg:h-[calc(100vh-4rem)] lg:overflow-hidden transition-all duration-300 p-4 md:p-8 flex flex-col">
 
-            {/* Header / Profile section (Stays Fixed) */}
+           
             <div className="shrink-0">
                 <h1 className="font-heading font-bold text-2xl md:text-3xl lg:text-4xl flex flex-wrap gap-2 items-center">
                     <span className="text-gray-700 dark:text-gray-100">Welcome back,</span>
@@ -27,8 +25,7 @@ const AdminContent = () => {
                 </p>
             </div>
 
-            {/* Stat Row widgets */}
-{/* Stat Row widgets */}
+ 
 <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mt-8 shrink-0">
     {/* Total Projects Card */}
     <div className="p-3 sm:p-5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-sm hover:shadow-md transition-all duration-200 flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-3 min-w-0">
