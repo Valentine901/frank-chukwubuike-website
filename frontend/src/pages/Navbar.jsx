@@ -12,7 +12,7 @@ const Navbar = () => {
     };
 
     return (
-        <nav className='w-full h-16 flex justify-between items-center bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-white px-4 md:px-8 fixed top-0 left-0 z-50 border-b border-gray-200 dark:border-gray-700 shadow-sm transition-colors duration-300'>
+        <nav className='w-full h-16 flex justify-between items-center bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-white px-4 md:px-8 fixed top-0 left-0 z-50 transition-colors duration-300'>
             {/* Logo Section */}
             <div className="logo">
                 <h2 className="text-xl md:text-2xl font-bold whitespace-nowrap font-heading">Frank Dinyelu</h2>

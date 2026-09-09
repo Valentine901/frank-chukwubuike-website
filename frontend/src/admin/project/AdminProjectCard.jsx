@@ -4,21 +4,23 @@ import { useQueryContext } from '../../Context/GeneralQueryContext';
 
 
 const ProjectCard = ({ project }) => {
-      const { handleFetchProject } = useQueryContext();
+  const { handleFetchProject, setIsProjectDetailModal } = useQueryContext();
 
+  if (!project) return null;
+  
   return (
-    <div onClick={() => handleFetchProject(project.id)} className="group relative w-full h-100 rounded-3xl overflow-hidden bg-gray-100 dark:bg-gray-900 border border-gray-200/50 dark:border-gray-800/50 shadow-sm transition-all duration-500 ease-out hover:scale-[1.02] hover:shadow-xl dark:shadow-black/40">
-      
-     
+    <div onClick={() => { handleFetchProject(project.id); setIsProjectDetailModal(true) }} className="group relative w-full h-100 rounded-3xl overflow-hidden bg-gray-100 dark:bg-gray-900 border border-gray-200/50 dark:border-gray-800/50 shadow-sm transition-all duration-500 ease-out hover:scale-[1.02] hover:shadow-xl dark:shadow-black/40">
+
+
       {project.image ? (
-        <img 
-          src={`${BASE_IMAGE_URL}/${project.image}`}
-          className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105" 
-          alt={project.name || "Project Preview"} 
+        <img
+          src={`${BASE_IMAGE_URL}/${project?.image}`}
+          className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+          alt={project.name || "Project Preview"}
           loading="lazy"
         />
       ) : (
-      
+
         <div className="flex h-full w-full flex-col items-center justify-center gap-2 text-gray-400 dark:text-gray-500">
           <FolderGit2 className="w-10 h-10 stroke-[1.5]" />
           <span className="text-xs font-medium">No preview available</span>

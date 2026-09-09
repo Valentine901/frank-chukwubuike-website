@@ -7,9 +7,19 @@ const QueryContext = createContext();
 const QueryContextProvider = ({ children }) => {
     const [projects, setProjects] = useState([]);
     const [orderedProjects, setOrderedProjects] = useState([]);
-    const [skills, setSkills] = useState([]);
-    const [testimonials, setTestimonals] = useState([]);
     const [project, setProject] = useState(null);
+    const [isDeleteProjectModal, setIsDeleteProjectModal] = useState(false);
+    const [isEditProjectModal, setIsEditProjectModal] = useState(false); 
+    const [isProjectDetailModal, setIsProjectDetailModal] = useState(false);
+    const [totalDelProjects, setTotalDelProjects] = useState(() => {
+        const saved = localStorage.getItem("totalDeletedItems");
+        return saved !== null ? JSON.parse(saved) : 0;
+    });
+    const [totalUploadedProjects, setTotalUploadedProjects] = useState(() => {
+        const saved = localStorage.getItem("totalLifetimeProjects");
+        return saved !== null ? JSON.parse(saved) : 0
+    });
+
 
     const [errorMessage, setErrorMessage] = useState("");
     const [loading, setLoading] = useState(false);
@@ -56,12 +66,32 @@ const QueryContextProvider = ({ children }) => {
 
 
 
+    const handleDeleteProject = async (id) => {
+        setLoading(true);
+        setErrorMessage("");
+
+        try {
+            const response = await api.delete(`/project/delete/${id}`);
+            handleFetchProjects();
+            handleFetchOrderedProjects();
+            localStorage.setItem("totalDeletedItems", JSON.stringify(totalDelProjects + 1))
+            setIsDeleteProjectModal(false);
+            setIsProjectDetailModal(false);
+
+        } catch (error) {
+            handleAxiosError(error);
+        } finally {
+            setLoading(false);
+        }
+    }
+
+
+
     const handleFetchProject = async (id) => {
         setLoading(true);
         setErrorMessage("");
 
         try {
-            console.log("ID: ", id)
             const response = await api.get(`/project/${id}`);
             setProject(response.data);
 
@@ -78,7 +108,9 @@ const QueryContextProvider = ({ children }) => {
     }, [])
 
     return (
-        <QueryContext.Provider value={{ projects, project, setProject, skills, errorMessage, loading, handleFetchProject, handleFetchOrderedProjects, orderedProjects, handleFetchProjects }}>
+        <QueryContext.Provider value={{
+            projects, project, setProject, totalDelProjects, errorMessage, loading, handleFetchProject, handleFetchOrderedProjects, orderedProjects, handleFetchProjects, handleDeleteProject, isDeleteProjectModal, setIsDeleteProjectModal, isProjectDetailModal, setIsProjectDetailModal, totalUploadedProjects, setTotalUploadedProjects, isEditProjectModal, setIsEditProjectModal
+        }}>
             {children}
         </QueryContext.Provider>
     )

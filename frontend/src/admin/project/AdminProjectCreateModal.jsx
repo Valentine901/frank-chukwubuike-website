@@ -1,61 +1,64 @@
 import React, { useState } from 'react';
 import { api } from '../../constants/Api';
-import { UploadCloud, X , TextCursor} from "lucide-react";
+import { UploadCloud, X, TextCursor } from "lucide-react";
 import { useQueryContext } from '../../Context/GeneralQueryContext';
 
-const AdminProjectCreateModal = ({ setIsAdminProjectCreateModal}) => {
-    const [name, setName] = useState("");
-    const [description, setDescription] = useState("");
-    const [image, setImage] = useState(null);
-    const [errorMessage, setErrorMessage] = useState("");
-    const [imagePreview, setImagePreview] = useState(null);
-    const [loading, setLoading] = useState(false);
-    const { handleFetchOrderedProjects, handleFetchProjects } = useQueryContext();
+const AdminProjectCreateModal = ({ setIsAdminProjectCreateModal }) => {
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [image, setImage] = useState(null);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [imagePreview, setImagePreview] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const { handleFetchOrderedProjects, handleFetchProjects, totalUploadedProjects, setTotalUploadedProjects } = useQueryContext();
 
-    const formData = new FormData();
-    formData.append("name", name);
-    formData.append("description", description);
-    formData.append("image", image);
 
-    const handleImageChange = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            setImage(file);
-            setImagePreview(URL.createObjectURL(file));
-        }
+  const formData = new FormData();
+  formData.append("name", name);
+  formData.append("description", description);
+  formData.append("image", image);
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImage(file);
+      setImagePreview(URL.createObjectURL(file));
     }
+  }
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setErrorMessage("");
-        setLoading(true);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setErrorMessage("");
+    setLoading(true);
 
-        try {
-            const response = await api.post("/project/create-project", formData, {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                }
-            })
-            setIsAdminProjectCreateModal(false);
-            handleFetchOrderedProjects();
-            handleFetchProjects();
-
-        } catch (error) {
-            if (error.response) {
-                setErrorMessage(error.response.data.detail);
-            } else if (error.request) {
-                setErrorMessage(error.request);
-            } else {
-                setErrorMessage("No response from server, Check your network");
-            }
-        } finally {
-            setLoading(false);
+    try {
+      const response = await api.post("/project/create-project", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
         }
+      })
+      localStorage.setItem("totalLifetimeProjects", JSON.stringify(totalUploadedProjects + 1));
+      setTotalUploadedProjects(prev => prev + 1);
+      setIsAdminProjectCreateModal(false);
+      handleFetchOrderedProjects();
+      handleFetchProjects();
+
+    } catch (error) {
+      if (error.response) {
+        setErrorMessage(error.response.data.detail);
+      } else if (error.request) {
+        setErrorMessage(error.request);
+      } else {
+        setErrorMessage("No response from server, Check your network");
+      }
+    } finally {
+      setLoading(false);
     }
+  }
 
 
 
-    return (
+  return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-fade-in">
 
       {/* Modal Card Frame */}
@@ -74,7 +77,7 @@ const AdminProjectCreateModal = ({ setIsAdminProjectCreateModal}) => {
         <div className="mb-4 shrink-0">
           <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100 font-heading">
             Upload Project
-          </h3> 
+          </h3>
         </div>
 
         {/* Form Wrapper */}
@@ -122,7 +125,7 @@ const AdminProjectCreateModal = ({ setIsAdminProjectCreateModal}) => {
               </div>
             </div>
 
-            
+
             {/* Description Field */}
             <div className="flex flex-col space-y-1.5">
               <label htmlFor="bio" className="text-lg font-semibold text-gray-700 dark:text-gray-300 font-heading">
@@ -171,7 +174,7 @@ const AdminProjectCreateModal = ({ setIsAdminProjectCreateModal}) => {
         </form>
       </div>
     </div>
-    )
+  )
 }
 
 export default AdminProjectCreateModal

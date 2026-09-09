@@ -9,20 +9,20 @@ const AdminProfileEditModal = ({
 }) => {
   const { profile, userData, getUserProfileData } = useAuth();
 
-      const [firstName, setFirstName] = useState(userData.first_name || "");
-      const [lastName, setLastName] = useState(userData.last_name || "");
-      const [email, setEmail] = useState(userData.email || "");
-      const [bio, setBio] = useState(profile.bio || "");
-      const [phone, setPhone] = useState(profile.phone || "");
-      const [address, setAddress] = useState(profile.address || "");
-      const [linkedin, setLinkedin] = useState(profile.linkedin_link || "");
-      const [facebook, setFacebook] = useState(profile.facebook_link || "");
-      const [instagram, setInstagram] = useState(profile.instagram_link || "");
-      const [errorMessage, setErrorMessage] = useState("");
-      const [image, setImage] = useState(null);
-      const [imagePreview, setImagePreview] = useState(profile?.image ? `${BASE_IMAGE_URL}/${profile.image}` : null);
-      const [loading , setLoading] = useState(false);
-  
+  const [firstName, setFirstName] = useState(userData.first_name || "");
+  const [lastName, setLastName] = useState(userData.last_name || "");
+  const [email, setEmail] = useState(userData.email || "");
+  const [bio, setBio] = useState(profile.bio || "");
+  const [phone, setPhone] = useState(profile.phone || "");
+  const [address, setAddress] = useState(profile.address || "");
+  const [linkedin, setLinkedin] = useState(profile.linkedin_link || "");
+  const [facebook, setFacebook] = useState(profile.facebook_link || "");
+  const [instagram, setInstagram] = useState(profile.instagram_link || "");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [image, setImage] = useState(null);
+  const [imagePreview, setImagePreview] = useState(profile?.image ? `${BASE_IMAGE_URL}/${profile.image}` : null);
+  const [loading, setLoading] = useState(false);
+
 
 
   if (!isAdminProfileEditModal) return null;
@@ -41,18 +41,18 @@ const AdminProfileEditModal = ({
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setErrorMessage(""); 
+    setErrorMessage("");
 
-  
+
     const userPayload = {};
     if (firstName && firstName !== userData.first_name) userPayload.first_name = firstName;
     if (lastName && lastName !== userData.last_name) userPayload.last_name = lastName;
     if (email && email !== userData.email) userPayload.email = email;
 
-   
+
     const profilePayload = {};
 
-    if (bio !== profile.bio) profilePayload.bio = bio || null; 
+    if (bio !== profile.bio) profilePayload.bio = bio || null;
     if (address !== profile.address) profilePayload.address = address || null;
     if (phone !== profile.phone) profilePayload.phone = phone || null;
     if (facebook !== profile.facebook_link) profilePayload.facebook_link = facebook || null;
@@ -83,7 +83,7 @@ const AdminProfileEditModal = ({
       if (apiCalls.length > 0) {
         await Promise.all(apiCalls);
       }
-      
+
       getUserProfileData();
       setIsAdminProfileEditModal(false);
 

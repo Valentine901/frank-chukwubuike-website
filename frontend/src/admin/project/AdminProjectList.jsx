@@ -1,10 +1,9 @@
-import React from 'react';
-import { AlertCircle, FolderGit2, Loader2 } from "lucide-react";
+import { FolderGit2, Loader2 } from "lucide-react";
 import ProjectCard from "./AdminProjectCard";
 import { useQueryContext } from "../../Context/GeneralQueryContext";
 
 const ProjectList = () => {
-    const { projects, errorMessage, loading, orderedProjects } = useQueryContext();
+    const { projects, loading, orderedProjects } = useQueryContext();
 
     if (loading) {
         return (
@@ -30,7 +29,7 @@ const ProjectList = () => {
     }
 
     return (
-        /*  [&::-webkit-scrollbar]:hidden, [-ms-overflow-style:none], and [scrollbar-width:none] */
+       
         <div className="flex flex-col gap-4 p-4 w-full h-full rounded-2xl border border-gray-200 dark:border-gray-700/60 bg-white dark:bg-gray-900/40 shadow-sm overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] transition-all duration-300">
             
             <div className='flex px-3 py-2 bg-gray-200 dark:bg-gray-500 rounded-xl max-w-40'>

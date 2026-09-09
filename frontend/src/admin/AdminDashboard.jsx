@@ -5,6 +5,8 @@ import AdminProfile from "./profile/AdminProfile";
 import AdminProjects from "./project/AdminProjects";
 import AdminProjectCreateModal from "./project/AdminProjectCreateModal";
 import ProjectDetailModal from "./project/ProjectDetailModal";
+import AdminProjectEditModal from "./project/AdminProjectEditModal";
+import AdminProjectDeleteModal from "./project/AdminProjectDeleteModal";
 // import AdminSettings from "./AdminSettings";
 import LogoutModal from "../components/LogoutModal";                                     
 import { useQueryContext } from "../Context/GeneralQueryContext";
@@ -20,7 +22,7 @@ const AdminDashboard = () => {
     const [isAdminNavbar, setIsAdminNavbar] = useState(false);
     const [isDropDown, setIsDropDown] = useState(false);
 
-    const { project } = useQueryContext();
+    const { isProjectDetailModal, isDeleteProjectModal, project, isEditProjectModal } = useQueryContext();
 
     // Track active view
     const [activeView, setActiveView] = useState("dashboard");
@@ -90,8 +92,21 @@ const AdminDashboard = () => {
                 />
 
                 {/* Projet detail modal */}
-                {project &&
-                    <ProjectDetailModal />
+                {isProjectDetailModal &&
+                    <ProjectDetailModal
+                    />
+                }
+
+                {/* Project edit modal */}
+                {isEditProjectModal &&
+                <AdminProjectEditModal project={project} />
+                }
+
+
+                {/* Project delete modal */}
+                {isDeleteProjectModal && 
+                <AdminProjectDeleteModal
+                />
                 }
 
                 {/* logout modal */}
