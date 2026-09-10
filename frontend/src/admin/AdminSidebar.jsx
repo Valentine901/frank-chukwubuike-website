@@ -1,7 +1,8 @@
-import { User, Upload, Settings, LayoutDashboard, LogOut, X } from "lucide-react";
+import { User, MessageCircle, Settings, LayoutDashboard, LogOut, X } from "lucide-react";
 import { FaFolderOpen } from "react-icons/fa";
 import { useAuth } from "../Context/AuthContext";
 import { BASE_IMAGE_URL } from "../constants/Api";
+import { FaMessage } from "react-icons/fa6";
 
 const AdminSidebar = ({ 
     handleLogoutModalChange, 
@@ -22,6 +23,7 @@ const AdminSidebar = ({
         { label: "Dashboard", icon: LayoutDashboard, view: "dashboard" },
         { label: "Projects", icon: FaFolderOpen, view: "projects" },
         { label: "Profile", icon: User, view: "profile" },
+        { label: "Messages", icon: FaMessage, view: "messages"},
         { label: "Settings", icon: Settings, view: "settings" },
     ];
 

@@ -64,10 +64,10 @@ const AdminContent = () => {
         </div>
         <div className="flex flex-col min-w-0 w-full">
             <span className="text-[10px] xs:text-[11px] sm:text-xs md:text-sm font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider font-heading truncate">
-                Total Views
+                Total Messages
             </span>
             <span className="text-2xl sm:text-3xl lg:text-4xl font-black text-gray-900 dark:text-white mt-0.5 sm:mt-1 font-sans tracking-tighter tabular-nums sm:mx-0 mx-auto">
-                4.2k
+                57
             </span>
         </div>
     </div>

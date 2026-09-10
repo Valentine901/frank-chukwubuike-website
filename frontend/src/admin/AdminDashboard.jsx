@@ -13,6 +13,7 @@ import { useQueryContext } from "../Context/GeneralQueryContext";
 
 
 import { useState } from "react";
+import MessageList from "./message/MessageList";
 
 
 const AdminDashboard = () => {
@@ -58,6 +59,9 @@ const AdminDashboard = () => {
                     setIsAdminProfileEditModal={setIsAdminProfileEditModal}
                     handleProfileEditModalChange={handleProfileEditModalChange}
                 />;
+            
+                case "messages":
+                    return <MessageList />
 
             case "projects":
                 return <AdminProjects />
