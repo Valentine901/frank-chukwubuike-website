@@ -1,7 +1,8 @@
-
+import { useQueryContext } from '../Context/GeneralQueryContext';
 import { Layers, Lightbulb, MessageSquareQuote } from 'lucide-react';
 
 const DropDownUpload = ({ setIsDropDown, setIsAdminProjectCreateModal }) => {
+    const {isSkillUploadModal, setIsSkillUploadModal} = useQueryContext();
    
     const menuItems = [
         { 
@@ -18,7 +19,7 @@ const DropDownUpload = ({ setIsDropDown, setIsAdminProjectCreateModal }) => {
             description: "Display a new core technology",
             icon: <Lightbulb className="w-5 h-5 text-amber-500" />,
             action: () => {
-                // Future skill modal action goes here
+                setIsSkillUploadModal(true);
                 setIsDropDown(false);
             }
         },

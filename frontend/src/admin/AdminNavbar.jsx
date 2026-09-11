@@ -4,6 +4,7 @@ import { useTheme } from "../Context/ThemeContext";
 import { useAuth } from "../Context/AuthContext";
 import { BASE_IMAGE_URL } from '../constants/Api';
 import DropDownUpload from './DropDownUpload';
+import { useQueryContext } from '../Context/GeneralQueryContext';
 
 const AdminNavbar = ({ 
     handleToggleAdminNavbar, 
@@ -12,6 +13,7 @@ const AdminNavbar = ({
     isDropDown, 
     setIsDropDown 
 }) => {
+  const {isSkillUploadModal, setIsSkillUploadModal} = useQueryContext();
   const { toggleTheme, theme } = useTheme();
   const { profile } = useAuth();
 

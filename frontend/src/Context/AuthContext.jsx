@@ -25,9 +25,11 @@ const AuthProvider = ({ children }) => {
         localStorage.removeItem("user");
         setUserData(null);
         setProfile(null);
+        setLoading(false);
     }, []);
 
     const RefreshToken = useCallback(async () => {
+        setLoading(true);
         try {
 
             const response = await api.post("/auth/refresh-token");
@@ -45,6 +47,8 @@ const AuthProvider = ({ children }) => {
             // If refresh token fails, log user out
             localLogout();
             throw error;
+        } finally{
+            setLoading(false);
         }
     }, [userData, localLogout])
 
@@ -65,7 +69,7 @@ const AuthProvider = ({ children }) => {
 
     const getCurrentUser = useCallback(async () => {
         setErrorMessage("");
-
+        setLoading(true);
         try {
             const response = await api.get("/auth/me");
             SaveUserData(response.data);
@@ -75,28 +79,34 @@ const AuthProvider = ({ children }) => {
         } catch (error) {
             handleAxiosError(error, "Failed to authenticate session");
             localLogout();
+        }finally{
+            setLoading(false);
         }
     }, [localLogout]);
 
     const getUserProfileData = useCallback(async () => {
         setErrorMessage("");
+        setLoading(true);
 
         try {
             const response = await api.get("/admin/profile/");
             setProfile(response.data);
         } catch (error) {
             handleAxiosError(error, "Error fetching profile details");
+        } finally{
+            setLoading(false);
         }
     }, [])
 
     const logout = async () => {
+        setLoading(true);
         try {
             await api.post("/auth/logout");
         } catch (error) {
             handleAxiosError(error, "Failed to log you out");
         } finally {
             localLogout();
-        }
+        } 
     }
 
     
@@ -112,7 +122,7 @@ const AuthProvider = ({ children }) => {
                 // copy the original request and check if error is 401 or  user already tried the original request
                 if (error.response?.status === 401 && !originalRequest._retry) {
                     // check if user was tryimg to access loginor refresh-token endpint unauthorized
-                    if (originalRequest.url.includes("/auth/login") || originalRequest.url.includes("/auth/refesh-token")) {
+                    if (originalRequest.url.includes("/auth/login") || originalRequest.url.includes("/auth/refresh-token")) {
                         // send them normal 401 error not authorized
                         return Promise.reject(error);
                     }
@@ -140,12 +150,27 @@ const AuthProvider = ({ children }) => {
     useEffect(() => {
         const initializeAuth = async () => {
             setLoading(true);
-            await getUserProfileData();
-            await getCurrentUser();
-            setLoading(false);
-        }
 
-        initializeAuth();
+            const savedUser = localStorage.getItem("user");
+            if (!savedUser){
+                setLoading(false);
+                return;
+            }
+
+            try{
+                await Promise.all([
+                await getUserProfileData(),
+                await getCurrentUser()
+            ]);
+            } catch (error) {
+                setErrorMessage(error);
+            } finally{
+                setLoading(false);
+            }
+
+    }
+
+    initializeAuth();
     }, [getCurrentUser, getUserProfileData])
 
     return (
@@ -155,6 +180,7 @@ const AuthProvider = ({ children }) => {
     )
 
 }
+
 
 export default AuthProvider;
 export const useAuth = () => {

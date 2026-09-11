@@ -10,12 +10,11 @@ const Login = () => {
     const [showPassword, setShowPassword] = useState(false); 
     const [errorMessage, setErrorMessage] = useState("");
     const [loading, setLoading] = useState(false);
-    const { getCurrentUser } = useAuth();
+    const { getCurrentUser, getUserProfileData } = useAuth();
     const navigate = useNavigate();
 
     const handleSubmitLoginForm = async (e) => {
         e.preventDefault();
-
         if (!email || !password) {
             setErrorMessage("Fill the login fields");
             return;
@@ -27,6 +26,7 @@ const Login = () => {
             const response = await api.post("/auth/login", { email: email, password: password });
             await getCurrentUser();
             navigate("/auth/admin-dashboard");
+            getUserProfileData();
             return response;
             
         } catch (error) {

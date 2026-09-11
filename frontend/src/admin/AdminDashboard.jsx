@@ -1,12 +1,14 @@
 import AdminNavbar from "./AdminNavbar";
 import AdminSidebar from "./AdminSidebar";
 import AdminContent from "./AdminContent";
+import Settings from "./Settings";
 import AdminProfile from "./profile/AdminProfile";
 import AdminProjects from "./project/AdminProjects";
 import AdminProjectCreateModal from "./project/AdminProjectCreateModal";
 import ProjectDetailModal from "./project/ProjectDetailModal";
 import AdminProjectEditModal from "./project/AdminProjectEditModal";
 import AdminProjectDeleteModal from "./project/AdminProjectDeleteModal";
+import SkillUploadModal from "./skill/SkillUploadModal";
 // import AdminSettings from "./AdminSettings";
 import LogoutModal from "../components/LogoutModal";                                     
 import { useQueryContext } from "../Context/GeneralQueryContext";
@@ -23,7 +25,7 @@ const AdminDashboard = () => {
     const [isAdminNavbar, setIsAdminNavbar] = useState(false);
     const [isDropDown, setIsDropDown] = useState(false);
 
-    const { isProjectDetailModal, isDeleteProjectModal, project, isEditProjectModal } = useQueryContext();
+    const { isProjectDetailModal, isDeleteProjectModal, project, isEditProjectModal, isSkillUploadModal } = useQueryContext();
 
     // Track active view
     const [activeView, setActiveView] = useState("dashboard");
@@ -60,14 +62,14 @@ const AdminDashboard = () => {
                     handleProfileEditModalChange={handleProfileEditModalChange}
                 />;
             
-                case "messages":
-                    return <MessageList />
+            case "messages":
+                return <MessageList />
 
             case "projects":
                 return <AdminProjects />
 
             case "settings":
-                return <div>{/* <AdminSettings /> */} Settings View Placeholder</div>;
+                return <Settings />
             default:
                 return <AdminContent isLogoutModal={isLogoutModal} setIsLogoutModal={setIslogoutModal} />;
         }
@@ -94,6 +96,10 @@ const AdminDashboard = () => {
                     isDropDown={isDropDown}
                     setIsDropDown={setIsDropDown}
                 />
+                {/* Skill Upload Modal */}
+                {isSkillUploadModal && 
+                    <SkillUploadModal />
+                }
 
                 {/* Projet detail modal */}
                 {isProjectDetailModal &&

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { User, UploadCloud, Phone, MapPin, TextCursor, X } from "lucide-react";
+import { User, UploadCloud, Phone, MapPin, TextCursor, X, Mail } from "lucide-react";
 import { useAuth } from "../../Context/AuthContext";
 import { api, BASE_IMAGE_URL } from "../../constants/Api"
 
@@ -83,9 +83,9 @@ const AdminProfileEditModal = ({
       if (apiCalls.length > 0) {
         await Promise.all(apiCalls);
       }
-
       getUserProfileData();
       setIsAdminProfileEditModal(false);
+      
 
 
     } catch (error) {
@@ -186,6 +186,25 @@ const AdminProfileEditModal = ({
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
                   placeholder="Enter your last name"
+                  className="w-full bg-transparent text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none text-lg py-2"
+                  required
+                />
+              </div>
+            </div>
+
+            {/* Email Field */}
+            <div className="flex flex-col space-y-1.5">
+              <label htmlFor="lastName" className="text-lg font-semibold text-gray-700 dark:text-gray-300 font-heading">
+                Email
+              </label>
+              <div className="flex items-center space-x-3 border border-gray-300 dark:border-gray-700 px-3 py-2 rounded-xl focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500 transition-all bg-transparent">
+                <Mail size={30} className="text-gray-400 dark:text-gray-500 shrink-0" />
+                <input
+                  id="Email"
+                  type="text"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Enter your email"
                   className="w-full bg-transparent text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none text-lg py-2"
                   required
                 />
