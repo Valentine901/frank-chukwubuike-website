@@ -1,4 +1,4 @@
-import { User, MessageCircle, Settings, LayoutDashboard, LogOut, X } from "lucide-react";
+import { User, Lightbulb, ThumbsUp, LayoutDashboard, LogOut, X } from "lucide-react";
 import { FaFolderOpen } from "react-icons/fa";
 import { useAuth } from "../Context/AuthContext";
 import { BASE_IMAGE_URL } from "../constants/Api";
@@ -6,7 +6,6 @@ import { FaMessage } from "react-icons/fa6";
 
 const AdminSidebar = ({ 
     handleLogoutModalChange, 
-    handleProjectModalChange,
     isAdminNavbar, 
     setIsAdminNavbar,
     handleToggleAdminNavbar, 
@@ -24,7 +23,8 @@ const AdminSidebar = ({
         { label: "Projects", icon: FaFolderOpen, view: "projects" },
         { label: "Profile", icon: User, view: "profile" },
         { label: "Messages", icon: FaMessage, view: "messages"},
-        { label: "Settings", icon: Settings, view: "settings" },
+        { label: "Skills", icon: Lightbulb, view: "skills" },
+        { label: "Testimonials", icon: ThumbsUp, view: "testimonials" },
     ];
 
     return (
@@ -55,7 +55,7 @@ const AdminSidebar = ({
                 </div>
 
                 {/* Navigation List Links */}
-                <nav className="w-full px-3 py-4 space-y-4 flex-1">
+                <nav  className="w-full px-3 py-4 space-y-4 flex-1 overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:h-0">
                     {menuItems.map((item, index) => {
                         const Icon = item.icon;
                         const isActive = activeView === item.view;
@@ -77,7 +77,7 @@ const AdminSidebar = ({
                 </nav>
 
                 {/* Logout Button Block */}
-                <div className="border-t border-gray-200 dark:border-gray-700 w-full px-3 py-4 mt-auto">
+                <div className="border-t border-gray-200 dark:border-gray-700 w-full px-3 py-1 mt-1">
                     <button
                         onClick={handleLogoutModalChange}
                         className="w-full flex items-center gap-4 p-4 rounded-lg font-heading font-semibold text-sm text-red-600 hover:bg-red-500/10 dark:text-red-400 transition-all duration-200 cursor-pointer text-left"
@@ -132,7 +132,7 @@ const AdminSidebar = ({
                 </div>
 
                 {/* Navigation List Links */}
-                <nav className="w-full px-3 py-4 space-y-4 flex-1 overflow-y-auto">
+                <nav className="w-full px-3 py-4 space-y-4 flex-1 overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:h-0">
                     {menuItems.map((item, index) => {
                         const Icon = item.icon;
                         const isActive = activeView === item.view;
@@ -159,7 +159,7 @@ const AdminSidebar = ({
                 </nav>
 
                 {/* Logout Button Block */}
-                <div className="border-t border-gray-200 dark:border-gray-700 w-full px-3 py-4 mt-auto shrink-0 bg-gray-100 dark:bg-gray-800">
+                <div className="border-t border-gray-200 dark:border-gray-700 w-full px-3 py-1 mt-2 shrink-0 bg-gray-100 dark:bg-gray-800">
                     <button 
                         onClick={() => {
                             setIsAdminNavbar(false); // Dismiss mobile menu drawer

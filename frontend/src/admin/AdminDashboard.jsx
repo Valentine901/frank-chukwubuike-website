@@ -1,14 +1,17 @@
 import AdminNavbar from "./AdminNavbar";
 import AdminSidebar from "./AdminSidebar";
 import AdminContent from "./AdminContent";
-import Settings from "./Settings";
 import AdminProfile from "./profile/AdminProfile";
 import AdminProjects from "./project/AdminProjects";
 import AdminProjectCreateModal from "./project/AdminProjectCreateModal";
+import Skills from "./skill/Skills";
+import Testimonials from "./testimonial/Testimonials";
 import ProjectDetailModal from "./project/ProjectDetailModal";
 import AdminProjectEditModal from "./project/AdminProjectEditModal";
 import AdminProjectDeleteModal from "./project/AdminProjectDeleteModal";
 import SkillUploadModal from "./skill/SkillUploadModal";
+import TestimonialUploadModal from "./testimonial/TestimonialUploadModal";
+
 // import AdminSettings from "./AdminSettings";
 import LogoutModal from "../components/LogoutModal";                                     
 import { useQueryContext } from "../Context/GeneralQueryContext";
@@ -25,7 +28,7 @@ const AdminDashboard = () => {
     const [isAdminNavbar, setIsAdminNavbar] = useState(false);
     const [isDropDown, setIsDropDown] = useState(false);
 
-    const { isProjectDetailModal, isDeleteProjectModal, project, isEditProjectModal, isSkillUploadModal } = useQueryContext();
+    const { isProjectDetailModal, isDeleteProjectModal, project, isEditProjectModal, isSkillUploadModal, isTestimonialCreateModal } = useQueryContext();
 
     // Track active view
     const [activeView, setActiveView] = useState("dashboard");
@@ -68,8 +71,11 @@ const AdminDashboard = () => {
             case "projects":
                 return <AdminProjects />
 
-            case "settings":
-                return <Settings />
+            case "skills":
+                return <Skills />
+
+            case "testimonials":
+                return <Testimonials />
             default:
                 return <AdminContent isLogoutModal={isLogoutModal} setIsLogoutModal={setIslogoutModal} />;
         }
@@ -99,6 +105,11 @@ const AdminDashboard = () => {
                 {/* Skill Upload Modal */}
                 {isSkillUploadModal && 
                     <SkillUploadModal />
+                }
+
+                {/* Testimonial Upload Modal */}
+                {isTestimonialCreateModal && 
+                <TestimonialUploadModal />
                 }
 
                 {/* Projet detail modal */}

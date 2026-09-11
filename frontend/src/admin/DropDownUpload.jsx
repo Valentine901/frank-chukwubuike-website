@@ -2,7 +2,7 @@ import { useQueryContext } from '../Context/GeneralQueryContext';
 import { Layers, Lightbulb, MessageSquareQuote } from 'lucide-react';
 
 const DropDownUpload = ({ setIsDropDown, setIsAdminProjectCreateModal }) => {
-    const {isSkillUploadModal, setIsSkillUploadModal} = useQueryContext();
+    const {setIsTestimonialCreateModal, setIsSkillUploadModal} = useQueryContext();
    
     const menuItems = [
         { 
@@ -28,7 +28,7 @@ const DropDownUpload = ({ setIsDropDown, setIsAdminProjectCreateModal }) => {
             description: "Add reviews or client feedback",
             icon: <MessageSquareQuote className="w-5 h-5 text-emerald-500" />,
             action: () => {
-                // Future testimonial modal action goes here
+                setIsTestimonialCreateModal(true);
                 setIsDropDown(false);
             }
         },

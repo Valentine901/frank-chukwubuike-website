@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
-import { Search, Loader2, AlertCircle } from 'lucide-react';
+import { Search, Loader2, XCircle } from 'lucide-react';
 import ProjectCard from './AdminProjectCard';
 import { useQueryContext } from '../../Context/GeneralQueryContext';
 
 const AdminProjects = () => {
-  const { projects, loading, errorMessage } = useQueryContext(); 
+  const { projects, loading } = useQueryContext();
   const [search, setSearch] = useState("");
 
   const filteredProject = projects.filter(project => project.name.toLowerCase().includes(search.toLowerCase()));
@@ -39,36 +39,46 @@ const AdminProjects = () => {
     <div className="bg-gray-50 dark:bg-gray-900 w-full h-full lg:h-[calc(100vh-4rem)] lg:overflow-hidden transition-all duration-300 p-4 md:p-8 flex flex-col ">
 
       {/* header block */}
-      <div className="flex justify-between rounded-lg">
-
-        <div className='hidden md:flex'>
-          <h2 className='font-body font-bold text-2xl lg:text-3xl'>All projects</h2>
+     {/* Header & Search Bar Container */}
+      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between pb-6 border-b border-gray-200 dark:border-gray-800">
+        <div>
+          <h2 className="font-heading text-2xl font-bold lg:text-3xl text-gray-900 dark:text-white">
+            All Projects
+          </h2>
+          <p className="text-sm text-gray-400 mt-1 font-body">Manage and view your projects history</p>
         </div>
 
-        {/* search project block */}
-        <div className="group relative flex items-center w-full max-w-sm lg:max-w-lg h-14 px-4 rounded-2xl border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900 transition-all duration-200 focus-within:bg-white dark:focus-within:bg-gray-950 focus-within:border-blue-500 dark:focus-within:border-blue-400 focus-within:ring-2 focus-within:ring-blue-500/20 focus-within:ring-offset-2 focus-within:ring-offset-white dark:focus-within:ring-offset-gray-950">
-
-
-          <Search className="w-5 h-5 text-gray-400 group-focus-within:text-blue-500 dark:group-focus-within:text-blue-400 transition-colors duration-200 shrink-0" />
-
-
+        {/* Search Input block */}
+        <div className="group relative flex h-12 w-full max-w-md items-center rounded-xl border border-gray-200 bg-white px-4 transition-all duration-200 focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-500/20 dark:border-gray-800 dark:bg-gray-950 dark:focus-within:border-blue-400">
+          <Search className="h-5 w-5 text-gray-400 transition-colors duration-200 group-focus-within:text-blue-500 dark:group-focus-within:text-blue-400 shrink-0" />
           <input
             type="text"
             placeholder="Search by name..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full h-full bg-transparent border-0 outline-none pl-3 font-body font-normal text-md text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:ring-0"
+            className="h-full w-full bg-transparent border-0 pl-3 font-body text-sm font-normal text-gray-900 placeholder:text-gray-400 outline-none focus:ring-0 dark:text-gray-100 dark:placeholder:text-gray-500"
           />
         </div>
       </div>
 
+
       {/* project list block */}
-      <div className='flex flex-col gap-4 p-4 w-full h-full mt-8  rounded-2xl border border-gray-200 dark:border-gray-700/60 bg-white dark:bg-gray-900/40 shadow-sm overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] transition-all duration-300 '>
+      <div className='mt-6 flex-1 overflow-y-auto rounded-2xl bg-white p-6 shadow-sm transition-all duration-300 dark:bg-gray-950/40 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden'>
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 auto-rows-max">
           {filteredProject.length === 0 ? (
-            <div className="col-span-full rounded-xl text-gray-700 dark:text-gray-100 bg-gray-200 dark:bg-gray-700/20 text-xl font-body text-center flex py-24 max-w-xl w-full mx-auto justify-center items-center ">
-            <span>No result match your search.</span>
-          </div>)
+            <div className="flex min-h-[300px] w-full flex-col items-center justify-center text-center">
+              <XCircle className="h-10 w-10 text-gray-300 dark:text-gray-600" />
+              <p className="mt-4 font-body text-base font-medium text-gray-500 dark:text-gray-400">
+                No results match "{search}"
+              </p>
+              <button
+                onClick={() => setSearch("")}
+                className="mt-2 text-sm text-blue-500 hover:underline dark:text-blue-400"
+              >
+                Clear search query
+              </button>
+            </div>
+          )
             :
             (filteredProject.map((project) => <ProjectCard key={project.id} project={project} />))}
         </div>

@@ -3,20 +3,22 @@ import { api } from '../../constants/Api';
 import { UploadCloud, X, TextCursor } from "lucide-react";
 import { useQueryContext } from '../../Context/GeneralQueryContext';
 
-const AdminProjectCreateModal = ({ setIsAdminProjectCreateModal }) => {
+const TestimonialUploadModal = () => {
   const [name, setName] = useState("");
+  const [projectType, setProjectType] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
   const [imagePreview, setImagePreview] = useState(null);
   const [loading, setLoading] = useState(false);
-  const { handleFetchOrderedProjects, handleFetchProjects } = useQueryContext();
+  const { handleFetchTestimonials, setIsTestimonialCreateModal } = useQueryContext();
 
 
   const formData = new FormData();
-  formData.append("name", name);
+  formData.append("client_name", name);
+  formData.append("project_type", projectType);
   formData.append("description", description);
-  formData.append("image", image);
+  formData.append("client_image", image);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -32,14 +34,14 @@ const AdminProjectCreateModal = ({ setIsAdminProjectCreateModal }) => {
     setLoading(true);
 
     try {
-      const response = await api.post("/project/create-project", formData, {
+      const response = await api.post("/testimonial/create-testimonial", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         }
       })
-      setIsAdminProjectCreateModal(false);
-      handleFetchOrderedProjects();
-      handleFetchProjects();
+
+      setIsTestimonialCreateModal(false);
+      handleFetchTestimonials();
 
     } catch (error) {
       if (error.response) {
@@ -65,7 +67,7 @@ const AdminProjectCreateModal = ({ setIsAdminProjectCreateModal }) => {
         {/* Close Button */}
         <button
           type="button"
-          onClick={() => setIsAdminProjectCreateModal(false)}
+          onClick={() => setIsTestimonialCreateModal(false)}
           className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors cursor-pointer z-10"
         >
           <X size={30} />
@@ -74,7 +76,7 @@ const AdminProjectCreateModal = ({ setIsAdminProjectCreateModal }) => {
         {/* Header Title */}
         <div className="mb-4 shrink-0">
           <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100 font-heading">
-            Upload Project
+            Upload Testimonial
           </h3>
         </div>
 
@@ -100,14 +102,14 @@ const AdminProjectCreateModal = ({ setIsAdminProjectCreateModal }) => {
                 />
               </div>
               <span className="text-md font-semibold text-gray-500 dark:text-gray-400 font-heading text-center">
-                Click square grid zone to upload project image
+                Click square grid zone to upload  image
               </span>
             </div>
 
             {/* Name Field */}
             <div className="flex flex-col space-y-1.5">
               <label htmlFor="firstName" className="text-lg font-semibold text-gray-700 dark:text-gray-300 font-heading">
-                Project Name
+                Client Name
               </label>
               <div className="flex items-center space-x-3 border border-gray-300 dark:border-gray-700 px-3 py-2 mx-1 rounded-xl focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500 transition-all bg-transparent">
                 {/* <User size={30} className="text-gray-400 dark:text-gray-500 shrink-0" /> */}
@@ -116,7 +118,27 @@ const AdminProjectCreateModal = ({ setIsAdminProjectCreateModal }) => {
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  placeholder=""
+                  placeholder="Name"
+                  className="w-full bg-transparent text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none text-lg py-2"
+                  required
+                />
+              </div>
+            </div>
+
+
+            {/* Project Type Field */}
+            <div className="flex flex-col space-y-1.5">
+              <label htmlFor="firstName" className="text-lg font-semibold text-gray-700 dark:text-gray-300 font-heading">
+                Project Type
+              </label>
+              <div className="flex items-center space-x-3 border border-gray-300 dark:border-gray-700 px-3 py-2 mx-1 rounded-xl focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500 transition-all bg-transparent">
+                
+                <input
+                  id="name"
+                  type="text"
+                  value={projectType}
+                  onChange={(e) => setProjectType(e.target.value)}
+                  placeholder="project type"
                   className="w-full bg-transparent text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none text-lg py-2"
                   required
                 />
@@ -127,7 +149,7 @@ const AdminProjectCreateModal = ({ setIsAdminProjectCreateModal }) => {
             {/* Description Field */}
             <div className="flex flex-col space-y-1.5">
               <label htmlFor="bio" className="text-lg font-semibold text-gray-700 dark:text-gray-300 font-heading">
-                Description
+                Client Description
               </label>
               <div className="flex items-start space-x-3 border border-gray-300 dark:border-gray-700 px-3 py-2 m-1 rounded-xl focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500 transition-all bg-transparent">
                 <TextCursor size={30} className="text-gray-400 dark:text-gray-500 shrink-0 mt-1" />
@@ -136,7 +158,7 @@ const AdminProjectCreateModal = ({ setIsAdminProjectCreateModal }) => {
                   rows={3}
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  placeholder="Describe your project..."
+                  placeholder="client response and ratings..."
                   className="w-full bg-transparent text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none text-lg py-2 resize-none"
                 />
               </div>
@@ -149,7 +171,7 @@ const AdminProjectCreateModal = ({ setIsAdminProjectCreateModal }) => {
             <button
               type="button"
               disabled={loading}
-              onClick={() => setIsAdminProjectCreateModal(false)}
+              onClick={() => setIsTestimonialCreateModal(false)}
               className="flex-1 py-3 px-4 rounded-xl border border-gray-300 dark:border-gray-700 font-heading text-md font-semibold text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Cancel
@@ -175,4 +197,4 @@ const AdminProjectCreateModal = ({ setIsAdminProjectCreateModal }) => {
   )
 }
 
-export default AdminProjectCreateModal
+export default TestimonialUploadModal

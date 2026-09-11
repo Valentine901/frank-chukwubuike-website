@@ -1,12 +1,13 @@
 import { useAuth } from '../Context/AuthContext';
 import { useQueryContext } from '../Context/GeneralQueryContext';
-import { FaFolderOpen, FaCloudUploadAlt, FaEye, FaTrashAlt } from 'react-icons/fa';
+import { FaFolderOpen } from 'react-icons/fa';
 import ProjectList from './project/AdminProjectList';
-import { Smile } from 'lucide-react';
+import { Smile, Brain, ThumbsUp } from 'lucide-react';
+import { FaMessage } from 'react-icons/fa6';
 
 const AdminContent = () => {
     const { userData } = useAuth();
-    const { projects, totalDelProjects, totalUploadedProjects } = useQueryContext();
+    const { projects, skills, testimonials} = useQueryContext();
 
     return (
 
@@ -42,25 +43,25 @@ const AdminContent = () => {
                     </div>
                 </div>
 
-                {/* Uploaded card */}
+                {/*Testimonial card */}
                 <div className="p-3 sm:p-5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-sm hover:shadow-md transition-all duration-200 flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-3 min-w-0">
                     <div className="p-2.5 sm:p-4 bg-blue-500/10 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400 rounded-xl sm:rounded-2xl shrink-0 text-xl sm:text-2xl">
-                        <FaCloudUploadAlt size={24} />
+                        <ThumbsUp size={24} />
                     </div>
                     <div className="flex flex-col min-w-0 w-full">
                         <span className="text-[10px] xs:text-[11px] sm:text-xs md:text-sm font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider font-heading truncate">
-                            Lifetime Uploads
+                           Testimonials
                         </span>
                         <span className="text-2xl sm:text-3xl lg:text-4xl font-black text-gray-900 dark:text-white mt-0.5 sm:mt-1 font-sans tracking-tighter tabular-nums sm:mx-0 mx-auto">
-                            {totalUploadedProjects}
+                            {testimonials.length}
                         </span>
                     </div>
                 </div>
 
-                {/* Total Views Card */}
+                {/* Total Message Card */}
                 <div className="p-3 sm:p-5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-sm hover:shadow-md transition-all duration-200 flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-3 min-w-0">
                     <div className="p-2.5 sm:p-4 bg-purple-500/10 dark:bg-purple-500/20 text-purple-600 dark:text-purple-400 rounded-xl sm:rounded-2xl shrink-0 text-xl sm:text-2xl">
-                        <FaEye size={24} />
+                        <FaMessage size={24} />
                     </div>
                     <div className="flex flex-col min-w-0 w-full">
                         <span className="text-[10px] xs:text-[11px] sm:text-xs md:text-sm font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider font-heading truncate">
@@ -72,17 +73,17 @@ const AdminContent = () => {
                     </div>
                 </div>
 
-                {/* Total Deleted Card */}
+                {/* Total Skills Card */}
                 <div className="p-3 sm:p-5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-sm hover:shadow-md transition-all duration-200 flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-3 min-w-0">
-                    <div className="p-2.5 sm:p-4 bg-red-500/10 dark:bg-red-500/20 text-red-600 dark:text-red-400 rounded-xl sm:rounded-2xl shrink-0 text-xl sm:text-2xl">
-                        <FaTrashAlt size={24} />
+                    <div className="p-2.5 sm:p-4 bg-green-500/10 dark:bg-green-500/20 text-green-600 dark:text-green-400 rounded-xl sm:rounded-2xl shrink-0 text-xl sm:text-2xl">
+                        <Brain size={24} />
                     </div>
                     <div className="flex flex-col min-w-0 w-full">
                         <span className="text-[10px] xs:text-[11px] sm:text-xs md:text-sm font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider font-heading truncate">
-                            Total Deleted
+                            Total Skills
                         </span>
                         <span className="text-2xl sm:text-3xl lg:text-4xl font-black text-gray-900 dark:text-white mt-0.5 sm:mt-1 font-sans tracking-tighter tabular-nums sm:mx-0 mx-auto">
-                            {totalDelProjects}
+                           {skills?.length || 0}
                         </span>
                     </div>
                 </div>
