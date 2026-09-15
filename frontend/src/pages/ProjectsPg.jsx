@@ -2,7 +2,7 @@ import React from 'react'
 
 const ProjectsPg = () => {
   return (
-    <div>ProjectsPg</div>
+    <section id='project-section' className="h-screen text-3xl font-bold font-body p-6">ProjectsPg</section>
   )
 }
 

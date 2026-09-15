@@ -1,9 +1,29 @@
 import { BASE_IMAGE_URL } from "../../constants/Api";
-import { FolderGit2, Quote, Star } from "lucide-react";
+import { FolderGit2, Quote, Star, Trash2 } from "lucide-react";
+import { useQueryContext } from "../../Context/GeneralQueryContext";
 
 const Testimonialcard = ({ testimonial }) => {
+  const {handleDeleteTestimonial} = useQueryContext();
   return (
     <div className="group relative flex flex-col justify-between p-6 md:p-8 w-full max-w-md rounded-2xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 shadow-sm transition-all duration-300 ease-out hover:-translate-y-1.5 hover:shadow-xl hover:shadow-blue-500/5 hover:border-blue-500/30 dark:hover:border-blue-500/20 mx-auto">
+
+
+      <div
+        onClick={() => handleDeleteTestimonial(testimonial.id)}
+        className="absolute top-3 right-3 group inline-block">
+
+        <button className="p-2 rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors">
+          <Trash2 size={18} />
+        </button>
+
+      
+        <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 scale-0 group-hover:scale-100 transition-all duration-150 origin-bottom pointer-events-none whitespace-nowrap rounded-md bg-gray-900 px-2.5 py-1 text-xs font-medium text-white shadow-md dark:bg-gray-100 dark:text-gray-900">
+          Delete Testimonial
+
+          <span className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-gray-900 dark:border-t-gray-100" />
+        </span>
+
+      </div>
       
       
       <Quote className="absolute right-6 top-6 h-10 w-10 text-gray-100 dark:text-gray-800/40 group-hover:text-blue-500/10 transition-colors duration-300 pointer-events-none" />

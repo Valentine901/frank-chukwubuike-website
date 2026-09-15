@@ -19,6 +19,7 @@ const AuthProvider = ({ children }) => {
     });
     const [profile, setProfile] = useState(null);
     const [errorMessage, setErrorMessage] = useState("");
+    const [adminProfile, setAdminProfile] = useState(null);
     const [loading, setLoading] = useState(true);
 
     const localLogout = useCallback(() => {
@@ -63,6 +64,21 @@ const AuthProvider = ({ children }) => {
             setErrorMessage("No response from server, Check your network")
         } else {
             setErrorMessage(fallbackMessage);
+        }
+    }
+
+    const getAdminVisitorProfile = async () => {
+        setErrorMessage("");
+        setLoading(true);
+
+        try{
+            const response = await api.get("/admin/profile/portfolio-visitors");
+            console.log("Admin Visior: ", response.data);
+            setAdminProfile(response.data);
+        } catch(error) {
+            handleAxiosError(error);
+        } finally{
+            setLoading(false);
         }
     }
 
@@ -173,8 +189,13 @@ const AuthProvider = ({ children }) => {
     initializeAuth();
     }, [getCurrentUser, getUserProfileData])
 
+    // 
+    useEffect(() => {
+        getAdminVisitorProfile();
+    }, [])
+
     return (
-        <AuthContext.Provider value={{ errorMessage, loading, userData, profile, logout, getCurrentUser, getUserProfileData }}>
+        <AuthContext.Provider value={{ errorMessage, loading, userData, profile, logout, getCurrentUser, getUserProfileData, adminProfile }}>
             {children}
         </AuthContext.Provider>
     )

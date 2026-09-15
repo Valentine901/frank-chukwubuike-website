@@ -23,7 +23,7 @@ const QueryContextProvider = ({ children }) => {
     const [isSkillUploadModal, setIsSkillUploadModal] = useState(false);
 
 
-
+    const [testimonial, setTestimonial] = useState(null);
     const [testimonials, setTestimonials] = useState([]);
     const [isTestimonialCreateModal, setIsTestimonialCreateModal] = useState(false);
     const [isTestimonialEditModal, setIsTestimonialEditModal] = useState(false);
@@ -43,25 +43,25 @@ const QueryContextProvider = ({ children }) => {
         }
     }
 
-    const saveToLocalStorage = (key, value) => {
-        try {
-            const stringifiedValue = JSON.stringify(value);
-            localStorage.setItem(`${key}`, stringifiedValue);
-        } catch (error) {
-            console.log("Your name was not saved")
-        }
+    // const saveToLocalStorage = (key, value) => {
+    //     try {
+    //         const stringifiedValue = JSON.stringify(value);
+    //         localStorage.setItem(`${key}`, stringifiedValue);
+    //     } catch (error) {
+    //         console.log("Your name was not saved")
+    //     }
 
-    }
+    // }
 
-    const getFromLocalStorage = (key) => {
-        try {
-            const saved = localStorage.getItem(JSON.parse(key));
-            return saved;
+    // const getFromLocalStorage = (key) => {
+    //     try {
+    //         const saved = localStorage.getItem(JSON.parse(key));
+    //         return saved;
 
-        } catch (error) {
-           console.log("Wrong keyword");
-        }
-    }
+    //     } catch (error) {
+    //        console.log("Wrong keyword");
+    //     }
+    // }
 
 
     // SKILLS LOGIC SECTION
@@ -98,7 +98,6 @@ const QueryContextProvider = ({ children }) => {
     }
 
 
-
     // TESTIMONIALS LOGIC SECTION
 
     const handleFetchTestimonials = async () => {
@@ -108,7 +107,6 @@ const QueryContextProvider = ({ children }) => {
         try {
             const response = await api.get("/testimonial/testimonials");
             setTestimonials(response.data);
-            console.log("testimonial", response.data);
         } catch (error) {
             handleAxiosError(error);
         } finally {
@@ -116,27 +114,14 @@ const QueryContextProvider = ({ children }) => {
         }
     }
 
-    // const handleFetchTestimonial = async (id) => {
-    //     setLoading(true);
-    //     setErrorMessage("");
-
-    //     try {
-    //         const response = await api.get(`testimonial/${id}`);
-    //         setTestimonial(response.data);
-    //     } catch (error) {
-    //         handleAxiosError(error);
-    //     } finally {
-    //         setLoading(false);
-    //     }
-    // }
 
     const handleDeleteTestimonial = async (id) => {
         setLoading(true);
         setErrorMessage("");
 
         try {
-            const response = await api.delete(`testimonial/delete/${id}`);
-            handleFetchTestimonials()
+            await api.delete(`testimonial/delete/${id}`);
+            handleFetchTestimonials();
             return true;
 
         } catch (error) {
@@ -226,7 +211,7 @@ const QueryContextProvider = ({ children }) => {
     return (
         <QueryContext.Provider value={{
             projects, project, setProject, errorMessage, loading, handleFetchProject, handleFetchOrderedProjects, orderedProjects, handleFetchProjects, handleDeleteProject, handleDeleteSkill, isDeleteProjectModal, setIsDeleteProjectModal, isProjectDetailModal, setIsProjectDetailModal,  setTotalUploadedProjects, isEditProjectModal, setIsEditProjectModal, isSkillUploadModal, setIsSkillUploadModal, isTestimonialCreateModal, setIsTestimonialCreateModal, handleFetchTestimonials, testimonials,
-            handleFetchSkills, skills
+            handleFetchSkills, skills, handleDeleteTestimonial
         }}>
             {children}
         </QueryContext.Provider>
