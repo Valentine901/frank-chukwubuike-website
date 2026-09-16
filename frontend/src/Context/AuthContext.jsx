@@ -20,6 +20,7 @@ const AuthProvider = ({ children }) => {
     const [profile, setProfile] = useState(null);
     const [errorMessage, setErrorMessage] = useState("");
     const [adminProfile, setAdminProfile] = useState(null);
+    const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
 
     const localLogout = useCallback(() => {
@@ -73,7 +74,6 @@ const AuthProvider = ({ children }) => {
 
         try{
             const response = await api.get("/admin/profile/portfolio-visitors");
-            console.log("Admin Visior: ", response.data);
             setAdminProfile(response.data);
         } catch(error) {
             handleAxiosError(error);
@@ -123,6 +123,21 @@ const AuthProvider = ({ children }) => {
         } finally {
             localLogout();
         } 
+    }
+
+    const fetchUserVisitor = async () =>{
+        setErrorMessage("");
+        setLoading(true);
+
+        try {
+            const response = await api.get("/auth/me-visitors");
+            console.log("Admin Visior: ", response.data);
+            setUser(response.data);
+        } catch (error) {
+            handleAxiosError(error, "Error fetching profile details");
+        } finally{
+            setLoading(false);
+        }
     }
 
     
@@ -191,11 +206,12 @@ const AuthProvider = ({ children }) => {
 
     // 
     useEffect(() => {
+        fetchUserVisitor();
         getAdminVisitorProfile();
     }, [])
 
     return (
-        <AuthContext.Provider value={{ errorMessage, loading, userData, profile, logout, getCurrentUser, getUserProfileData, adminProfile }}>
+        <AuthContext.Provider value={{ errorMessage, loading, userData, profile, logout, getCurrentUser, getUserProfileData, adminProfile, user }}>
             {children}
         </AuthContext.Provider>
     )

@@ -13,20 +13,12 @@ const QueryContextProvider = ({ children }) => {
     const [isEditProjectModal, setIsEditProjectModal] = useState(false);
     const [isProjectDetailModal, setIsProjectDetailModal] = useState(false);
 
-    const [totalUploadedProjects, setTotalUploadedProjects] = useState(() => {
-        const saved = localStorage.getItem("totalLifetimeProjects");
-        return saved !== null ? JSON.parse(saved) : 0
-    });
-
 
     const [skills, setSkills] = useState([]);
     const [isSkillUploadModal, setIsSkillUploadModal] = useState(false);
 
-
-    const [testimonial, setTestimonial] = useState(null);
     const [testimonials, setTestimonials] = useState([]);
     const [isTestimonialCreateModal, setIsTestimonialCreateModal] = useState(false);
-    const [isTestimonialEditModal, setIsTestimonialEditModal] = useState(false);
     const [isTestimonialDeleteModal, setIsTestimonialDeleteModal] = useState(false);
 
     const [errorMessage, setErrorMessage] = useState("");
@@ -210,7 +202,8 @@ const QueryContextProvider = ({ children }) => {
 
     return (
         <QueryContext.Provider value={{
-            projects, project, setProject, errorMessage, loading, handleFetchProject, handleFetchOrderedProjects, orderedProjects, handleFetchProjects, handleDeleteProject, handleDeleteSkill, isDeleteProjectModal, setIsDeleteProjectModal, isProjectDetailModal, setIsProjectDetailModal,  setTotalUploadedProjects, isEditProjectModal, setIsEditProjectModal, isSkillUploadModal, setIsSkillUploadModal, isTestimonialCreateModal, setIsTestimonialCreateModal, handleFetchTestimonials, testimonials,
+            projects, project, setProject, errorMessage, loading, handleFetchProject, 
+            skills, handleFetchOrderedProjects, orderedProjects, handleFetchProjects, handleDeleteProject, handleDeleteSkill, isDeleteProjectModal, setIsDeleteProjectModal, isProjectDetailModal, setIsProjectDetailModal,  isEditProjectModal, setIsEditProjectModal, isSkillUploadModal, setIsSkillUploadModal, isTestimonialCreateModal, setIsTestimonialCreateModal, handleFetchTestimonials, testimonials,
             handleFetchSkills, skills, handleDeleteTestimonial
         }}>
             {children}

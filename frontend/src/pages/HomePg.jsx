@@ -1,107 +1,147 @@
-// import { useAuth } from "../Context/AuthContext";
-// import { BASE_IMAGE_URL } from "../constants/Api";
-
-// const HomePg = () => {
-//   const { adminProfile, loading } = useAuth();
-
-//   if (adminProfile === null) return;
-//   return (
-//     <section id="#home" className='w-full min-h-screen flex justify-between  bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-white px-4 md:px-8 pt-30 pb-20 shadow-sm transition-colors duration-300'>
-
-//       <div className="grid grid-cols-1 md:flex justify-around p-6 font-body items-center mx-auto">
-//         {/* self description section */}
-//         <div className="flex flex-col gap-8 p-2 w-full">
-//           <span className="p-2.5 rounded-full max-w-48 bg-blue-700/20 text-blue-600 text-xl">Graphics Designer</span>
-
-//           <h1 className="text-5xl font-bold">Hi, I'm <span className="text-blue-600"> Franklin 👋</span></h1>
-
-//           <p className="text-lg text-gray-700/50 dark:text-gray-200/50 w-full max-w-4xl">
-//             As a graphic designer specializing in visual identity and digital design, I transform complex concepts into clean, functional, and striking visual solutions. I believe that great design doesn't just look spectacular, it communicates seamlessly and drives real results.
-//           </p>
-//           <div className="flex space-x-6">
-//             <button className="px-6 py-3.5 rounded-full text-white bg-blue-600 hover:bg-blue-700 transition-all duration-300 text-lg font-semibold max-h-16">View My Projects</button>
-
-//             <button className="px-6 py-3.5 rounded-full  border border-gray-700/50 dark:border-gray-200 hover:bg-gray-700/50 hover:text-gray-50 text-gray-700/60 dark:text-gray-200/50 transition-all duration-300 text-lg font-semibold max-h-16">Get In Touch</button>
-//           </div>
-//         </div>
-
-//         {/* profile image section */}
-//         <div className="w-full h-auto md:w-1/2 lg:w-1/3 p-4 mt-15 md:mt-0 items-center flex justify-center animate-slide-up-fade">
-//         <img 
-//         className="w-full max-w-md rounded-full"
-//         src={`${BASE_IMAGE_URL}/${adminProfile.image}`} alt={"frank"}  />
-//         </div>
-
-//       </div>
-//     </section>
-//   )
-// }
-
-// export default HomePg
-
-
-
-
-
 import { useAuth } from "../Context/AuthContext";
 import { BASE_IMAGE_URL } from "../constants/Api";
+import { BsFacebook, BsLinkedin, BsInstagram } from "react-icons/bs";
 
 const HomePg = () => {
-  const { adminProfile, loading } = useAuth();
+    const { adminProfile, user } = useAuth();
 
-  if (adminProfile === null) return;
-  return (
-    <section id="#home" className='w-full min-h-screen flex justify-between  bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-white px-4 md:px-8 pt-30 pb-20 shadow-sm transition-colors duration-300'>
+    if (adminProfile === null || user === null) return;
 
-      <div className="grid grid-cols-1 md:flex justify-around p-6 font-body items-center mx-auto">
-        {/* self description section */}
-        <div className="flex flex-col gap-8 p-2 w-full">
-          <span className="p-2.5 rounded-full max-w-48 bg-blue-700/20 text-blue-600 text-xl">Graphics Designer</span>
+    return (
+        <section
+            id="home"
+            className="w-full min-h-screen bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-white px-5 md:px-8 lg:px-12 pt-28 pb-20 transition-colors duration-300"
+        >
 
-          <h1 className="text-5xl font-bold">Hi, I'm <span className="text-blue-600"> Franklin 👋</span></h1>
-
-          <p className="text-lg text-gray-700/50 dark:text-gray-200/50 w-full max-w-4xl">
-            As a graphic designer specializing in visual identity and digital design, I transform complex concepts into clean, functional, and striking visual solutions. I believe that great design doesn't just look spectacular, it communicates seamlessly and drives real results.
-          </p>
-          <div className="flex space-x-6">
-            <button className="px-6 py-3.5 rounded-full text-white bg-blue-600 hover:bg-blue-700 transition-all duration-300 text-lg font-semibold max-h-16">View My Projects</button>
-
-            <button className="px-6 py-3.5 rounded-full  border border-gray-700/50 dark:border-gray-200 hover:bg-gray-700/50 hover:text-gray-50 text-gray-700/60 dark:text-gray-200/50 transition-all duration-300 text-lg font-semibold max-h-16">Get In Touch</button>
-          </div>
-        </div>
-
-        {/* ai bouncing box image section */}
-        <div className="perspective-container w-full h-auto md:w-3/4 p-4 mt-40 md:mt-0 items-center flex flex-col justify-center relative">
-          
-          {/* Main 3D Box Graphic */}
-          <img 
-            className="w-full max-w-md animate-bounce box-3d-tilt z-10"
-            src="src/assets/box.png" 
-            alt="frank"  
-          />
-
-          {/* Optimized Realistic 3D Blur Floor Shadow */}
-          <div className="shadow-3d-floor absolute bottom-0 w-[60%] h-12 rounded-full transition-all duration-300"></div>
-          
-        </div>
-
-        {/* Your absolute glowing card background layer upgraded with 3D rotation */}
-        <div className="absolute top-100 right-20 w-[20%] p-16 rounded-3xl shadow-2xl bg-gradient-to-tr from-blue-600/10 to-purple-600/10 backdrop-blur-md transform rotate-12 -z-10"></div>
-
-        {/* ai bouncing box image section */}
-        {/* <div className="w-full h-auto md:w-3/4 p-4 mt-40 md:mt-0 items-center flex justify-center ">
-        <img 
-        className="w-full max-w-md animate-bounce"
-        src="src/assets/box.png" alt={"frank"}  />
-        </div>
-
-        <div className="absolute top-100 right-20 w-[20%] p-16 rounded-3xl shadow-2xl"></div> */}
-
-      </div>
-    </section>
-  )
-}
-
-export default HomePg
+            <div className="max-w-7xl min-h-[calc(100vh-7rem)] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
 
 
+                <div className="flex flex-col items-start font-body">
+
+                    {/* Small Introduction */}
+                    <span className="mb-5 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-600/10 text-blue-600 dark:text-blue-400 text-sm font-semibold">
+                        <span className="w-2 h-2 rounded-full bg-blue-600"></span>
+                        Graphics Designer
+                    </span>
+
+
+                    {/* Main Heading */}
+                    <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight text-gray-900 dark:text-white">
+
+                        Hi, I'm{" "}
+
+                        <span className="text-blue-600 dark:text-blue-400">
+                            {user.first_name}
+                        </span>
+
+
+                    </h1>
+
+
+                    {/* Short Description */}
+                    <p className="mt-6 max-w-2xl text-base sm:text-lg leading-8 text-gray-600 dark:text-gray-400 font-body">
+                        I create clean, meaningful, and engaging visual
+                        experiences that help brands communicate their ideas
+                        clearly. From visual identity to digital design, I turn
+                        complex ideas into simple and memorable designs.
+                    </p>
+
+
+                    {/* Action Buttons */}
+                    <div className="mt-8 flex flex-wrap items-center gap-4">
+
+                        <a
+                            href="#projects"
+                            className="px-6 py-3 rounded-full bg-blue-600 hover:bg-blue-700 text-white font-semibold transition-all duration-300 shadow-sm hover:shadow-md"
+                        >
+                            View My Projects
+                        </a>
+
+                        <a
+                            href="#contact"
+                            className="px-6 py-3 rounded-full border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:border-blue-600 hover:text-blue-600 dark:hover:border-blue-400 dark:hover:text-blue-400 font-semibold transition-all duration-300"
+                        >
+                            Get In Touch
+                        </a>
+
+                    </div>
+
+
+                    {/* Social Links */}
+                    <div className="mt-10 flex items-center gap-3">
+
+                        <span className="mr-2 text-sm text-gray-500 dark:text-gray-500">
+                            Follow me
+                        </span>
+
+                        {adminProfile.linkedin_link && (
+                            <a
+                                href={adminProfile.linkedin_link}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="w-10 h-10 flex items-center justify-center rounded-full bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-500 transition-all duration-300"
+                            >
+                                <BsLinkedin size={18} />
+                            </a>
+                        )}
+
+                        {adminProfile.instagram_link && (
+                            <a
+                                href={adminProfile.instagram_link}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="w-10 h-10 flex items-center justify-center rounded-full bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-500 transition-all duration-300"
+                            >
+                                <BsInstagram size={18} />
+                            </a>
+                        )}
+
+                        {adminProfile.facebook_link && (
+                            <a
+                                href={adminProfile.facebook_link}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="w-10 h-10 flex items-center justify-center rounded-full bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-500 transition-all duration-300"
+                            >
+                                <BsFacebook size={18} />
+                            </a>
+                        )}
+
+                    </div>
+
+                </div>
+
+
+                <div className="relative flex justify-center items-center">
+
+                    
+                    <div className="absolute w-72 h-72 md:w-96 md:h-96 rounded-full bg-blue-600/10 dark:bg-blue-500/5 blur-3xl"></div>
+
+
+                    
+                    <div className="relative">
+
+                        <div className="absolute -top-4 -right-4 w-full h-full rounded-3xl border-2 border-blue-600/30 dark:border-blue-400/20"></div>
+
+                      
+                        <div className="relative overflow-hidden rounded-3xl bg-gray-200 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 shadow-xl">
+
+                            <img
+                                className="w-full max-w-md lg:max-w-lg object-cover"
+                                src={`${BASE_IMAGE_URL}/${adminProfile.image}`}
+                                alt="Franklin"
+                            />
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+    );
+};
+
+export default HomePg;
