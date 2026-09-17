@@ -27,8 +27,13 @@ class BaseProfile:
     @staticmethod
     def get_portfolio_profile(db: Session):
         profile = db.query(Profile).first()
-        return profile 
-    
+        if profile is None:
+            raise HTTPException(
+                status_code=404,
+                detail="Portfolio profile not found"
+            )
+        return profile
+
     @staticmethod
     def update_profile(user_id: uuid.UUID, data: ProfileUpdateSchema, db: Session):
         profile = BaseProfile.get_profile(user_id=user_id, db=db)
@@ -43,17 +48,3 @@ class BaseProfile:
         db.refresh(profile)
         return profile
 
-
-{
-  "bio": "I am a backend developer",
-  "address": "Omor",
-  "phone": "84746474",
-  "facebook_link": "facebook.com",
-  "instagram_link": "instagram.com",
-  "linkedin_link": "linkedin.com"
-}
-
-{
-  "email": "animesopulu@gmail.com",
-  "password": "password"
-}
