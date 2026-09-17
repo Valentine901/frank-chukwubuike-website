@@ -35,10 +35,11 @@ origins = [
     "http://localhost:5173",
     "http://localhost:3000",
     "https://frank-chukwubuike-website.vercel.app",
-    "https://vercel.app",
 ]
 
 FRONTEND_URL = os.getenv("FRONTEND_URL")
+if FRONTEND_URL:
+    origins.append(FRONTEND_URL)
 
 app.add_middleware(
     CORSMiddleware,
