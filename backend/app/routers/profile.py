@@ -27,10 +27,32 @@ async def update_profile(data: ProfileUpdateSchema, current_user: CurrentUser, d
     profile = BaseProfile.update_profile(user_id=current_user.id, data=data, db=db)
     return profile
 
+# @router.get("/portfolio-visitors", response_model=ProfileResponseSchema)
+# async def get_portfolio_visitors(db: DataBaseEngine):
+#     profile = BaseProfile.get_portfolio_profile(db=db)
+#     return profile
+
 @router.get("/portfolio-visitors", response_model=ProfileResponseSchema)
 async def get_portfolio_visitors(db: DataBaseEngine):
-    profile = BaseProfile.get_portfolio_profile(db=db)
+    try:
+        profile = BaseProfile.get_portfolio_profile(db=db)
+    except Exception:
+        profile = None
+
+    # Fallback structure instead of throwing a 404 error!
+    if profile is None:
+        return {
+            "bio": "Graphics Designer & Fullstack Developer",
+            "address": "Enugu",
+            "phone": "081255554",
+            "facebook_link": "https://facebook.com",
+            "instagram_link": "https://instagram.com",
+            "linkedin_link": "https://linkedin.com",
+            "image": "media/profile/default.jpeg"
+        }
+        
     return profile
+
 
 @router.get("/", response_model=ProfileResponseSchema)
 async def get_profile(current_user: CurrentUser, db: DataBaseEngine):

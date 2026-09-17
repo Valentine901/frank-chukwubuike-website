@@ -142,16 +142,38 @@ async def login(response: Response, data: UserLoginSchema, db: DataBaseEngine):
 
     return response_data
 
+# @router.get("/me-visitors")
+# async def api_get_user_visitor(db: DataBaseEngine):
+#     user = BaseUser.get_user_visitor_view(db=db)
+#     if user is None:
+#         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
+#     return {
+#         "first_name": user.first_name,
+#         "last_name": user.last_name,
+#         "email": user.email
+#     }
+
 @router.get("/me-visitors")
 async def api_get_user_visitor(db: DataBaseEngine):
-    user = BaseUser.get_user_visitor_view(db=db)
+    try:
+        user = BaseUser.get_user_visitor_view(db=db)
+    except Exception:
+        user = None
+
+    # Fallback instead of throwing a 404 error!
     if user is None:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
+        return {
+            "first_name": "Franklin",
+            "last_name": "Chukwubuike",
+            "email": "valentinedinyelu7@gmail.com"
+        }
+        
     return {
         "first_name": user.first_name,
         "last_name": user.last_name,
         "email": user.email
     }
+
 
 @router.get("/me", response_model=UserResponseSchema)
 async def current_user(user: CurrentUser):
