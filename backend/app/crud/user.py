@@ -19,10 +19,7 @@ class BaseUser:
     @staticmethod 
     def get_user_visitor_view(db: Session):
         user = db.query(User).first()
-        if user is None:
-            return None
         return user
-
 
     @staticmethod
     def get_user_by_email(email: EmailStr, db: Session):

@@ -27,11 +27,10 @@ class BaseProfile:
     @staticmethod
     def get_portfolio_profile(db: Session):
         profile = db.query(Profile).first()
-        if profile is None:
-            raise HTTPException(
-                status_code=404,
-                detail="Portfolio profile not found"
-            )
+        
+        if not profile:
+            raise HTTPException(status_code=404, detail="Profile record empty")
+            
         return profile
 
     @staticmethod
