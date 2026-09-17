@@ -3,16 +3,78 @@ import {
   MapPin,
   Phone,
   Send,
-  ArrowUpRight
+  ArrowUpRight,
+  Loader2
 } from "lucide-react";
-import {useAuth} from "../Context/AuthContext";
+import { useAuth } from "../Context/AuthContext";
+import { useState, useRef, useEffect } from "react";
 
 
 
 const ContactPg = () => {
-  const { user } = useAuth();
+  const [senderName, setSenderName] = useState("");
+  const [senderEmail, setSenderEmail] = useState("");
+  const [senderSubject, setSenderSubject] = useState("");
+  const [senderMessage, setSenderMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [success, setSuccess] = useState("");
+  const [loading, setLoading] = useState(false);
+  const websocket = useRef(null);
 
-  if( user === null) return;
+
+
+  const { user } = useAuth();
+  useEffect(() => {
+    websocket.current = new WebSocket("ws://127.0.0.1:8000/api/ws/create-message");
+
+    websocket.current.onmessage = (e) => {
+      const response = JSON.parse(e.data);
+      if (response.status === "error") {
+        setErrorMessage(response.message || "Message not sent");
+      }
+    };
+
+    return () => {
+      if (websocket.current) websocket.current.close();
+    }
+  }, [])
+
+  const sendMessage = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setErrorMessage("");
+    setSuccess("");
+    if (!websocket.current) return;
+
+    const payload = {
+      "sender_name": senderName,
+      "sender_email": senderEmail,
+      "sender_subject": senderSubject,
+      "sender_message": senderMessage
+    };
+
+    websocket.current.send(JSON.stringify(payload));
+    setSuccess("Your message has been received");
+    setSenderName("");
+    setSenderEmail("");
+    setSenderSubject("");
+    setSenderMessage("");
+    setLoading(false)
+
+  }
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (success || errorMessage) {
+        setSuccess("");
+        setErrorMessage("");
+      }
+    }, (3000))
+    return () => clearTimeout(timer);
+  }, [success, errorMessage])
+
+
+  if (user === null) return;
   return (
     <section
       id="contact"
@@ -138,7 +200,19 @@ const ContactPg = () => {
           {/* RIGHT SIDE - FORM */}
           <div className="lg:col-span-3">
 
-            <form className="p-6 md:p-8 rounded-2xl bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+            <form onSubmit={sendMessage} className="p-6 md:p-8 rounded-2xl bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+
+              {success && <div className="text-center transition-all duration-300 items-center flex justify-center p-4 mx-auto">
+                <span className="text-green-500 font-body text-lg font-semibold">
+                  {success}
+                </span>
+              </div>}
+
+              {errorMessage && <div className="text-center items-center transition-all duration-300 flex justify-center p-4 mx-auto">
+                <span className="text-red-500 font-body text-lg font-semibold">
+                  {errorMessage}
+                </span>
+              </div>}
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
 
@@ -155,6 +229,9 @@ const ContactPg = () => {
                     id="name"
                     type="text"
                     placeholder="John Doe"
+                    value={senderName}
+                    required
+                    onChange={(e) => setSenderName(e.target.value)}
                     className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-gray-800 dark:text-white placeholder-gray-400 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10 transition-all duration-300"
                   />
                 </div>
@@ -172,6 +249,9 @@ const ContactPg = () => {
                     id="email"
                     type="email"
                     placeholder="john@example.com"
+                    value={senderEmail}
+                    required
+                    onChange={(e) => setSenderEmail(e.target.value)}
                     className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-gray-800 dark:text-white placeholder-gray-400 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10 transition-all duration-300"
                   />
                 </div>
@@ -190,7 +270,10 @@ const ContactPg = () => {
                 <input
                   id="subject"
                   type="text"
+                  required
                   placeholder="Project inquiry"
+                  value={senderSubject}
+                  onChange={(e) => setSenderSubject(e.target.value)}
                   className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-gray-800 dark:text-white placeholder-gray-400 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10 transition-all duration-300"
                 />
               </div>
@@ -207,7 +290,10 @@ const ContactPg = () => {
                 <textarea
                   id="message"
                   rows="6"
+                  required
                   placeholder="Tell me about your project..."
+                  value={senderMessage}
+                  onChange={(e) => setSenderMessage(e.target.value)}
                   className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-gray-800 dark:text-white placeholder-gray-400 outline-none resize-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10 transition-all duration-300"
                 ></textarea>
               </div>
@@ -215,10 +301,12 @@ const ContactPg = () => {
               {/* BUTTON */}
               <button
                 type="submit"
+                disabled={loading}
                 className="mt-6 inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold shadow-sm hover:shadow-md transition-all duration-300"
               >
                 Send Message
                 <Send size={18} />
+
               </button>
 
             </form>

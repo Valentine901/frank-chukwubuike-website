@@ -202,7 +202,7 @@ const QueryContextProvider = ({ children }) => {
 
     return (
         <QueryContext.Provider value={{
-            projects, project, setProject, errorMessage, loading, handleFetchProject, 
+            projects, project, setProject, errorMessage, loading, handleFetchProject, handleAxiosError,setErrorMessage, setLoading,
             skills, handleFetchOrderedProjects, orderedProjects, handleFetchProjects, handleDeleteProject, handleDeleteSkill, isDeleteProjectModal, setIsDeleteProjectModal, isProjectDetailModal, setIsProjectDetailModal,  isEditProjectModal, setIsEditProjectModal, isSkillUploadModal, setIsSkillUploadModal, isTestimonialCreateModal, setIsTestimonialCreateModal, handleFetchTestimonials, testimonials,
             handleFetchSkills, skills, handleDeleteTestimonial
         }}>

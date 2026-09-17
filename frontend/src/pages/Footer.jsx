@@ -37,8 +37,8 @@ const Footer = () => {
                                 {user.last_name.charAt(0).toUpperCase()}
                             </span>
 
-                            <span className="text-xl font-bold text-gray-900 dark:text-white">
-                                Franklin Chukwubuikem
+                            <span className="text-xl font-bold text-gray-900 dark:text-white capitalize">
+                               {user.first_name} {user.last_name}
                             </span>
                         </a>
 
@@ -195,8 +195,8 @@ const Footer = () => {
                 {/* BOTTOM */}
                 <div className="mt-8 pt-6 border-t border-gray-200 dark:border-gray-800 flex flex-col sm:flex-row items-center justify-between gap-4">
 
-                    <p className="text-xs md:text-sm text-gray-500 dark:text-gray-500 text-center sm:text-left">
-                        © {new Date().getFullYear()} Franklin. All rights reserved.
+                    <p className="text-xs md:text-sm capitalize text-gray-500 dark:text-gray-500 text-center sm:text-left">
+                        © {new Date().getFullYear()} {user.first_name}. All rights reserved.
                     </p>
 
                     <button
