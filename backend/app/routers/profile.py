@@ -28,10 +28,10 @@ async def update_profile(data: ProfileUpdateSchema, current_user: CurrentUser, d
     profile = BaseProfile.update_profile(user_id=current_user.id, data=data, db=db)
     return profile
 
-# @router.get("/portfolio-visitors", response_model=ProfileResponseSchema)
-# async def get_portfolio_visitors(db: DataBaseEngine):
-#     profile = BaseProfile.get_portfolio_profile(db=db)
-#     return profile
+@router.get("/portfolio-visitors")
+async def get_portfolio_visitors(db: DataBaseEngine):
+    profile = BaseProfile.get_portfolio_profile(db=db)
+    return profile
 
 @router.get("/", response_model=ProfileResponseSchema)
 async def get_profile(current_user: CurrentUser, db: DataBaseEngine):
@@ -65,29 +65,4 @@ async def upload_profile_image(current_user: CurrentUser, db: DataBaseEngine, fi
 
     db.commit()
     db.refresh(profile)
-    return profile
-
-
-@router.get("/portfolio-visitors") # 1. Removed strict response_model restriction here to prevent schema crashes
-async def get_portfolio_visitors(db: DataBaseEngine):
-    try:
-        profile = BaseProfile.get_portfolio_profile(db=db)
-    except Exception:
-        profile = None
-
-    # 2. If the database returns None, we bypass the validator and send a clean JSON fallback response directly
-    if profile is None:
-        return JSONResponse(
-            status_code=200,
-            content={
-                "bio": "Graphics Designer & Fullstack Developer",
-                "address": "Enugu",
-                "phone": "081255554",
-                "facebook_link": "https://facebook.com",
-                "instagram_link": "https://instagram.com",
-                "linkedin_link": "https://linkedin.com",
-                "image": "media/profile/default.jpeg"
-            }
-        )
-        
     return profile
