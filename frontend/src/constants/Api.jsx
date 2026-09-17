@@ -21,9 +21,9 @@ import axios from "axios";
 
 const isProduction = import.meta.env.PROD;
 
-
+// Make sure your complete sub-domain is written out here!
 export const BASE_IMAGE_URL = isProduction 
-    ? "https://onrender.com" 
+    ? "https://portofolio-backend-ggxw.onrender.com" 
     : "http://localhost:8000";
 
 const BASE_URL = `${BASE_IMAGE_URL}/api`;
