@@ -8,8 +8,12 @@ from routers.project import router as project_router
 from routers.testimonial import router as testimonial_router 
 from routers.skill import router as skill_router
 from routers.message import router as message_router 
+from settings.database import engine, Base
 import os 
+
+Base.metadata.create_all(bind=engine)
 app = FastAPI()
+
 
 app.include_router(project_router)
 app.include_router(user_router)
@@ -26,7 +30,7 @@ origins = [
 FRONTEND_URL = os.getenv("FRONTEND_URL")
 if FRONTEND_URL:
     origins.append(FRONTEND_URL)
-    
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
