@@ -131,7 +131,6 @@ const AuthProvider = ({ children }) => {
 
         try {
             const response = await api.get("/auth/me-visitors");
-            console.log("Admin Visior: ", response.data);
             setUser(response.data);
         } catch (error) {
             handleAxiosError(error, "Error fetching profile details");
@@ -190,8 +189,8 @@ const AuthProvider = ({ children }) => {
 
             try{
                 await Promise.all([
-                await getUserProfileData(),
-                await getCurrentUser()
+                getUserProfileData(),
+                getCurrentUser()
             ]);
             } catch (error) {
                 setErrorMessage(error);
