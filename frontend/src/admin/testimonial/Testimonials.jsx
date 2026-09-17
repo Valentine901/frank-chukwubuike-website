@@ -7,7 +7,7 @@ const Testimonials = () => {
   const { testimonials } = useQueryContext();
   const [search, setSearch] = useState("");
 
-  
+
   const filteredTestimonial = (testimonials || []).filter((testimonial) => {
     const projectType = testimonial.project_type.toLowerCase().includes(search.toLowerCase());
     const clientName = testimonial.client_name.toLowerCase().includes(search.toLowerCase());
@@ -15,17 +15,13 @@ const Testimonials = () => {
   }
   );
 
-  
+
   if (!testimonials || testimonials.length === 0) {
     return (
-      <div className="flex h-full w-full flex-col items-center justify-center p-12 text-center font-body">
-        <div className="flex h-24 w-24 items-center justify-center rounded-2xl bg-gray-50 dark:bg-gray-800/50 border-2 border-dashed border-gray-200 dark:border-gray-700">
-          <FolderGit2 className="h-10 w-10 text-gray-400 dark:text-gray-500 stroke-[1.5]" />
-        </div>
-        <h3 className="mt-6 text-lg font-semibold text-gray-800 dark:text-gray-200">
-          No Testimonial Found
-        </h3>
-        <p className="mt-2 max-w-sm text-sm text-gray-400 dark:text-gray-500 font-body">
+      <div className="flex flex-col items-center justify-center text-center h-full p-12 rounded-2xl border-2 border-dashed font-body border-gray-200 dark:border-gray-700 bg-gray-50/50 dark:bg-gray-900/20 ">
+        <FolderGit2 className="w-12 h-12 text-gray-400 dark:text-gray-600 stroke-[1.5]" />
+        <h3 className="mt-4 text-base font-semibold text-gray-800 dark:text-gray-200">No Testimonials found</h3>
+        <p className="mt-1 text-sm text-gray-400 dark:text-gray-500 max-w-xs">
           Get started by adding your very first testimonial using the upload tool in the navbar above.
         </p>
       </div>
@@ -34,7 +30,7 @@ const Testimonials = () => {
 
   return (
     <div className="flex h-full w-full lg:h-[calc(100vh-4rem)] flex-col bg-gray-50 p-4 md:p-8 dark:bg-gray-900 transition-colors duration-300 lg:overflow-hidden">
-      
+
       {/* Header & Search Bar Container */}
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between pb-6 border-b border-gray-200 dark:border-gray-800">
         <div>
@@ -57,17 +53,17 @@ const Testimonials = () => {
         </div>
       </div>
 
-      {/* Skill List Card */}
-      <div className="mt-6 flex-1 overflow-y-auto rounded-2xl bg-white p-6 shadow-sm transition-all duration-300 dark:bg-gray-950/40 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+      {/* Testimonial List Card */}
+      <div className="mt-6 flex-1 overflow-y-auto rounded-2xl bg-white p-6 shadow-sm transition-all duration-300 dark:bg-gray-950/40 scrollbar-none [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
         {filteredTestimonial.length === 0 ? (
           /* Empty Search Results State */
-          <div className="flex min-h-[300px] w-full flex-col items-center justify-center text-center">
+          <div className="flex min-h-75 w-full flex-col items-center justify-center text-center">
             <XCircle className="h-10 w-10 text-gray-300 dark:text-gray-600" />
             <p className="mt-4 font-body text-base font-medium text-gray-500 dark:text-gray-400">
               No results match "{search}"
             </p>
-            <button 
-              onClick={() => setSearch("")} 
+            <button
+              onClick={() => setSearch("")}
               className="mt-2 text-sm text-blue-500 hover:underline dark:text-blue-400"
             >
               Clear search query
@@ -75,9 +71,9 @@ const Testimonials = () => {
           </div>
         ) : (
           /* Grid Display */
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 auto-rows-max">
+          <div className="grid grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 auto-rows-max">
             {filteredTestimonial.map((testimonial) => (
-              <Testimonialcard key={testimonial.id} testimonial={testimonial} />
+              <Testimonialcard key={testimonial.id || testimonial.client_name} testimonial={testimonial} />
             ))}
           </div>
         )}

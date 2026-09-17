@@ -1,4 +1,3 @@
-import React from 'react'
 import { Briefcase, Trash2 } from "lucide-react";
 import { useQueryContext } from '../../Context/GeneralQueryContext';
 
@@ -7,7 +6,7 @@ import { useQueryContext } from '../../Context/GeneralQueryContext';
 const SkillCard = ({ skill }) => {
   const { handleDeleteSkill } = useQueryContext();
   return (
-    <div className="group relative flex items-center justify-center p-6 w-full max-w-[300px] aspect-[4/3] rounded-2xl bg-white dark:bg-gray-700/10 border border-gray-100 dark:border-gray-800/60 shadow-sm transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-md hover:border-blue-500/30 dark:hover:border-blue-500/30">
+    <div className="group relative flex items-center justify-center p-6 w-full max-w-75 aspect-4/4 rounded-2xl bg-white dark:bg-gray-700/10 border border-gray-100 dark:border-gray-800/60 shadow-sm transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-md hover:border-blue-500/30 dark:hover:border-blue-500/30">
 
 
       <div

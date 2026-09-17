@@ -7,7 +7,7 @@ const LogoutModal = ({ setIsLogoutModal }) => {
     if (loading) {
         return (
             <div className="flex items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-900">
-                <p className="text-blue-600 dark:text-blue-300 text-4xl font-heading animate-spin font-bold">
+                <p className="text-blue-600 dark:text-blue-300 text-4xl  animate-spin font-bold">
                     <Loader2 size={110} />
                 </p>
             </div>
@@ -16,7 +16,7 @@ const LogoutModal = ({ setIsLogoutModal }) => {
 
     return (
 
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-fade-in">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-fade-in font-body">
 
             <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl max-w-md w-full p-6 shadow-2xl relative transform transition-all duration-300 scale-100">
 
@@ -34,11 +34,11 @@ const LogoutModal = ({ setIsLogoutModal }) => {
                         <LogOut size={28} />
                     </div>
 
-                    <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 font-heading">
+                    <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 ">
                         Confirm Sign-Out
                     </h3>
 
-                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-2 font-heading max-w-xs">
+                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-2  max-w-xs">
                         Are you sure you want to log out? You will need to enter your password again to manage your projects.
                     </p>
                 </div>
@@ -47,14 +47,14 @@ const LogoutModal = ({ setIsLogoutModal }) => {
                 <div className="flex flex-col sm:flex-row gap-3 mt-6 w-full">
                     <button
                         onClick={() => setIsLogoutModal(false)}
-                        className="flex-1 order-2 sm:order-1 py-3 px-4 rounded-xl border border-gray-300 dark:border-gray-700 font-heading text-sm font-semibold text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 active:bg-gray-100 dark:active:bg-gray-700/50 transition-colors cursor-pointer"
+                        className="flex-1 order-2 sm:order-1 py-3 px-4 rounded-xl border border-gray-300 dark:border-gray-700  text-sm font-semibold text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 active:bg-gray-100 dark:active:bg-gray-700/50 transition-colors cursor-pointer"
                     >
                         Cancel
                     </button>
                     <button
                         disabled={loading}
                         onClick={logout}
-                        className="flex-1 order-1 sm:order-2 py-3 px-4 rounded-xl bg-red-600 hover:bg-red-700 active:bg-red-800 font-heading text-sm font-semibold text-white transition-colors shadow-lg shadow-red-600/20 cursor-pointer"
+                        className="flex-1 order-1 sm:order-2 py-3 px-4 rounded-xl bg-red-600 hover:bg-red-700 active:bg-red-800  text-sm font-semibold text-white transition-colors shadow-lg shadow-red-600/20 cursor-pointer"
                     >
                         {loading ? <Loader2 size={24} className="animate-spin" /> :
                             "Logout"}

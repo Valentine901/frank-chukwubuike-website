@@ -7,21 +7,21 @@ import { FaMessage } from 'react-icons/fa6';
 
 const AdminContent = () => {
     const { userData } = useAuth();
-    const { projects, skills, testimonials} = useQueryContext();
+    const { projects, skills, testimonials, messages} = useQueryContext();
 
     return (
 
-        <div className="bg-gray-50 dark:bg-gray-900 w-full h-auto lg:h-[calc(100vh-4rem)] lg:overflow-hidden transition-all duration-300 p-4 md:p-8 flex flex-col">
+        <div className="bg-gray-50 dark:bg-gray-900 w-full h-auto lg:h-[calc(100vh-4rem)] lg:overflow-hidden transition-all duration-300 p-4 md:p-8 flex flex-col font-body">
 
 
             <div className="shrink-0">
-                <h1 className="font-heading font-bold text-2xl md:text-3xl lg:text-4xl flex flex-wrap gap-2 items-center">
+                <h1 className=" font-bold text-2xl md:text-3xl lg:text-4xl flex flex-wrap gap-2 items-center">
                     <span className="text-gray-700 dark:text-gray-100">Welcome back,</span>
                     <span className="text-blue-600 capitalize">{userData?.first_name || "Admin"}
                     </span>
                     <Smile className='text-blue-300 dark:text-yellow-300' size={32} />
                 </h1>
-                <p className="text-md md:text-lg text-gray-500 dark:text-gray-400 mt-1 font-heading">
+                <p className="text-md md:text-lg text-gray-500 dark:text-gray-400 mt-1 ">
                     Here's an overview of your projects and system status.
                 </p>
             </div>
@@ -34,7 +34,7 @@ const AdminContent = () => {
                         <FaFolderOpen size={24} />
                     </div>
                     <div className="flex flex-col min-w-0 w-full">
-                        <span className="text-[10px] xs:text-[11px] sm:text-xs md:text-sm font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider font-heading truncate">
+                        <span className="text-[10px] xs:text-[11px] sm:text-xs md:text-sm font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider  truncate">
                             Total Projects
                         </span>
                         <span className="text-2xl sm:text-3xl lg:text-4xl font-black text-gray-900 dark:text-white mt-0.5 sm:mt-1 font-sans tracking-tighter tabular-nums sm:mx-0 mx-auto">
@@ -49,7 +49,7 @@ const AdminContent = () => {
                         <ThumbsUp size={24} />
                     </div>
                     <div className="flex flex-col min-w-0 w-full">
-                        <span className="text-[10px] xs:text-[11px] sm:text-xs md:text-sm font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider font-heading truncate">
+                        <span className="text-[10px] xs:text-[11px] sm:text-xs md:text-sm font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider  truncate">
                            Testimonials
                         </span>
                         <span className="text-2xl sm:text-3xl lg:text-4xl font-black text-gray-900 dark:text-white mt-0.5 sm:mt-1 font-sans tracking-tighter tabular-nums sm:mx-0 mx-auto">
@@ -64,11 +64,11 @@ const AdminContent = () => {
                         <FaMessage size={24} />
                     </div>
                     <div className="flex flex-col min-w-0 w-full">
-                        <span className="text-[10px] xs:text-[11px] sm:text-xs md:text-sm font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider font-heading truncate">
+                        <span className="text-[10px] xs:text-[11px] sm:text-xs md:text-sm font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider  truncate">
                             Total Messages
                         </span>
                         <span className="text-2xl sm:text-3xl lg:text-4xl font-black text-gray-900 dark:text-white mt-0.5 sm:mt-1 font-sans tracking-tighter tabular-nums sm:mx-0 mx-auto">
-                            57
+                            {messages.length}
                         </span>
                     </div>
                 </div>
@@ -79,7 +79,7 @@ const AdminContent = () => {
                         <Brain size={24} />
                     </div>
                     <div className="flex flex-col min-w-0 w-full">
-                        <span className="text-[10px] xs:text-[11px] sm:text-xs md:text-sm font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider font-heading truncate">
+                        <span className="text-[10px] xs:text-[11px] sm:text-xs md:text-sm font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider  truncate">
                             Total Skills
                         </span>
                         <span className="text-2xl sm:text-3xl lg:text-4xl font-black text-gray-900 dark:text-white mt-0.5 sm:mt-1 font-sans tracking-tighter tabular-nums sm:mx-0 mx-auto">

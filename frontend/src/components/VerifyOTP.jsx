@@ -1,14 +1,13 @@
 import { useState, useEffect, useRef } from "react";
 import { api } from "../constants/Api";
 import { useTheme } from "../Context/ThemeContext";
-import { Moon, Sun, Loader2, BadgeCheck, ShieldCheck } from "lucide-react";
+import { Loader2, ShieldCheck } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const VerifyOTP = () => {
     const [code, setCode] = useState(["", "", "", "", "", ""]);
     const [errorMessage, setErrorMessage] = useState("");
     const [loading, setLoading] = useState(false);
-    const { theme, toggleTheme } = useTheme();
     const navigate = useNavigate();
 
     const inputRefs = useRef([]);

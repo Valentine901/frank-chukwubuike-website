@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useContext, createContext } from "react";
+import { useState, useEffect, useContext, createContext } from "react";
 import { api } from "../constants/Api";
 
 
@@ -19,8 +19,8 @@ const QueryContextProvider = ({ children }) => {
 
     const [testimonials, setTestimonials] = useState([]);
     const [isTestimonialCreateModal, setIsTestimonialCreateModal] = useState(false);
-    const [isTestimonialDeleteModal, setIsTestimonialDeleteModal] = useState(false);
 
+    const [messages, setMessages] = useState([]);
     const [errorMessage, setErrorMessage] = useState("");
     const [loading, setLoading] = useState(false);
 
@@ -35,26 +35,35 @@ const QueryContextProvider = ({ children }) => {
         }
     }
 
-    // const saveToLocalStorage = (key, value) => {
-    //     try {
-    //         const stringifiedValue = JSON.stringify(value);
-    //         localStorage.setItem(`${key}`, stringifiedValue);
-    //     } catch (error) {
-    //         console.log("Your name was not saved")
-    //     }
+    // MESSAGE LOGIC SECTION
+    const handleFetchMessages = async() => {
+        setLoading(true);
+        try{
+            const response = await api.get("/messages");
+            setMessages(response.data);
+        } catch (error) {
+            handleAxiosError(error);
+        } finally{
+            setLoading(false);
+        }
+    }
 
-    // }
+    // delete message
+    const handleDeleteMessage = async (id) => {
+        setLoading(true);
+        setErrorMessage("");
 
-    // const getFromLocalStorage = (key) => {
-    //     try {
-    //         const saved = localStorage.getItem(JSON.parse(key));
-    //         return saved;
+        try {
+            const response = await api.delete(`message/delete/${id}`);
+            handleFetchMessages();
+            return true;
 
-    //     } catch (error) {
-    //        console.log("Wrong keyword");
-    //     }
-    // }
-
+        } catch (error) {
+            handleAxiosError(error);
+        } finally {
+            setLoading(false);
+        }
+    }
 
     // SKILLS LOGIC SECTION
     const handleFetchSkills = async () => {
@@ -198,13 +207,14 @@ const QueryContextProvider = ({ children }) => {
         handleFetchSkills();
         handleFetchProjects();
         handleFetchOrderedProjects();
+        handleFetchMessages();
     }, [])
 
     return (
         <QueryContext.Provider value={{
             projects, project, setProject, errorMessage, loading, handleFetchProject, handleAxiosError,setErrorMessage, setLoading,
             skills, handleFetchOrderedProjects, orderedProjects, handleFetchProjects, handleDeleteProject, handleDeleteSkill, isDeleteProjectModal, setIsDeleteProjectModal, isProjectDetailModal, setIsProjectDetailModal,  isEditProjectModal, setIsEditProjectModal, isSkillUploadModal, setIsSkillUploadModal, isTestimonialCreateModal, setIsTestimonialCreateModal, handleFetchTestimonials, testimonials,
-            handleFetchSkills, skills, handleDeleteTestimonial
+            handleFetchSkills, skills, handleDeleteTestimonial, messages, handleDeleteMessage
         }}>
             {children}
         </QueryContext.Provider>

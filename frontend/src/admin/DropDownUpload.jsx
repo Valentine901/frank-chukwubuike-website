@@ -35,7 +35,7 @@ const DropDownUpload = ({ setIsDropDown, setIsAdminProjectCreateModal }) => {
     ];
 
     return (
-        <div className="absolute top-20 right-3 z-50 w-78 rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 p-2 shadow-xl ring-1 ring-black/5 transition-all duration-300 animate-in fade-in slide-in-from-top-2">
+        <div className="absolute top-20 right-3 z-50 w-78 rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 p-2 shadow-xl ring-1 ring-black/5 transition-all duration-300 animate-in fade-in slide-in-from-top-2 font-body">
             <div className="px-3 py-2 text-xs font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500">
                 Quick Actions
             </div>

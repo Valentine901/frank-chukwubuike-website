@@ -1,10 +1,8 @@
-import React from 'react';
 import { Menu, X, Moon, Sun, ChevronDown, Plus } from 'lucide-react';
 import { useTheme } from "../Context/ThemeContext";
 import { useAuth } from "../Context/AuthContext";
 import { BASE_IMAGE_URL } from '../constants/Api';
 import DropDownUpload from './DropDownUpload';
-import { useQueryContext } from '../Context/GeneralQueryContext';
 
 const AdminNavbar = ({ 
     handleToggleAdminNavbar, 
@@ -13,12 +11,11 @@ const AdminNavbar = ({
     isDropDown, 
     setIsDropDown 
 }) => {
-  const {isSkillUploadModal, setIsSkillUploadModal} = useQueryContext();
   const { toggleTheme, theme } = useTheme();
   const { profile } = useAuth();
 
   return (
-    <div className="relative flex w-full justify-between border-b border-gray-200 dark:border-gray-700 items-center bg-white dark:bg-gray-900 h-16 px-4 transition-all duration-300">
+    <div className="relative flex w-full justify-between border-b border-gray-200 dark:border-gray-700 items-center bg-white dark:bg-gray-900 h-16 px-4 transition-all duration-300 font-body">
       
      
       <div className="flex lg:hidden">
