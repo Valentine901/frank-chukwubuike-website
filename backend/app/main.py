@@ -22,14 +22,23 @@ app.include_router(testimonial_router)
 app.include_router(skill_router)
 app.include_router(message_router)
 
+# origins = [
+#     "http://localhost:5173", 
+#     "http://localhost:3000",  
+# ]
+
+# FRONTEND_URL = os.getenv("FRONTEND_URL")
+# if FRONTEND_URL:
+#     origins.append(FRONTEND_URL)
+
 origins = [
-    "http://localhost:5173", 
-    "http://localhost:3000",  
+    "http://localhost:5173",
+    "http://localhost:3000",
+    "https://frank-chukwubuike-website.vercel.app",
+    "https://vercel.app",
 ]
 
 FRONTEND_URL = os.getenv("FRONTEND_URL")
-if FRONTEND_URL:
-    origins.append(FRONTEND_URL)
 
 app.add_middleware(
     CORSMiddleware,
