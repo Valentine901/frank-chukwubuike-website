@@ -70,7 +70,7 @@ const Skills = () => {
           </div>
         ) : (
           /* Grid Display */
-          <div className="grid grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 auto-rows-max">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 auto-rows-max">
             {filteredSkills.map((skill) => (
               <SkillCard key={skill.id || skill.name} skill={skill} />
             ))}
