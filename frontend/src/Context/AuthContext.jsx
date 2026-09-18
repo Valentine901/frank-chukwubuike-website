@@ -158,7 +158,7 @@ const AuthProvider = ({ children }) => {
                     }
                     // if user haven't tried original request, let them try
                     originalRequest._retry = true;
-
+                    originalRequest.baseURL = api.defaults.baseURL;
                     try {
                         // create new access toke
                         await RefreshToken();

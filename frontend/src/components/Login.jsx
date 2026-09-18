@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { api } from "../constants/Api";
 import { Mail, Lock, Eye, EyeClosed, Loader2 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../Context/AuthContext";
 
 const Login = () => {
@@ -142,9 +142,9 @@ const Login = () => {
 
                         
                         <div className="flex my-2">
-                            <a href="/auth/forgot-password" className="text-gray-600 dark:text-gray-100 font-heading font-semibold py-3 hover:underline text-lg">
+                            <Link to="/auth/forgot-password" className="text-gray-600 dark:text-gray-100 font-heading font-semibold py-3 hover:underline text-lg">
                                 Forgot password?
-                            </a>
+                            </Link>
                         </div>
 
                         {/* Submit Button */}
