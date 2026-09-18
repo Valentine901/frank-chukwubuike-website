@@ -120,7 +120,7 @@ async def login(response: Response, data: UserLoginSchema, db: DataBaseEngine):
         value=str(access_token),
         secure=True,
         httponly=True,
-        samesite="lax",
+        samesite="none",
         max_age=60 * 20
     )
 
@@ -129,7 +129,7 @@ async def login(response: Response, data: UserLoginSchema, db: DataBaseEngine):
         value=str(refresh_token),
         secure=True,
         httponly=True,
-        samesite="lax",
+        samesite="none",
         max_age=7 * 24 * 60 * 60
     )
 
@@ -163,12 +163,14 @@ async def logout(response: Response):
     response.delete_cookie(
         key="access_token",
         secure=True,
-        httponly=True
+        httponly=True,
+        samesite="none"
     )
     response.delete_cookie(
         key="refresh_token",
         secure=True,
-        httponly=True
+        httponly=True,
+        samesite="none"
     )
 
     return {"message": "logged out successfully"}
@@ -194,8 +196,9 @@ async def refresh(request: Request, response: Response):
    response.set_cookie(
         key="access_token", 
         value=str(new_access_token),
-        secure=True, httponly=True, 
-        samesite="lax", 
+        secure=True, 
+        httponly=True, 
+        samesite="none", 
         max_age=20 * 60
     )
 
