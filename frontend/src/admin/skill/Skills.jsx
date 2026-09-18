@@ -70,7 +70,7 @@ const Skills = () => {
           </div>
         ) : (
           /* Grid Display */
-          <div className="flex flex-wrap auto-rows-max">
+          <div className="flex flex-wrap gap-4 auto-rows-max mx-auto items-center w-full">
             {filteredSkills.map((skill) => (
               <SkillCard key={skill.id || skill.name} skill={skill} />
             ))}
