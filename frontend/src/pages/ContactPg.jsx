@@ -8,7 +8,7 @@ import {
 import { useAuth } from "../Context/AuthContext";
 import { useState, useRef, useEffect } from "react";
 import ScrollReveal from "../components/ScrollReveal";
-
+import { BASE_WS_URL } from "../constants/Api";
 
 const ContactPg = () => {
   const [senderName, setSenderName] = useState("");
@@ -24,7 +24,7 @@ const ContactPg = () => {
 
   const { user } = useAuth();
   useEffect(() => {
-    websocket.current = new WebSocket("ws://127.0.0.1:8000/api/ws/create-message");
+    websocket.current = new WebSocket(`${BASE_WS_URL}/api/ws/create-message`);
 
     websocket.current.onmessage = (e) => {
       const response = JSON.parse(e.data);
