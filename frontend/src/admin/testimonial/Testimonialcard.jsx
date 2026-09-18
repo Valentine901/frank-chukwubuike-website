@@ -5,7 +5,7 @@ import { useQueryContext } from "../../Context/GeneralQueryContext";
 const Testimonialcard = ({ testimonial }) => {
   const {handleDeleteTestimonial} = useQueryContext();
   return (
-    <div className="group relative flex flex-col justify-between p-6 md:p-8 w-full max-w-md rounded-2xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 shadow-sm transition-all duration-300 ease-out hover:-translate-y-1.5 hover:shadow-xl hover:shadow-blue-500/5 hover:border-blue-500/30 dark:hover:border-blue-500/20 mx-auto">
+    <div className="group relative flex flex-col justify-between p-6 md:p-8 w-full max-w-lg rounded-2xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 shadow-sm transition-all duration-300 ease-out hover:-translate-y-1.5 hover:shadow-xl hover:shadow-blue-500/5 hover:border-blue-500/30 dark:hover:border-blue-500/20 mx-auto">
 
 
       <div
