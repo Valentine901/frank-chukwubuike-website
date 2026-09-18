@@ -111,29 +111,68 @@ const AdminProfile = ({ isAdminProfileEditModal, setIsAdminProfileEditModal, han
                         </div>
 
                         <div className="flex flex-col space-y-1">
-                            <label htmlFor="name" className='text-lg font-normal  text-gray-500 dark:text-gray-500'>Instagram</label>
-                            <a
-                                href={`${profile.instagram_link}`}
-                                target="_blank"
-                                rel="noopener noreferrer" className="text-xl font-semibold  text-left text-blue-600 hover:underline">Instagram</a>
-                        </div>
+                            <label
+                                htmlFor="instagram"
+                                className="text-lg font-normal text-gray-500 dark:text-gray-500"
+                            >
+                                Instagram
+                            </label>
 
-                        <div className="flex flex-col space-y-1">
-                            <label htmlFor="name" className='text-lg font-normal  text-gray-500 dark:text-gray-500'>Linkedin</label>
                             <a
-                                href={`${profile.linkedin_link}`}
-                                target="_blank"
-                                rel="noopener noreferrer" className="text-xl font-semibold  text-left text-blue-600 hover:underline">Linkedin</a>
-                        </div>
-
-                        <div className="flex flex-col space-y-1">
-                            <label htmlFor="name" className='text-lg font-normal  text-gray-500 dark:text-gray-500'>Facebook</label>
-                            <a
-                                href={`${profile.facebook_link}`}
+                                id="instagram"
+                                href={profile.instagram_link}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-xl font-semibold  text-left text-blue-600 hover:underline">Facebook</a>
+                                aria-label="Visit my Instagram profile"
+                                className="text-md md:text-xl font-semibold text-left text-blue-600 hover:underline"
+                            >
+                                Instagram
+                            </a>
                         </div>
+
+
+                        <div className="flex flex-col space-y-1">
+                            <label
+                                htmlFor="linkedin"
+                                className="text-lg font-normal text-gray-500 dark:text-gray-500"
+                            >
+                                LinkedIn
+                            </label>
+
+                            <a
+                                id="linkedin"
+                                href={profile.linkedin_link}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                aria-label="Visit my LinkedIn profile"
+                                className="text-md md:text-xl font-semibold text-left text-blue-600 hover:underline"
+                            >
+                                LinkedIn
+                            </a>
+                        </div>
+
+
+                        <div className="flex flex-col space-y-1">
+                            <label
+                                htmlFor="facebook"
+                                className="text-lg font-normal text-gray-500 dark:text-gray-500"
+                            >
+                                Facebook
+                            </label>
+
+                            <a
+                                id="facebook"
+                                href={profile.facebook_link}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                aria-label="Visit my Facebook profile"
+                                className="text-md md:text-xl font-semibold text-left text-blue-600 hover:underline"
+                            >
+                                Facebook
+                            </a>
+                        </div>
+
+
 
                         <div className="flex flex-col space-y-1">
                             <label htmlFor="name" className='text-lg font-normal  text-gray-500 dark:text-gray-500'>Joined Since</label>
@@ -205,7 +244,7 @@ const AdminProfile = ({ isAdminProfileEditModal, setIsAdminProfileEditModal, han
                         <div className="flex flex-wrap justify-around">
 
                             <div className="flex flex-col space-y-1">
-                            
+
                                 <a
                                     href={`${profile.instagram_link}`}
                                     target="_blank"
@@ -213,7 +252,7 @@ const AdminProfile = ({ isAdminProfileEditModal, setIsAdminProfileEditModal, han
                             </div>
 
                             <div className="flex flex-col space-y-1">
-                                
+
                                 <a
                                     href={`${profile.linkedin_link}`}
                                     target="_blank"
@@ -221,7 +260,7 @@ const AdminProfile = ({ isAdminProfileEditModal, setIsAdminProfileEditModal, han
                             </div>
 
                             <div className="flex flex-col space-y-1">
-                            
+
                                 <a
                                     href={`${profile.facebook_link}`}
                                     target="_blank"
