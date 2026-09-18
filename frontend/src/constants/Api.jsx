@@ -34,7 +34,7 @@ const BASE_URL = `${BASE_IMAGE_URL}/api`;
 
 
 export const BASE_WS_URL = isProduction
-    ? "wss://://onrender.com"  
+    ? "wss://portofolio-backend-ggxw.onrender.com"  
     : "ws://localhost:8000";  
 
 export const api = axios.create({
