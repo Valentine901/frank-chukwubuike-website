@@ -92,22 +92,44 @@ app.include_router(message_router)
 # if FRONTEND_URL:
 #     origins.append(FRONTEND_URL)
 
+# origins = [
+#     "http://localhost:5173",
+#     "http://localhost:3000",
+#     "https://frank-chukwubuike-website.vercel.app",
+# ]
+
+# FRONTEND_URL = os.getenv("FRONTEND_URL")
+# if FRONTEND_URL:
+#     origins.append(FRONTEND_URL)
+
+# app.add_middleware(
+#     CORSMiddleware,
+#     allow_origins=origins,
+#     allow_credentials=True,
+#     allow_methods=["*"],
+#     allow_headers=["*"]
+# )
+
+FRONTEND_URL = os.getenv("FRONTEND_URL")
+
 origins = [
     "http://localhost:5173",
     "http://localhost:3000",
-    "https://frank-chukwubuike-website.vercel.app",
+    "https://frank-chukwubuike-website.vercel.app",   # Clean Vercel Production URL
+    "https://vercel.app",  # Added to catch trailing slash requests
 ]
 
-FRONTEND_URL = os.getenv("FRONTEND_URL")
 if FRONTEND_URL:
-    origins.append(FRONTEND_URL)
+    origins.append(FRONTEND_URL.rstrip("/"))
+    origins.append(FRONTEND_URL.rstrip("/") + "/")
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
-    allow_credentials=True,
+    allow_credentials=True,  # 👈 This is correct, keeping it active
     allow_methods=["*"],
     allow_headers=["*"]
 )
+
 
 app.mount("/media", StaticFiles(directory="media"), name="media")
