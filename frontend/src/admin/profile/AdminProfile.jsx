@@ -109,7 +109,7 @@ const AdminProfile = ({ isAdminProfileEditModal, setIsAdminProfileEditModal, han
                             <label htmlFor="name" className='text-lg font-normal  text-gray-500 dark:text-gray-500'>Phone</label>
                             <span className="text-xl font-semibold  text-left text-gray-700 dark:text-gray-300">{profile.phone}</span>
                         </div>
-
+{/* 
                         <div className="flex flex-col space-y-1">
                             <label
                                 htmlFor="instagram"
@@ -170,7 +170,54 @@ const AdminProfile = ({ isAdminProfileEditModal, setIsAdminProfileEditModal, han
                             >
                                 Facebook
                             </a>
-                        </div>
+                        </div> */}
+
+<div className="flex flex-col space-y-1 bg-gray-200 py-6 px-4 rounded-2xl dark:bg-gray-800/30 shadow-md transition-all duration-300">
+
+    <label
+        htmlFor="social-media"
+        className="text-lg text-gray-700 dark:text-gray-300 font-bold"
+    >
+        Social Media
+    </label>
+
+    <div
+        id="social-media"
+        className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-3"
+    >
+
+        <a
+            href={profile.instagram_link}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Visit my Instagram profile"
+            className="w-full text-center px-4 py-3 rounded-xl bg-gray-100 dark:bg-gray-700/40 text-base sm:text-lg font-semibold text-blue-600 hover:underline break-words"
+        >
+            Instagram
+        </a>
+
+        <a
+            href={profile.linkedin_link}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Visit my LinkedIn profile"
+            className="w-full text-center px-4 py-3 rounded-xl bg-gray-100 dark:bg-gray-700/40 text-base sm:text-lg font-semibold text-blue-600 hover:underline break-words"
+        >
+            LinkedIn
+        </a>
+
+        <a
+            href={profile.facebook_link}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Visit my Facebook profile"
+            className="w-full text-center px-4 py-3 rounded-xl bg-gray-100 dark:bg-gray-700/40 text-base sm:text-lg font-semibold text-blue-600 hover:underline break-words"
+        >
+            Facebook
+        </a>
+
+    </div>
+</div>
 
 
 
