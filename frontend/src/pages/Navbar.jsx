@@ -3,6 +3,7 @@ import { FaBars, FaTimes } from "react-icons/fa";
 import { useTheme } from "../Context/ThemeContext";
 import { useState } from "react";
 import { useAuth } from "../Context/AuthContext";
+import {Link} from "react-router-dom"
 
 const Navbar = () => {
     const [toggleBar, setToggleBar] = useState(false);
@@ -19,11 +20,11 @@ const Navbar = () => {
         <nav className="w-full h-16 flex items-center justify-between px-4 md:px-8 fixed top-0 left-0 z-50 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 transition-colors duration-300 font-body">
 
             {/*Real Logo */}
-            <a href="#home" className="flex-1 flex justify-start items-center">
+            <Link to="#home" className="flex-1 flex justify-start items-center">
                 <h2 className="text-xl md:text-2xl font-bold whitespace-nowrap text-gray-800 dark:text-white capitalize">
                     {user.first_name} {user.last_name}
                 </h2>
-            </a>
+            </Link>
 
             {/* Desktop Navigation Menu */}
             <ul className="hidden lg:flex items-center justify-center gap-6 list-none font-body flex-1">
@@ -52,9 +53,9 @@ const Navbar = () => {
 
             <div className="flex items-center justify-end gap-4 flex-1">
 
-                <a href="/auth/login" className="hidden sm:inline-block text-sm lg:text-base text-blue-700 dark:text-blue-400 hover:text-blue-600 font-semibold rounded-2xl border border-blue-700 dark:border-blue-400 px-4 py-2 transition-all">
+                <Link to="/auth/login" className="hidden sm:inline-block text-sm lg:text-base text-blue-700 dark:text-blue-400 hover:text-blue-600 font-semibold rounded-2xl border border-blue-700 dark:border-blue-400 px-4 py-2 transition-all">
                     Login
-                </a>
+                </Link>
 
                 {/* Theme Toggle Button */}
                 <button
