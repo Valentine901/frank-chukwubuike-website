@@ -6,7 +6,9 @@ import { api, BASE_IMAGE_URL } from "../../constants/Api"
 const AdminProjectEditModal = ({ project }) => {
   const [name, setName] = useState(project.name || "");
   const [description, setDescription] = useState(project.description || "");
-  const [imagePreview, setImagePreview] = useState(project?.image ? `${BASE_IMAGE_URL}/${project.image}` : null);
+  const [imagePreview, setImagePreview] = useState(
+    project?.image?.startsWith("http") ? project.image : `${BASE_IMAGE_URL}/${project?.image}`
+  );
   const [errorMessage, setErrorMessage] = useState("");
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);

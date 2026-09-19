@@ -99,7 +99,7 @@ const ProjectDetailModal = () => {
 
                         {project.image ? (
                             <img
-                                src={`${BASE_IMAGE_URL}/${project.image}`}
+                                src={project?.image?.startsWith('http') ? project.image : `${BASE_IMAGE_URL}/${project?.image}`}
                                 alt={project.name || 'Project Preview'}
                                 loading="lazy"
                                 className="

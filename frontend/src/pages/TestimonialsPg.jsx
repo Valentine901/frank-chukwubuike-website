@@ -55,10 +55,9 @@ const TestimonialsPg = () => {
 
                                     {/* CLIENT IMAGE */}
                                     <div className="w-12 h-12 shrink-0 overflow-hidden rounded-full ring-2 ring-gray-100 dark:ring-gray-800 group-hover:ring-blue-500/20 transition-all duration-300">
-
-                                        {testimonial.client_image ? (
+                                        {testimonial?.client_image ? (
                                             <img
-                                                src={`${BASE_IMAGE_URL}/${testimonial.client_image}`}
+                                                src={testimonial?.image.startsWith("http") ? testimonial.client_image : `${BASE_IMAGE_URL}/${testimonial.client_image}`}
                                                 className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                                                 alt={
                                                     testimonial.client_name ||
