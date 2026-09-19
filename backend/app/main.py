@@ -27,13 +27,10 @@ async def force_database_reset():
     You will delete this code after running it once.
     """
     try:
-        # 1. Clear out all tables completely
         Base.metadata.drop_all(bind=engine)
-        
-        # 2. Rebuild the tables brand new
+
         Base.metadata.create_all(bind=engine)
-        
-        # 3. Connect and insert the admin data assets
+
         db: Session = SessionLocal()
         
         TARGET_EMAIL = "animesopulu@gmail.com"
@@ -50,9 +47,9 @@ async def force_database_reset():
         db.commit()
         db.refresh(new_admin)
         
-        # Create corresponding profile record
+        # new profile record
         new_profile = Profile(
-            image="media/profile/user_e195f890-952d-4966-ac7c-dceaff3924f3_4db9ccbabedb4dd0b570967359173b63.jpeg",
+            image="user_e195f890-952d-4966-ac7c-dceaff3924f3_4db9ccbabedb4dd0b570967359173b63.jpeg",
             bio="I'm a graphics designer",
             address="Enugu",
             phone="081255554",
@@ -83,40 +80,15 @@ app.include_router(testimonial_router)
 app.include_router(skill_router)
 app.include_router(message_router)
 
-# origins = [
-#     "http://localhost:5173", 
-#     "http://localhost:3000",  
-# ]
 
-# FRONTEND_URL = os.getenv("FRONTEND_URL")
-# if FRONTEND_URL:
-#     origins.append(FRONTEND_URL)
-
-# origins = [
-#     "http://localhost:5173",
-#     "http://localhost:3000",
-#     "https://frank-chukwubuike-website.vercel.app",
-# ]
-
-# FRONTEND_URL = os.getenv("FRONTEND_URL")
-# if FRONTEND_URL:
-#     origins.append(FRONTEND_URL)
-
-# app.add_middleware(
-#     CORSMiddleware,
-#     allow_origins=origins,
-#     allow_credentials=True,
-#     allow_methods=["*"],
-#     allow_headers=["*"]
-# )
 
 FRONTEND_URL = os.getenv("FRONTEND_URL")
 
 origins = [
     "http://localhost:5173",
     "http://localhost:3000",
-    "https://frank-chukwubuike-website.vercel.app",   # Clean Vercel Production URL
-    "https://vercel.app",  # Added to catch trailing slash requests
+    "https://frank-chukwubuike-website.vercel.app", 
+    "https://vercel.app",  
 ]
 
 if FRONTEND_URL:
@@ -126,10 +98,10 @@ if FRONTEND_URL:
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
-    allow_credentials=True,  # 👈 This is correct, keeping it active
+    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"]
 )
 
 
-app.mount("/media", StaticFiles(directory="media"), name="media")
+# app.mount("/media", StaticFiles(directory="media"), name="media")
