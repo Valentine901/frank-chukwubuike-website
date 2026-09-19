@@ -39,7 +39,7 @@ const HomePg = () => {
                             Hi, I'm{" "}
 
                             <span className="text-blue-600 dark:text-blue-400">
-                                {user?.first_name}
+                                {user.first_name}
                             </span>
 
 
@@ -82,9 +82,9 @@ const HomePg = () => {
                                 Follow me
                             </span>
 
-                            {adminProfile?.linkedin_link && (
+                            {adminProfile.linkedin_link && (
                                 <a
-                                    href={adminProfile?.linkedin_link}
+                                    href={adminProfile.linkedin_link}
                                     target="_blank"
                                     rel="noreferrer"
                                     className="w-10 h-10 flex items-center justify-center rounded-full bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-500 transition-all duration-300"
@@ -93,9 +93,9 @@ const HomePg = () => {
                                 </a>
                             )}
 
-                            {adminProfile?.instagram_link && (
+                            {adminProfile.instagram_link && (
                                 <a
-                                    href={adminProfile?.instagram_link}
+                                    href={adminProfile.instagram_link}
                                     target="_blank"
                                     rel="noreferrer"
                                     className="w-10 h-10 flex items-center justify-center rounded-full bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-500 transition-all duration-300"
@@ -104,9 +104,9 @@ const HomePg = () => {
                                 </a>
                             )}
 
-                            {adminProfile?.facebook_link && (
+                            {adminProfile.facebook_link && (
                                 <a
-                                    href={adminProfile?.facebook_link}
+                                    href={adminProfile.facebook_link}
                                     target="_blank"
                                     rel="noreferrer"
                                     className="w-10 h-10 flex items-center justify-center rounded-full bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-500 transition-all duration-300"
@@ -137,7 +137,7 @@ const HomePg = () => {
 
                                 <img
                                     className="w-full max-w-md lg:max-w-lg object-cover"
-                                    src={`${BASE_IMAGE_URL}/${adminProfile?.image}`}
+                                    src={`${BASE_IMAGE_URL}/${adminProfile.image}`}
                                     alt="Franklin"
                                 />
 
