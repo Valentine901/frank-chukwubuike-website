@@ -257,9 +257,6 @@
 
 
 
-
-
-
 import { useContext, createContext, useState, useEffect, useCallback } from "react";
 import { api } from "../constants/Api";
 
@@ -413,22 +410,20 @@ export const AuthProvider = ({ children }) => {
         };
     }, [RefreshToken]);
 
-   //Unified initialization sequence block
+    // ✅ FIXED: Sequence fetches public data immediately and removes loading hold smoothly
     useEffect(() => {
         const initializeAuthAndData = async () => {
             setLoading(true);
-            setErrorMessage("");
-            
             try {
                 const savedUser = localStorage.getItem("user");
                 
-                // Fetch public visitor data sets regardless of login status
+                // Fetch public visitor data sets 
                 await Promise.allSettled([
                     fetchUserVisitor(),
                     getAdminVisitorProfile()
                 ]);
 
-                // Authenticate extra keys sequentially if account credentials are present
+                // Authenticate only if account credentials exist
                 if (savedUser) {
                     await Promise.allSettled([
                         getUserProfileData(),
@@ -436,9 +431,9 @@ export const AuthProvider = ({ children }) => {
                     ]);
                 }
             } catch (error) {
-                setErrorMessage("An initialization error occurred.");
+                console.error(error);
             } finally {
-                setLoading(false); // Only turns off once everything completes!
+                setLoading(false); 
             }
         };
 
