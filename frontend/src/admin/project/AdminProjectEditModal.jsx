@@ -7,7 +7,7 @@ const AdminProjectEditModal = ({ project }) => {
   const [name, setName] = useState(project.name || "");
   const [description, setDescription] = useState(project.description || "");
   const [imagePreview, setImagePreview] = useState(
-    project?.image?.startsWith("http") ? project.image : `${BASE_IMAGE_URL}/${project?.image}`
+    project.image ? (project?.image?.startsWith("http") ? project.image : `${BASE_IMAGE_URL}/${project?.image}`) : null
   );
   const [errorMessage, setErrorMessage] = useState("");
   const [image, setImage] = useState(null);
