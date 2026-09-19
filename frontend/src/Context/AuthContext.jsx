@@ -19,8 +19,32 @@ const AuthProvider = ({ children }) => {
     });
     const [profile, setProfile] = useState(null);
     const [errorMessage, setErrorMessage] = useState("");
-    const [adminProfile, setAdminProfile] = useState(null);
-    const [user, setUser] = useState(null);
+    const [adminProfile, setAdminProfile] = useState(() => {
+        const savedAdminProfile = localStorage.getItem("adminProfile");
+        if (savedAdminProfile) {
+            try {
+                return JSON.parse(savedAdminProfile);
+            } catch (error) {
+                return null;
+            }
+        } else {
+            return null;
+        }
+    });
+
+    const [user, setUser] = useState(() => {
+        const savedUserVisitor = localStorage.getItem("userVisitor");
+        if (savedUserVisitor) {
+            try {
+                return JSON.parse(savedUserVisitor);
+            } catch (error) {
+                return null;
+            }
+        } else {
+            return null;
+        }
+    });
+
     const [loading, setLoading] = useState(true);
 
     const localLogout = useCallback(() => {
@@ -75,6 +99,7 @@ const AuthProvider = ({ children }) => {
         try{
             const response = await api.get("/admin/profile/portfolio-visitors");
             setAdminProfile(response.data);
+            localStorage.setItem("adminProfile", JSON.stringify(response.data));
         } catch(error) {
             handleAxiosError(error);
         } finally{
@@ -132,6 +157,7 @@ const AuthProvider = ({ children }) => {
         try {
             const response = await api.get("/auth/me-visitors");
             setUser(response.data);
+            localStorage.setItem("userVisitor", JSON.stringify(response.data));
         } catch (error) {
             handleAxiosError(error, "Error fetching profile details");
         } finally{
