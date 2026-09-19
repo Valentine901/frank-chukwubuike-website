@@ -15,7 +15,13 @@ const Footer = () => {
 
     const { adminProfile, user } = useAuth();
 
-    if (adminProfile === null || user === null) return;
+    if (!adminProfile && !user) {
+        return (
+            <div className="w-full min-h-screen bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
+                <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+            </div>
+        );
+    }
 
     return (
         <footer className="w-full bg-gray-100 dark:bg-gray-950 text-gray-700 dark:text-white border-t border-gray-200 dark:border-gray-800 transition-colors duration-300 font-body">
