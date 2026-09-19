@@ -32,12 +32,12 @@ const Footer = () => {
                             className="inline-flex items-center gap-2"
                         >
                             <span className="w-10 h-10 flex items-center justify-center rounded-xl bg-blue-600 text-white font-bold text-lg">
-                                {user.first_name.charAt(0).toUpperCase()}
-                                {user.last_name.charAt(0).toUpperCase()}
+                                {user?.first_name.charAt(0).toUpperCase()}
+                                {user?.last_name.charAt(0).toUpperCase()}
                             </span>
 
                             <span className="text-xl font-bold text-gray-900 dark:text-white capitalize">
-                               {user.first_name} {user.last_name}
+                               {user?.first_name} {user?.last_name}
                             </span>
                         </a>
 
@@ -195,7 +195,7 @@ const Footer = () => {
                 <div className="mt-8 pt-6 border-t border-gray-200 dark:border-gray-800 flex flex-col sm:flex-row items-center justify-between gap-4">
 
                     <p className="text-xs md:text-sm capitalize text-gray-500 dark:text-gray-500 text-center sm:text-left">
-                        © {new Date().getFullYear()} {user.first_name}. All rights reserved.
+                        © {new Date().getFullYear()} {user?.first_name}. All rights reserved.
                     </p>
 
                     <button

@@ -4,7 +4,7 @@ import ScrollReveal from "../components/ScrollReveal";
 
 const AboutPg = () => {
     const { user } = useAuth();
-    if (user === null) return;
+   
     return (
         <section
             id="about"
@@ -54,7 +54,7 @@ const AboutPg = () => {
                                 <ScrollReveal>
                                     <div>
                                         <h3 className="text-xl font-bold text-gray-900 dark:text-white">
-                                            {user.first_name}
+                                            {user?.first_name}
                                         </h3>
 
                                         <p className="text-blue-600 dark:text-blue-400 text-sm">
