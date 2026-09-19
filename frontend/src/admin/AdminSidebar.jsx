@@ -42,7 +42,7 @@ const AdminSidebar = ({
                 {/* Profile Avatar */}
                 <div className="flex flex-col items-center gap-3 p-4 border-b border-gray-200 dark:border-gray-700 w-full">
                     <img
-                        src={profile?.image ? `${BASE_IMAGE_URL}/${profile.image}` : `https://dicebear.com{userData?.first_name || 'admin'}`}
+                        src={profile?.image}
                         alt="Profile Avatar"
                         className="rounded-full object-cover border border-gray-300 dark:border-gray-600 bg-white w-24 h-24"
                     />

@@ -37,7 +37,7 @@ const AdminProfile = ({ isAdminProfileEditModal, setIsAdminProfileEditModal, han
                         {/* profile image block */}
                         <div className="image-block rounded-full items-center flex">
                             <img
-                                src={profile?.image.startsWith("http") ? profile.image :`${BASE_IMAGE_URL}/${profile.image}`}
+                                src={profile?.image}
                                 alt="Profile Avatar"
                                 className="rounded-full object-cover border border-gray-300 dark:border-gray-600 bg-white w-40 h-40"
                             />

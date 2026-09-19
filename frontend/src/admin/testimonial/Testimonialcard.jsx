@@ -35,7 +35,7 @@ const Testimonialcard = ({ testimonial }) => {
         <div className="h-14 w-14 shrink-0 overflow-hidden rounded-full ring-2 ring-gray-100 dark:ring-gray-800 group-hover:ring-blue-500/20 transition-all duration-300">
           {testimonial.client_image ? (
             <img
-              src={`${BASE_IMAGE_URL}/${testimonial?.client_image}`}
+              src={testimonial?.client_image}
               className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
               alt={testimonial.client_name || "Client avatar"}
               loading="lazy"

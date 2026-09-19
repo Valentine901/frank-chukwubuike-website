@@ -20,7 +20,7 @@ const AdminProfileEditModal = ({
   const [instagram, setInstagram] = useState(profile.instagram_link || "");
   const [errorMessage, setErrorMessage] = useState("");
   const [image, setImage] = useState(null);
-  const [imagePreview, setImagePreview] = useState(profile?.image ? `${BASE_IMAGE_URL}/${profile.image}` : null);
+  const [imagePreview, setImagePreview] = useState(profile?.image ? profile?.image : null);
   const [loading, setLoading] = useState(false);
 
 

@@ -276,7 +276,7 @@ const HomePg = () => {
                                 {adminProfile?.image && (
                                     <img
                                         className="w-full max-w-md lg:max-w-lg object-cover"
-                                        src={adminProfile?.image.startsWith("http") ? adminProfile.image :`${BASE_IMAGE_URL}/${adminProfile?.image}`}
+                                        src={adminProfile?.image}
                                         alt="Franklin"
                                         
                                     />

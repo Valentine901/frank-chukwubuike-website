@@ -324,7 +324,7 @@ const ProjectsPg = () => {
                                     >
                                         <div className="relative w-full h-36 sm:h-40 md:h-44 overflow-hidden bg-gray-200 dark:bg-gray-700">
                                             <img
-                                                src={project.image?.startsWith('http') ? project.image : `${BASE_IMAGE_URL}/${project.image}`}
+                                                src={project?.image}
                                                 alt={project.name}
                                                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                             />

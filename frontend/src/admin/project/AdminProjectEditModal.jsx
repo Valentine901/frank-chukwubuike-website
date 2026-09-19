@@ -1,14 +1,12 @@
 import React, { useState } from 'react'
 import { X, UploadCloud, TextCursor } from 'lucide-react';
 import { useQueryContext } from '../../Context/GeneralQueryContext';
-import { api, BASE_IMAGE_URL } from "../../constants/Api"
+import { api } from "../../constants/Api"
 
 const AdminProjectEditModal = ({ project }) => {
-  const [name, setName] = useState(project.name || "");
-  const [description, setDescription] = useState(project.description || "");
-  const [imagePreview, setImagePreview] = useState(
-    project.image ? (project?.image?.startsWith("http") ? project.image : `${BASE_IMAGE_URL}/${project?.image}`) : null
-  );
+  const [name, setName] = useState(project?.name || "");
+  const [description, setDescription] = useState(project?.description || "");
+  const [imagePreview, setImagePreview] = useState(project?.image || null);
   const [errorMessage, setErrorMessage] = useState("");
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -23,25 +21,20 @@ const AdminProjectEditModal = ({ project }) => {
     }
   }
 
-
-
-
-  const formData = new FormData();
-  if (image) {
-    formData.append("image", image);
-  }
-
-  formData.append("name", name);
-  formData.append("description", description);
-
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMessage("");
     setLoading(true);
 
+    const formData = new FormData();
+    if (image) {
+      formData.append("image", image);
+    }
+    formData.append("name", name);
+    formData.append("description", description);
+
     try {
-      const response = await api.put(`/project/update/${project.id}`, formData, {
+      await api.put(`/project/update/${project.id}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data"
         }
@@ -61,8 +54,8 @@ const AdminProjectEditModal = ({ project }) => {
     } finally {
       setLoading(false);
     }
-
   }
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-fade-in">
 
@@ -88,12 +81,11 @@ const AdminProjectEditModal = ({ project }) => {
         {/* Form Wrapper */}
         <form onSubmit={handleSubmit} className="flex flex-col flex-1">
 
-
-          <div className="flex-1  pr-1 space-y-4 max-h-[50vh] overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+          <div className="flex-1 pr-1 space-y-4 max-h-[50vh] overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
 
             {/* Avatar Upload Slot */}
             <div className="flex flex-col items-center justify-center gap-3 p-6 pb-2">
-              <div className="relative group w-100 h-100 rounded-xl border-2 border-dashed border-gray-300 dark:border-gray-600 flex items-center justify-center overflow-hidden bg-gray-50 dark:bg-gray-800">
+              <div className="relative group w-40 h-40 rounded-xl border-2 border-dashed border-gray-300 dark:border-gray-600 flex items-center justify-center overflow-hidden bg-gray-50 dark:bg-gray-800">
                 {imagePreview ? (
                   <img src={imagePreview} alt="Preview" className="w-full h-full object-cover" />
                 ) : (
@@ -113,11 +105,10 @@ const AdminProjectEditModal = ({ project }) => {
 
             {/* Name Field */}
             <div className="flex flex-col space-y-1.5">
-              <label htmlFor="firstName" className="text-lg font-semibold text-gray-700 dark:text-gray-300 font-heading">
+              <label htmlFor="name" className="text-lg font-semibold text-gray-700 dark:text-gray-300 font-heading">
                 Project Name
               </label>
               <div className="flex items-center space-x-3 border border-gray-300 dark:border-gray-700 px-3 py-2 mx-1 rounded-xl focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500 transition-all bg-transparent">
-
                 <input
                   id="name"
                   type="text"
@@ -130,10 +121,9 @@ const AdminProjectEditModal = ({ project }) => {
               </div>
             </div>
 
-
             {/* Description Field */}
             <div className="flex flex-col space-y-1.5">
-              <label htmlFor="bio" className="text-lg font-semibold text-gray-700 dark:text-gray-300 font-heading">
+              <label htmlFor="description" className="text-lg font-semibold text-gray-700 dark:text-gray-300 font-heading">
                 Description
               </label>
               <div className="flex items-start space-x-3 border border-gray-300 dark:border-gray-700 px-3 py-2 m-1 rounded-xl focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500 transition-all bg-transparent">
@@ -151,7 +141,6 @@ const AdminProjectEditModal = ({ project }) => {
 
           </div>
 
-
           <div className="flex gap-3 pt-4 border-t border-gray-100 dark:border-gray-800 mt-4 shrink-0 w-full bg-white dark:bg-gray-900">
             <button
               type="button"
@@ -167,9 +156,7 @@ const AdminProjectEditModal = ({ project }) => {
               className="flex-1 py-3 px-4 rounded-xl bg-blue-600 hover:bg-blue-700 font-heading text-md font-semibold text-white transition-all shadow-lg shadow-blue-600/20 cursor-pointer disabled:bg-blue-400 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
               {loading ? (
-                <>
-                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                </>
+                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
               ) : (
                 "Save Changes"
               )}
@@ -182,4 +169,4 @@ const AdminProjectEditModal = ({ project }) => {
   )
 }
 
-export default AdminProjectEditModal
+export default AdminProjectEditModal;
