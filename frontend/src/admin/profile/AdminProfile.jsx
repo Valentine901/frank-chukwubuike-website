@@ -272,20 +272,10 @@ import AdminProfileEditModal from './AdminProfileEditModal';
 const AdminProfile = ({ isAdminProfileEditModal, setIsAdminProfileEditModal, handleProfileEditModalChange }) => {
     const { profile, userData, loading } = useAuth();
 
-    const getProfileImage = (imagePath) => {
-        if (!imagePath) {
-            const seed = userData?.first_name || "Admin";
-            return `https://dicebear.com{seed}`;
-        }
-        if (imagePath.startsWith("http://") || imagePath.startsWith("https://")) {
-            return imagePath.trim();
-        }
-        return `${BASE_IMAGE_URL}/api/${imagePath}`;
-    };
 
-    if (loading || !userData) {
-        return <div className="flex flex-col min-h-screen w-full animate-pulse bg-gray-100 dark:bg-gray-800 p-4" />;
-    }
+    if(loading){
+         return <div className="flex flex-col min-h-screen w-70 animate-pulse bg-gray-100 p-4"></div> 
+    };
 
     return (
         <div className="bg-gray-50 dark:bg-gray-900 w-full min-h-screen transition-all duration-300 flex flex-col gap-5 p-4 md:p-8 font-body">
@@ -308,7 +298,7 @@ const AdminProfile = ({ isAdminProfileEditModal, setIsAdminProfileEditModal, han
                     <div className='flex gap-5'>
                         <div className="image-block rounded-full items-center flex">
                             <img
-                                src={getProfileImage(profile?.image)}
+                                src={profile?.image}
                                 alt="Profile Avatar"
                                 className="rounded-full object-cover border border-gray-300 dark:border-gray-600 bg-white w-40 h-40"
                             />
