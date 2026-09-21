@@ -274,17 +274,21 @@ import AdminProfileEditModal from './AdminProfileEditModal';
 const AdminProfile = ({ isAdminProfileEditModal, setIsAdminProfileEditModal, handleProfileEditModalChange }) => {
     const { profile, userData, loading } = useAuth();
 
-    // 💡 HELPER FUNCTION: Resolves image URLs safely
+
     const getProfileImage = (imagePath) => {
-        if (!imagePath) return "https://unsplash.com"; // Fallback default avatar if null
-        
-        // If it's a permanent cloud asset link (Cloudinary), use it exactly as it is
-        if (imagePath.startsWith("http://") || imagePath.startsWith("https://")) {
-            return imagePath;
+        // FIX: Safely fallback to a beautiful, functional avatar with proper string interpolation
+        if (!imagePath) {
+            const seed = userData?.first_name || "Admin";
+            return `https://dicebear.com{seed}`;
         }
-        
-        // If it's an old local file system layout reference, prepend the base string safely
-        return `${BASE_IMAGE_URL}/${imagePath}`;
+
+        // If it's a Cloudinary link, use it exactly as it is
+        if (imagePath.startsWith("http://") || imagePath.startsWith("https://")) {
+            return imagePath.trim();
+        }
+
+        // Account configuration routing match for older static asset uploads
+        return `${BASE_IMAGE_URL}/api/${imagePath}`;
     };
 
     if (loading) {
