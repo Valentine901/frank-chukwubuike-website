@@ -123,13 +123,14 @@ def extract_public_id(url: str) -> Optional[str]:
     if not url or "://cloudinary.com" not in url:
         return None
     try:
-        # Splits segments after the path version index (e.g. /v123456789/folder/file.jpg)
         parts = url.split("/")
         version_index = next(i for i, part in enumerate(parts) if part.startswith("v") and part[1:].isdigit())
         public_id_with_ext = "/".join(parts[version_index + 1:])
+        # 🌟 FIX: Grab index 0 to get the string, stripping the extension
         return public_id_with_ext.rsplit(".", 1)[0]
     except Exception:
         return None
+
 
 
 # --- FastAPI Dynamic Router Enpoints ---
