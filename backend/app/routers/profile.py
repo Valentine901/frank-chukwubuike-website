@@ -93,6 +93,7 @@ cloudinary.config(
     cloud_name=os.getenv("CLOUDINARY_CLOUD_NAME"),
     api_key=os.getenv("CLOUDINARY_API_KEY"),
     api_secret=os.getenv("CLOUDINARY_API_SECRET")
+    
 )
 
 router = APIRouter(prefix="/api/admin/profile", tags=["Admin Profile"])
@@ -132,12 +133,7 @@ async def upload_profile_image(current_user: CurrentUser, db: DataBaseEngine, fi
     if not profile:
         raise HTTPException(status_code=404, detail="Profile not found")
 
-    # 💡 REMOVED: Local os.remove checking since files now exist in the cloud ecosystem.
-    # If your old image string is a local path (starts with media/), we can safely ignore it.
-    # Cloudinary automatically version-controls file assets by default.
-
     try:
-        # Upload the file stream directly from your FastAPI server memory cache straight to Cloudinary
         upload_result = cloudinary.uploader.upload(
             file.file,
             folder="portfolio/profile"  # Organized file structure path inside Cloudinary
