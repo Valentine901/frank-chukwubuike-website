@@ -1,7 +1,6 @@
 import { User, Lightbulb, ThumbsUp, LayoutDashboard, LogOut, X } from "lucide-react";
 import { FaFolderOpen } from "react-icons/fa";
 import { useAuth } from "../Context/AuthContext";
-import { BASE_IMAGE_URL } from "../constants/Api";
 import { FaMessage } from "react-icons/fa6";
 
 const AdminSidebar = ({ 
@@ -119,7 +118,7 @@ const AdminSidebar = ({
                 {/* Profile Avatar */}
                 <div className="flex flex-col items-center gap-3 p-4 border-b border-gray-200 dark:border-gray-700 w-full shrink-0">
                     <img 
-                        src={profile?.image ? `${BASE_IMAGE_URL}/${profile.image}` : `https://dicebear.com{userData?.first_name || 'admin'}`} 
+                        src={profile.image ? `${profile.image}` : `https://dicebear.com`} 
                         alt="Profile Avatar"
                         className="rounded-full object-cover border border-gray-300 dark:border-gray-600 bg-white w-24 h-24"
                     />
