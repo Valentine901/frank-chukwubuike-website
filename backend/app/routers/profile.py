@@ -157,6 +157,8 @@ async def get_profile(current_user: CurrentUser, db: DataBaseEngine):
     profile = BaseProfile.get_profile(current_user.id, db=db)
     return profile
 
+
+
 @router.put("/update-image", response_model=ProfileResponseSchema)
 async def upload_profile_image(current_user: CurrentUser, db: DataBaseEngine, file: Optional[UploadFile] = File(None)):
     profile = BaseProfile.get_profile(user_id=current_user.id, db=db)
@@ -167,28 +169,26 @@ async def upload_profile_image(current_user: CurrentUser, db: DataBaseEngine, fi
     if not file.content_type.startswith("image/"):
         raise HTTPException(status_code=400, detail="Uploaded file must be a valid image")
 
-    # 1. Clean up old image asset from Cloudinary storage if it exists
-    if profile.image: # type: ignore
+    # 1. Clean up old image asset ONLY if it is a real Cloudinary image link
+    if profile.image and "://cloudinary.com" in str(profile.image): # type: ignore
         old_public_id = extract_public_id(profile.image) # type: ignore
-        if old_public_id:
+        # Explicitly check that public_id is a non-empty string before calling Cloudinary
+        if isinstance(old_public_id, str) and old_public_id.strip():
             try:
                 await anyio.to_thread.run_sync(sync_cloudinary_delete, old_public_id)
-            except Exception as e:
-                # Log this error or suppress it depending on system priorities
-                pass
+            except Exception:
+                pass # Prevent broken deletions from blocking new uploads
 
     # 2. Upload new asset file asynchronously
     try:
         file_bytes = await file.read()
         
-        # Safely offload blocking uploading tasks into a distinct background thread
         upload_result = await anyio.to_thread.run_sync(
             sync_cloudinary_upload, 
             file_bytes, 
             "media/profile"
         )
         
-        # Acquire secure target production URL string returned by Cloudinary
         secure_url = upload_result.get("secure_url")
         if not secure_url:
             raise HTTPException(status_code=500, detail="Cloudinary did not return a valid secure URL")
