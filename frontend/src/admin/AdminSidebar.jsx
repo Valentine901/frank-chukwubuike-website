@@ -14,6 +14,18 @@ const AdminSidebar = ({
 }) => {
     const { userData, profile, loading } = useAuth();
 
+        const getProfileImage = (imagePath) => {
+        if (!imagePath) return "https://unsplash.com"; // Fallback default avatar if null
+        
+        // If it's a permanent cloud asset link (Cloudinary), use it exactly as it is
+        if (imagePath.startsWith("http://") || imagePath.startsWith("https://")) {
+            return imagePath;
+        }
+        
+        // If it's an old local file system layout reference, prepend the base string safely
+        return `${BASE_IMAGE_URL}/${imagePath}`;
+    };
+
     if (loading) {
         return <div className="hidden lg:flex flex-col min-h-screen w-70 animate-pulse bg-gray-100 p-4" />;
     }
@@ -42,7 +54,7 @@ const AdminSidebar = ({
                 {/* Profile Avatar */}
                 <div className="flex flex-col items-center gap-3 p-4 border-b border-gray-200 dark:border-gray-700 w-full">
                     <img
-                        src={profile?.image}
+                        src={getProfileImage(profile?.image)}
                         alt="Profile Avatar"
                         className="rounded-full object-cover border border-gray-300 dark:border-gray-600 bg-white w-24 h-24"
                     />
