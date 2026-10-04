@@ -135,24 +135,6 @@ async def get_profile(current_user: CurrentUser, db: DataBaseEngine):
 #     return profile 
 
 
-@router.get("/force-reset-image-fields")
-async def force_reset_image_fields(db: DataBaseEngine):
-    try:
-        # Fetch the active profile profile structure
-        profile = BaseProfile.get_portfolio_profile(db=db)
-        if profile:
-            profile.image = None
-            db.commit()
-            return {"status": "success", "message": "Database profile image string set to NULL successfully!"}
-        
-        # Fallback query if your CRUD layer expects an active loop context
-        return {"status": "failed", "message": "No profile profile row targeted or found."}
-    except Exception as e:
-        db.rollback()
-        return {"status": "error", "detail": str(e)}
-
-
-
 @router.put("/update-image") # 👈 Remove the response_model restriction here
 async def upload_profile_image(current_user: CurrentUser, db: DataBaseEngine, file: Optional[UploadFile] = File(None)):
     profile = BaseProfile.get_profile(user_id=current_user.id, db=db)
