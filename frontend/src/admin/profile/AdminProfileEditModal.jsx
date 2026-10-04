@@ -59,48 +59,6 @@ const AdminProfileEditModal = ({
     if (linkedin !== profile.linkedin_link) profilePayload.linkedin_link = linkedin || null;
     if (instagram !== profile.instagram_link) profilePayload.instagram_link = instagram || null;
 
-    // try {
-    //   const apiCalls = [];
-
-    //   if (Object.keys(userPayload).length > 0) {
-    //     apiCalls.push(api.put("/auth/admin-update-user", userPayload));
-    //   }
-
-    //   if (Object.keys(profilePayload).length > 0) {
-    //     apiCalls.push(api.put("/admin/profile/update", profilePayload));
-    //   }
-
-    //   if (image) {
-    //     const formData = new FormData();
-    //     formData.append("file", image);
-    //     // IMPORTANT: do NOT manually set Content-Type here.
-    //     // Axios needs to auto-generate "multipart/form-data; boundary=..."
-    //     // Setting it manually strips the boundary and breaks the upload.
-    //     apiCalls.push(
-    //       api.put("/admin/profile/update-image", formData)
-    //     );
-    //   }
-
-    //   if (apiCalls.length > 0) {
-    //     await Promise.all(apiCalls);
-    //   }
-    //   getUserProfileData();
-    //   setIsAdminProfileEditModal(false);
-
-
-
-    // } catch (error) {
-    //   if (error.response) {
-    //     setErrorMessage(error.response.data.detail);
-    //   } else if (error.request) {
-    //     setErrorMessage("Network response error occurred.");
-    //   } else {
-    //     setErrorMessage("Could not update profile");
-    //   }
-    // } finally {
-    //   setLoading(false);
-    // }
-
 
     try {
       // 1. First, update standard user account credentials
