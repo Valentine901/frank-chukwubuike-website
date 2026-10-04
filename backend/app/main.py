@@ -20,58 +20,58 @@ Base.metadata.create_all(bind=engine)
 app = FastAPI()
 
 
-# @app.get("/api/secret-database-reset-xyz")
-# async def force_database_reset():
-#     """
-#     Secret endpoint to wipe the live Render database and create your admin user.
-#     You will delete this code after running it once.
-#     """
-#     try:
-#         Base.metadata.drop_all(bind=engine)
+@app.get("/api/secret-database-reset-xyz")
+async def force_database_reset():
+    """
+    Secret endpoint to wipe the live Render database and create your admin user.
+    You will delete this code after running it once.
+    """
+    try:
+        Base.metadata.drop_all(bind=engine)
 
-#         Base.metadata.create_all(bind=engine)
+        Base.metadata.create_all(bind=engine)
 
-#         db: Session = SessionLocal()
+        db: Session = SessionLocal()
         
-#         TARGET_EMAIL = "animesopulu@gmail.com"
-#         password_hash = BaseSecurity.hash_password("password")
+        TARGET_EMAIL = "animesopulu@gmail.com"
+        password_hash = BaseSecurity.hash_password("password")
         
-#         # Create user record
-#         new_admin = User(
-#             first_name="Frank",
-#             last_name="Chukwubuike",
-#             email=TARGET_EMAIL,
-#             password=password_hash
-#         )
-#         db.add(new_admin)
-#         db.commit()
-#         db.refresh(new_admin)
+        # Create user record
+        new_admin = User(
+            first_name="Frank",
+            last_name="Chukwubuike",
+            email=TARGET_EMAIL,
+            password=password_hash
+        )
+        db.add(new_admin)
+        db.commit()
+        db.refresh(new_admin)
         
-#         # new profile record
-#         new_profile = Profile(
-#             image=None, 
-#             bio="I'm a graphics designer",
-#             address="Enugu",
-#             phone="081255554",
-#             facebook_link="https://facebook.com",
-#             instagram_link="https://instagram.com",
-#             linkedin_link="https://linkedin.com",
-#             user_id=new_admin.id
-#         )
-#         db.add(new_profile)
-#         db.commit()
-#         db.close()
+        # new profile record
+        new_profile = Profile(
+            image=None, 
+            bio="I'm a graphics designer",
+            address="Enugu",
+            phone="081255554",
+            facebook_link="https://facebook.com",
+            instagram_link="https://instagram.com",
+            linkedin_link="https://linkedin.com",
+            user_id=new_admin.id
+        )
+        db.add(new_profile)
+        db.commit()
+        db.close()
         
-#         return JSONResponse(content={
-#             "status": "success",
-#             "message": f"Database completely wiped and admin user '{TARGET_EMAIL}' created successfully!"
-#         })
+        return JSONResponse(content={
+            "status": "success",
+            "message": f"Database completely wiped and admin user '{TARGET_EMAIL}' created successfully!"
+        })
         
-#     except Exception as e:
-#         return JSONResponse(status_code=500, content={
-#             "status": "error",
-#             "message": str(e)
-#         })
+    except Exception as e:
+        return JSONResponse(status_code=500, content={
+            "status": "error",
+            "message": str(e)
+        })
 
 app.include_router(project_router)
 app.include_router(user_router)
