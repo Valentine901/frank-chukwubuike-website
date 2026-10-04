@@ -44,6 +44,7 @@ markdown-it-py==4.2.0
 MarkupSafe==3.0.3
 mdurl==0.1.2
 oauthlib==3.3.1
+opentelemetry-api==1.45.0
 packaging==26.2
 passlib==1.7.4
 prompt_toolkit==3.0.52

@@ -6,7 +6,6 @@ from models.models import User
 from schemas.user import UserCreateSchema, UserUpdateSchema
 import uuid
 
-
 class BaseUser:
 
     @staticmethod
@@ -34,13 +33,20 @@ class BaseUser:
         db.commit()
         db.refresh(user)
         return user
+
+    @staticmethod 
+    def get_users(db: Session):
+        query = select(User)
+        result = db.execute(query)
+        users = result.scalars().all()
+        return users
     
 
     @staticmethod
     def update_user(user_id: uuid.UUID, data: UserUpdateSchema, db: Session):
         user = BaseUser.get_user_by_id(user_id=user_id, db=db)
         if user is None:
-            return ModuleNotFoundError
+            return None
         data_dict = data.model_dump(exclude_unset=True)
 
         for key, value in data_dict.items():
