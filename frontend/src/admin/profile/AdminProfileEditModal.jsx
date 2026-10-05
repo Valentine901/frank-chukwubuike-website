@@ -61,26 +61,26 @@ const AdminProfileEditModal = ({
 
 
     try {
-      // 1. First, update standard user account credentials
+      
       if (Object.keys(userPayload).length > 0) {
         await api.put("/auth/admin-update-user", userPayload);
       }
 
-      // 2. Next, update basic text profile metadata fields 
+      
       if (Object.keys(profilePayload).length > 0) {
         await api.put("/admin/profile/update", profilePayload);
       }
 
-      // 3. Finally, fire the multi-part file upload straight to Cloudinary via FastAPI
+      
       if (image) {
         const formData = new FormData();
         formData.append("file", image);
 
-        // Run this cleanly after database rows are clear of active commits
+        
         await api.put("/admin/profile/update-image", formData);
       }
 
-      // Refresh global authentication state structures and clear view frames
+     
       await getUserProfileData();
       setIsAdminProfileEditModal(false);
 
@@ -130,10 +130,10 @@ const AdminProfileEditModal = ({
           {errorMessage && (
             <p className="text-red-500 font-semibold text-center pt-2">{errorMessage}</p>
           )}
-          {/* Scrollable Inputs Container: Keeps layout responsive on small/short screens */}
+          
           <div className="flex-1 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]  pr-1 space-y-4 max-h-[50vh] custom-scrollbar">
 
-            {/* Avatar Upload Slot */}
+            {/* Avatar Upload  */}
             <div className="flex flex-col items-center justify-center gap-3 p-6 pb-2">
               <div className="relative group w-64 h-64 rounded-full border-2 border-dashed border-gray-300 dark:border-gray-600 flex items-center justify-center overflow-hidden bg-gray-50 dark:bg-gray-800">
                 {imagePreview ? (

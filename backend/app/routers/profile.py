@@ -1,18 +1,16 @@
 from fastapi import HTTPException, Depends, APIRouter, File, UploadFile
-from fastapi.responses import JSONResponse
 from settings.database import get_db 
 from sqlalchemy.orm import Session 
 from schemas.profile import ProfileResponseSchema, ProfileUpdateSchema, ProfileCreateSchema
 from dependencies.auth import BaseAuth 
 from crud.profile import BaseProfile
 from models.models import User
-import uuid
 import os
 import anyio
 from typing import Annotated, Optional
 import cloudinary  
 import cloudinary.uploader 
-from fastapi.responses import JSONResponse 
+
 
 router = APIRouter(prefix="/api/admin/profile", tags=["Admin Profile"])
 

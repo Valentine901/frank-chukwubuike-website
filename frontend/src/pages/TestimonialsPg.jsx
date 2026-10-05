@@ -1,5 +1,4 @@
 import { useQueryContext } from "../Context/GeneralQueryContext";
-import { BASE_IMAGE_URL } from "../constants/Api";
 import { Quote, Star, FolderGit2 } from "lucide-react";
 
 const TestimonialsPg = () => {

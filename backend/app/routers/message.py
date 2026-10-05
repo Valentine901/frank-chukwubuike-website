@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, status, Depends, WebSocketDisconnect, WebSocket 
 from sqlalchemy.orm import Session
 from settings.database import get_db
-from schemas.message import MessageResponse, CreateMessageSchema
+from schemas.message import MessageResponse
 from crud.message import BaseMessage
 from typing import List, Annotated
 from dependencies.auth import BaseAuth

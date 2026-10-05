@@ -1,4 +1,4 @@
-from fastapi import HTTPException, status, Depends, APIRouter
+from fastapi import status, Depends, APIRouter
 from sqlalchemy.orm import Session 
 from schemas.skill import SkillResponseSchema, CreateSkillSchema
 from dependencies.auth import BaseAuth

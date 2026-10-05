@@ -27,43 +27,6 @@ const AdminProfile = ({ isAdminProfileEditModal, setIsAdminProfileEditModal, han
                     />
                 )}
 
-                {/* <div className="hidden lg:flex justify-between w-full p-4 md:p-6 bg-gray-200 dark:bg-gray-800/30 rounded-xl border border-gray-500/20 shadow-sm transition-all duration-300">
-                    <div className='flex gap-5'>
-                        <div className="image-block rounded-full items-center flex">
-                            <img
-                                src={profile?.image}
-                                alt="Profile Avatar"
-                                className="rounded-full object-cover border border-gray-300 dark:border-gray-600 bg-white w-40 h-40"
-                            />
-                        </div>
-
-                        <div className="flex flex-col gap-4">
-                            <span className="text-4xl text-gray-700 dark:text-gray-100 font-bold capitalize ">
-                                {userData?.first_name || "Admin"} {userData?.last_name || ""}
-                            </span>
-                            <span className="text-blue-600 text-xl capitalize ">Admin</span>
-                            <div className="flex gap-3 text-gray-700 dark:text-gray-100 text-xl">
-                                <Mail size={30} />
-                                <span>{userData?.email || "No Email Stored"}</span>
-                            </div>
-                            <div className="flex gap-3 text-gray-700 dark:text-gray-100 text-xl capitalize ">
-                                <Calendar size={30} />
-                                <span>Joined September 3rd, &nbsp; 2026</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className='flex items-center '>
-                        <button
-                            onClick={handleProfileEditModalChange}
-                            className='bg-blue-600 hover:bg-blue-700 px-6 text-gray-100 rounded-xl text-lg md:text-xl font-semibold transition-all duration-300 flex py-4 cursor-pointer'
-                        >
-                            <Pencil size={30} className='mr-3' />
-                            Edit Profile
-                        </button>
-                    </div>
-                </div> */}
-
 
                 <div className="flex flex-col lg:flex-row lg:justify-between gap-5 w-full p-4 md:p-6 bg-gray-200 dark:bg-gray-800/30 rounded-xl border border-gray-500/20 shadow-sm transition-all duration-300">
                     <div className="flex flex-col sm:flex-row items-center sm:items-start gap-5 text-center sm:text-left">
