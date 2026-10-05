@@ -16,7 +16,7 @@ from fastapi.responses import JSONResponse
 
 router = APIRouter(prefix="/api/admin/profile", tags=["Admin Profile"])
 
-# Initialize Cloudinary Configuration
+
 cloudinary.config(
     cloud_name=os.getenv("CLOUDINARY_CLOUD_NAME"),
     api_key=os.getenv("CLOUDINARY_API_KEY"),
@@ -28,8 +28,6 @@ CurrentUser = Annotated[User, Depends(BaseAuth.get_current_user)]
 DataBaseEngine = Annotated[Session, Depends(get_db)]
 
 
-# --- Synchronous Worker Functions for Thread Offloading ---
-
 def sync_cloudinary_upload(file_bytes: bytes, folder_path: str) -> dict:
     """Blocks the active thread while transferring local bytes to Cloudinary."""
     return cloudinary.uploader.upload(file_bytes, folder=folder_path)
@@ -40,9 +38,7 @@ def sync_cloudinary_delete(public_id: str) -> dict:
 
 def extract_public_id(url: str) -> Optional[str]:
     """Helper to parse out the public_id from a full Cloudinary secure URL."""
-    # FIX: Cloudinary URLs are https://res.cloudinary.com/..., not
-    # "://cloudinary.com" — the old check never matched, so this always
-    # returned None and old avatars were never deleted from Cloudinary.
+
     if not url or "cloudinary.com" not in url:
         return None
     try:
@@ -54,239 +50,78 @@ def extract_public_id(url: str) -> Optional[str]:
         return None
 
 
+@router.post("/create")
+async def create_profile(data: ProfileCreateSchema, db: DataBaseEngine, current_user: CurrentUser):
+    data_dict = data.model_dump()
+    data_dict["user_id"] = current_user.id
+    BaseProfile.create_profile(data=data_dict, db=db)
+    return {"message": "Profile created successful"}
+
+@router.put("/update", response_model=ProfileResponseSchema)
+async def update_profile(data: ProfileUpdateSchema, current_user: CurrentUser, db: DataBaseEngine):
+    profile = BaseProfile.update_profile(user_id=current_user.id, data=data, db=db)
+    return profile
+
+@router.get("/portfolio-visitors")
+async def get_portfolio_visitors(db: DataBaseEngine):
+    profile = BaseProfile.get_portfolio_profile(db=db)
+    return profile
+
+@router.get("/", response_model=ProfileResponseSchema)
+async def get_profile(current_user: CurrentUser, db: DataBaseEngine):
+    profile = BaseProfile.get_profile(current_user.id, db=db)
+    return profile
+
 
 
 @router.put("/update-image", response_model=ProfileResponseSchema)
-async def upload_profile_image(
-    current_user: CurrentUser,
-    db: DataBaseEngine,
-    file: Optional[UploadFile] = File(None)
-):
-    if not file:
-        raise HTTPException(
-            status_code=400,
-            detail="No image file was uploaded"
-        )
-
-    if not file.content_type:
-        raise HTTPException(
-            status_code=400,
-            detail="File content type is missing"
-        )
-
-    if not file.content_type.startswith("image/"):
-        raise HTTPException(
-            status_code=400,
-            detail="Uploaded file must be an image"
-        )
-
-    profile = BaseProfile.get_profile(
-        user_id=current_user.id,
-        db=db
-    )
+async def upload_profile_image(current_user: CurrentUser, db: DataBaseEngine, file: Optional[UploadFile] = File(None)):
+    profile = BaseProfile.get_profile(user_id=current_user.id, db=db)
 
     if not profile:
-        raise HTTPException(
-            status_code=404,
-            detail="Profile not found for this user"
-        )
+        raise HTTPException(status_code=404, detail="Profile not found for this user")
 
+    if not file:
+        raise HTTPException(status_code=400, detail="No file payload provided")
+
+    if not file.content_type or not file.content_type.startswith("image/"):
+        raise HTTPException(status_code=400, detail="Uploaded file must be a valid image")
+
+  
+    if profile.image and "cloudinary.com" in str(profile.image):  
+        old_public_id = extract_public_id(profile.image)  
+        if isinstance(old_public_id, str) and old_public_id.strip():
+            try:
+                await anyio.to_thread.run_sync(sync_cloudinary_delete, old_public_id)
+            except Exception:
+                pass 
     try:
         file_bytes = await file.read()
 
         if not file_bytes:
-            raise HTTPException(
-                status_code=400,
-                detail="Uploaded image is empty"
-            )
+            raise HTTPException(status_code=400, detail="Uploaded file is empty")
 
-    except HTTPException:
-        raise
-
-    except Exception as e:
-        raise HTTPException(
-            status_code=500,
-            detail=f"Could not read uploaded image: {str(e)}"
-        )
-
-    finally:
-        await file.close()
-
-    # Upload to Cloudinary
-    try:
         upload_result = await anyio.to_thread.run_sync(
             sync_cloudinary_upload,
             file_bytes,
             "media/profile"
         )
 
+        secure_url = upload_result.get("secure_url")
+        if not secure_url:
+            raise HTTPException(status_code=500, detail="Cloudinary did not return a valid secure URL")
+
+    except HTTPException:
+        raise
     except Exception as e:
-        print("CLOUDINARY UPLOAD ERROR:", repr(e))
+        raise HTTPException(status_code=500, detail=f"Error executing Cloudinary storage pipeline: {str(e)}")
+    finally:
+        await file.close()
 
-        raise HTTPException(
-            status_code=500,
-            detail=f"Cloudinary upload failed: {str(e)}"
-        )
+ 
+    profile.image = secure_url
+    db.commit()
+    db.refresh(profile)
 
-    secure_url = upload_result.get("secure_url")
+    return profile 
 
-    if not secure_url:
-        raise HTTPException(
-            status_code=500,
-            detail="Cloudinary did not return a secure URL"
-        )
-
-    # Save Cloudinary URL to database
-    try:
-        profile.image = secure_url
-
-        db.commit()
-        db.refresh(profile)
-
-    except Exception as e:
-        db.rollback()
-
-        raise HTTPException(
-            status_code=500,
-            detail=f"Database image update failed: {str(e)}"
-        )
-
-    return profile
-
-
-# --- FastAPI Dynamic Router Enpoints ---
-
-# @router.post("/create")
-# async def create_profile(data: ProfileCreateSchema, db: DataBaseEngine, current_user: CurrentUser):
-#     data_dict = data.model_dump()
-#     data_dict["user_id"] = current_user.id
-#     BaseProfile.create_profile(data=data_dict, db=db)
-#     return {"message": "Profile created successful"}
-
-# @router.put("/update", response_model=ProfileResponseSchema)
-# async def update_profile(data: ProfileUpdateSchema, current_user: CurrentUser, db: DataBaseEngine):
-#     profile = BaseProfile.update_profile(user_id=current_user.id, data=data, db=db)
-#     return profile
-
-# @router.get("/portfolio-visitors")
-# async def get_portfolio_visitors(db: DataBaseEngine):
-#     profile = BaseProfile.get_portfolio_profile(db=db)
-#     return profile
-
-# @router.get("/", response_model=ProfileResponseSchema)
-# async def get_profile(current_user: CurrentUser, db: DataBaseEngine):
-#     profile = BaseProfile.get_profile(current_user.id, db=db)
-#     return profile
-
-
-
-# @router.put("/update-image", response_model=ProfileResponseSchema)
-# async def upload_profile_image(current_user: CurrentUser, db: DataBaseEngine, file: Optional[UploadFile] = File(None)):
-#     profile = BaseProfile.get_profile(user_id=current_user.id, db=db)
-
-#     if not profile:
-#         raise HTTPException(status_code=404, detail="Profile not found for this user")
-
-#     if not file:
-#         raise HTTPException(status_code=400, detail="No file payload provided")
-
-#     if not file.content_type or not file.content_type.startswith("image/"):
-#         raise HTTPException(status_code=400, detail="Uploaded file must be a valid image")
-
-#     # 1. Clean up old image asset ONLY if it is a real Cloudinary image link
-#     if profile.image and "cloudinary.com" in str(profile.image):  # type: ignore
-#         old_public_id = extract_public_id(profile.image)  # type: ignore
-#         if isinstance(old_public_id, str) and old_public_id.strip():
-#             try:
-#                 await anyio.to_thread.run_sync(sync_cloudinary_delete, old_public_id)
-#             except Exception:
-#                 pass  # Prevent broken deletions from blocking new uploads
-
-#     # 2. Upload new asset file asynchronously
-#     try:
-#         file_bytes = await file.read()
-
-#         if not file_bytes:
-#             raise HTTPException(status_code=400, detail="Uploaded file is empty")
-
-#         upload_result = await anyio.to_thread.run_sync(
-#             sync_cloudinary_upload,
-#             file_bytes,
-#             "media/profile"
-#         )
-
-#         secure_url = upload_result.get("secure_url")
-#         if not secure_url:
-#             raise HTTPException(status_code=500, detail="Cloudinary did not return a valid secure URL")
-
-#     except HTTPException:
-#         raise
-#     except Exception as e:
-#         raise HTTPException(status_code=500, detail=f"Error executing Cloudinary storage pipeline: {str(e)}")
-#     finally:
-#         await file.close()
-
-#     # 3. Synchronize secure remote asset paths to database tables
-#     profile.image = secure_url
-#     db.commit()
-#     db.refresh(profile)
-
-#     return profile 
-
-
-# @router.put("/update-image") # 👈 Remove the response_model restriction here
-# async def upload_profile_image(current_user: CurrentUser, db: DataBaseEngine, file: Optional[UploadFile] = File(None)):
-#     profile = BaseProfile.get_profile(user_id=current_user.id, db=db)
-
-#     if not profile:
-#         raise HTTPException(status_code=404, detail="Profile not found for this user")
-
-#     if not file:
-#         raise HTTPException(status_code=400, detail="No file payload provided")
-
-#     if not file.content_type or not file.content_type.startswith("image/"):
-#         raise HTTPException(status_code=400, detail="Uploaded file must be a valid image")
-
-#     # 1. Clean up old image asset
-#     if profile.image and "cloudinary.com" in str(profile.image):
-#         old_public_id = extract_public_id(profile.image)
-#         if isinstance(old_public_id, str) and old_public_id.strip():
-#             try:
-#                 await anyio.to_thread.run_sync(sync_cloudinary_delete, old_public_id)
-#             except Exception:
-#                 pass 
-
-#     # 2. Upload new asset file asynchronously
-#     try:
-#         file_bytes = await file.read()
-#         if not file_bytes:
-#             raise HTTPException(status_code=400, detail="Uploaded file is empty")
-
-#         upload_result = await anyio.to_thread.run_sync(
-#             sync_cloudinary_upload,
-#             file_bytes,
-#             "media/profile"
-#         )
-
-#         secure_url = upload_result.get("secure_url")
-#         if not secure_url:
-#             raise HTTPException(status_code=500, detail="Cloudinary did not return a valid secure URL")
-
-#     except HTTPException:
-#         raise
-#     except Exception as e:
-#         raise HTTPException(status_code=500, detail=f"Error executing Cloudinary storage pipeline: {str(e)}")
-#     finally:
-#         await file.close()
-
-#     # 3. Synchronize secure remote asset paths to database tables
-#     profile.image = secure_url
-#     db.commit()
-#     db.refresh(profile)
-
-#     # 4. 🚀 RETURN CLEAN JSON to prevent Pydantic/Mail validation crashes
-#     return JSONResponse(status_code=200, content={
-#         "status": "success",
-#         "message": "Profile image updated successfully",
-#         "image": secure_url
-#     })
