@@ -75,7 +75,7 @@ const AdminProfileEditModal = ({
       if (image) {
         const formData = new FormData();
         formData.append("file", image);
-        
+
         // Run this cleanly after database rows are clear of active commits
         await api.put("/admin/profile/update-image", formData);
       }
@@ -127,7 +127,9 @@ const AdminProfileEditModal = ({
 
         {/* Form Wrapper */}
         <form onSubmit={handleSubmit} className="flex flex-col flex-1  ">
-
+          {errorMessage && (
+            <p className="text-red-500 font-semibold text-center pt-2">{errorMessage}</p>
+          )}
           {/* Scrollable Inputs Container: Keeps layout responsive on small/short screens */}
           <div className="flex-1 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]  pr-1 space-y-4 max-h-[50vh] custom-scrollbar">
 
