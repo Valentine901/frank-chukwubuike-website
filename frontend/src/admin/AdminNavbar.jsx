@@ -70,7 +70,7 @@ const AdminNavbar = ({
         {/* User Profile Avatar Frame */}
         <div className="flex lg:hidden items-center justify-center h-10 w-10 overflow-hidden rounded-full border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
           <img
-            src={profile?.image ? `${BASE_IMAGE_URL}/${profile.image}` : `https://dicebear.com{profile?.first_name || 'admin'}.svg`}
+            src={profile?.image ? `${profile?.image}` : `https://dicebear.com{profile?.first_name || 'admin'}.svg`}
             alt="Profile Avatar"
             className="h-full w-full object-cover"
           />
