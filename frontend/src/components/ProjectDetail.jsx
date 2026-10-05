@@ -1,7 +1,6 @@
 import { X, FolderGit2} from 'lucide-react';
 import { useQueryContext } from '../Context/GeneralQueryContext';
 
-import { BASE_IMAGE_URL } from '../constants/Api';
 
 const ProjectDetail = ({ setIsProjectDetail}) => {
     const { project } = useQueryContext();
@@ -67,7 +66,7 @@ const ProjectDetail = ({ setIsProjectDetail}) => {
 
                         {project.image ? (
                             <img
-                                src={`${BASE_IMAGE_URL}/${project.image}`}
+                                src={`${project.image}`}
                                 alt={project.name || 'Project Preview'}
                                 loading="lazy"
                                 className="
