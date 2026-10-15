@@ -6,8 +6,7 @@ cloud-optimized media delivery. The application is completely live and deployed 
 ---
 
 ## Live Deployments
-* **Frontend Application:** [Vercel Deployment Link](https://vercel.app)
-* **Backend API & Database:** [Render Service Link](https://onrender.com)
+* **Fullstack Website:** [Vercel Deployment Link](frank-chukwubuike-website.vercel.app)
 
 ---
 
